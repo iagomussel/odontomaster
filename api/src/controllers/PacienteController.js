@@ -2,7 +2,7 @@ const Paciente = require("../models/Paciente");
 const Endereco = require("../models/Endereco");
 const Telefone = require("../models/Telefone");
 const moment = require("moment");
-const WhereLike = require("../utils/WhereLike");
+const whereLike = require("../utils/whereLike");
 
 module.exports = {
   async index(req, res) {
@@ -10,7 +10,7 @@ module.exports = {
     let pacientes = await Paciente.paginate({
       page: page | 1,
       paginate: 10,
-      where: WhereLike(Paciente, search),
+      where: whereLike(Paciente, search),
     });
     return res.json(pacientes);
   },
