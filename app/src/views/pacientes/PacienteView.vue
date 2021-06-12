@@ -1,0 +1,349 @@
+<template>
+  <div>
+    <form
+      role="form"
+      @submit.prevent="onSubmit"
+      action="#"
+      autocomplete="off"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h4 class="panel-title">Dados Básicos</h4>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col s8">
+              <div class="row">
+                <div class="col s2">
+                  <label for="ficha">Ficha</label>
+                  <input
+                    v-model="formulario.ficha"
+                    type="text"
+                    id="ficha"
+                    name="ficha"
+                    class="form-control"
+                    placeholder="000"
+                  />
+                </div>
+                <div class="col s10">
+                  <label for="nome">Nome</label>
+                  <input
+                    type="text"
+                    v-model="formulario.nome"
+                    id="nome"
+                    name="nome"
+                    class="form-control"
+                    placeholder="Nome Completo"
+                    autofocus
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s4">
+                  <label for="data_nasc">Data de Nascimento</label>
+
+                  <input name="data_nasc" id="data_nasc" type="text"  v-mask="'##/##/####'" 
+                    placeholder="00/00/0000" v-model="formulario.data_nasc" />
+                </div>
+
+                <div class="input-field col s6">
+                  <label for="email">Email</label>
+                  <input
+                    type="text"
+                    v-model="formulario.email"
+                    id="email"
+                    name="email"
+                    placeholder="exemplo@gmail.com"
+                  />
+                </div>
+                <div class="input-field col s2">
+                  <select name="sexo" id="sexo" v-model="formulario.sexo" >
+
+                    <option value="M">Masculino</option>
+                    <option value="F">Feminino</option>
+                  </select>
+                  
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col s4">
+                  <label for="convenio">Convênio</label>
+                  <select
+                    name="convenio"
+                    v-model="formulario.convenio"
+                    class="form-select"
+                  >
+                    <option value="M">M</option>
+                  </select>
+                </div>
+
+                <div class="col s4">
+                  <label for="codigoAssociado">N. Associado</label>
+                  <input
+                    type="text"
+                    id="codigoAssociado"
+                    v-model="formulario.n_associado"
+                    name="codigoAssociado"
+                    class="form-control"
+                  />
+                </div>
+                <div class="col s4">
+                  <label for="dentista">Dentista</label>
+                  <select
+                    name="dentista"
+                    v-model="formulario.dentista"
+                    class="form-select"
+                  >
+                    <option value="M">M</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col s4">
+              <span class="input-group-btn">
+                <span class="btn btn-default btn-file">
+                  <img
+                    id="img_preview"
+                    class="img-thumbnail img-fluid"
+                    src="{{ asset('img/avatar.png') }}"
+                  />
+                  <input type="file" id="imgInp" />
+                  <input
+                    v-model="formulario.imagem"
+                    type="hidden"
+                    id="imagem"
+                    name="imagem"
+                  />
+                </span>
+              </span>
+            </div>
+          </div>
+          <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h4 class="panel-title">Endereço</h4>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col s2">
+                <label for="cep">Cep</label>
+                <input
+                  type="text"
+                  id="cep"
+                  name="cep"
+                  class="form-control cep"
+                  placeholder="Cep"
+                />
+              </div>
+
+              <div class="col s4">
+                <label for="rua">Rua</label>
+                <input
+                  type="text"
+                  id="rua"
+                  name="logradouro"
+                  class="form-control"
+                  placeholder="Rua"
+                />
+              </div>
+
+              <div class="col s2">
+                <label for="numero">Número</label>
+                <input
+                  type="text"
+                  id="numero"
+                  name="numero"
+                  class="form-control"
+                  placeholder="Número"
+                />
+              </div>
+
+              <div class="col s2">
+                <label for="complemento">Complemento</label>
+                <input
+                  type="text"
+                  id="complemento"
+                  name="complemento"
+                  class="form-control"
+                  placeholder="Complemento"
+                />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col s4">
+                <label for="bairro">Bairro</label>
+                <input
+                  type="text"
+                  id="bairro"
+                  name="bairro"
+                  class="form-control"
+                  placeholder="Bairro"
+                />
+              </div>
+
+              <div class="col s4">
+                <label for="cidade">Cidade</label>
+                <input
+                  type="text"
+                  id="cidade"
+                  name="cidade"
+                  class="form-control"
+                  placeholder="Cidade"
+                />
+              </div>
+
+              <div class="col s2">
+                <label for="uf">Estado</label>
+                <select name="uf" class="uf form-select" id="uf">
+                  <option value="AC">AC</option>
+                  <option value="AL">AL</option>
+                  <option value="AM">AM</option>
+                  <option value="AP">AP</option>
+                  <option value="BA">BA</option>
+                  <option value="CE">CE</option>
+                  <option value="DF">DF</option>
+                  <option value="ES">ES</option>
+                  <option value="GO">GO</option>
+                  <option value="MA">MA</option>
+                  <option value="MG">MG</option>
+                  <option value="MS">MS</option>
+                  <option value="MT">MT</option>
+                  <option value="PA">PA</option>
+                  <option value="PB">PB</option>
+                  <option value="PE">PE</option>
+                  <option value="PI">PI</option>
+                  <option value="PR">PR</option>
+                  <option value="RJ">RJ</option>
+                  <option value="RN">RN</option>
+                  <option value="RO">RO</option>
+                  <option value="RR">RR</option>
+                  <option value="RS">RS</option>
+                  <option value="SC">SC</option>
+                  <option value="SE">SE</option>
+                  <option value="SP">SP</option>
+                  <option value="TO">TO</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              Telefones
+              <span class="btn btn-primary btn-teladd">Adicionar</span>
+            </h4>
+          </div>
+          <div class="panel-body">
+            <table class="table table-borded table-hover table-sm">
+              <thead>
+                <tr>
+                  <th>Telefone</th>
+                  <th>Tipo</th>
+                  <th>Contato</th>
+                  <th>.</th>
+                </tr>
+              </thead>
+              <tbody class="tel_area"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h4 class="panel-title">Descrição</h4>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col s12">
+                <textarea
+                  rows="10"
+                  cols="40"
+                  class="form-control"
+                  name="obs"
+                  id="obs"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Cadastrar</button>
+        <button type="reset" class="btn btn-default">Limpar</button>
+      </div>
+    </form>
+  </div>
+</template>
+
+<script>
+import webClient from "@/client_axios";
+import {mask} from 'vue-the-mask'
+
+export default {
+  created () {
+      webClient.get('/dentistas').then((res)=>{
+          console.log(res.data)
+      })
+  },
+  methods: {
+    onSubmit() {
+      webClient.post("/pacientes", this.formulario).then((res) => {
+        console.log(res.data);
+      });
+    },
+  },
+  data() {
+    return {
+    dentistas:[],
+    convenios:[],
+      formulario: {
+        ficha: "",
+        nome: "",
+        data_nasc:"",
+        email: "",
+        imagem: "",
+        sexo: "M",
+        convenio: "",
+        n_associado: "",
+        dentista: "",
+        endereco: {},
+        telefones: {},
+        observacoes: "",
+      },
+    };
+  },
+  name: "PacienteNovo",
+  directives: {mask}
+};
+</script>
+<style scoped>
+.btn-file {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-file input[type="file"] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  background: white;
+  cursor: inherit;
+  display: block;
+}
+</style>

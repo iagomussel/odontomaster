@@ -1,0 +1,73 @@
+
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('81000030','CONSULTA ODONTOLÓGICA',0,'6');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('81000065','CONSULTA ODONTOLÓGICA INICIAL',0,'6');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('81000073','CONSULTA ODONTOLÓGICA PARA AVALIAÇÃO TÉCNICA
+DE AUDITORIA',0,'6');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('81000111','DIAGNÓSTICO
+ANATOMOPATOLÓGICO EM CITOLOGIA ESFOLIATIVA NA REGIÃO BUCO-MAXILO-',0,'0');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('81000138','DIAGNÓSTICO
+ANATOMOPATOLÓGICO EM MATERIAL DE BIÓPSIA NA REGIÃO BUCO-MAXILO-',0,'0');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('81000154','DIAGNÓSTICO ANATOMOPATOLÓGICO EM PEÇA CIRÚRGICA NA REGIÃO BUCO-MAXILO-FACIAL',0,'0');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('81000170','DIAGNÓSTICO ANATOMOPATOLÓGICO EM PUNÇÃO NA REGIÃO BUCO-
+MAXILO-FACIAL',0,'0');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('84000244','TESTE DE FLUXO SALIVAR',0,'12');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('81000189','DIAGNOSTICO E PLANEJAMENTO PARA
+TRATAMENTO',0,'6');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('81000197','DIAGNOSTICO E TRATAMENTO DE
+ESTOMATITE HERPETICA',0,'6');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('81000200','DIAGNOSTICO E
+TRATAMENTO DE ESTOMATITE POR CANDIDOSE',0,'6');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('81000219','DIAGNOSTICO E TRATAMENTO DE HALITOSE',0,'6');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('81000235','DIAGNOSTICO E TRATAMENTO DE XEROSTOMIA',0,'6');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('81000243','DIAGNOSTICO POR MEIO DE ENCERAMENTO',0,'6');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('81000260','DIAGNOSTICO POR MEIO DE PROCEDIMENTOS LABORATORIAIS',0,'6');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('82000506','CONTROLE POS-OPERATORIO EM ODONTOLOGIA',0,'6');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('84000252','TESTE PH  DE SALIVA',0,'12');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('84000031','APLICAÇÃO DE CARIOSTÁTICO',0,'24');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('84000058','APLICAÇÃO DE SELANTE - TÉCNICA INVASIVA',0,'18');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('84000074','APLICAÇÃO DE SELANTE DE FÓSSULAS E FISSURAS',0,'18');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('84000090','APLICAÇÃO TÓPICA DE FLÚOR',0,'6');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('84000139','ATIVIDADE EDUCATIVA EM SAÚDE BUCAL',0,'6');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('84000163','CONTROLE DE BIOFILME (PLACA BACTERIANA)',0,'6');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('84000198','PROFILAXIA: POLIMENTO CORONÁRIO',0,'6');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('85300055','REMOÇÃO DOS FATORES DE RETENÇÃO DO BIOFILME DENTAL (PLACA BACTERIANA)',0,'6');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('85100064','FACETA DIRETA EM RESINA FOTOPOLIMERIZÁVEL',0,'24');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('85100099','RESTAURAÇÃO DE AMÁLGAMA - 1 FACE',0,'24');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('85100102','RESTAURAÇÃO DE AMÁLGAMA - 2 FACES',0,'24');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('85100110','RESTAURAÇÃO DE AMÁLGAMA - 3 FACES',0,'24');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('85100129','RESTAURAÇÃO DE AMÁLGAMA - 4 FACES',0,'24');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('85100196','RESTAURAÇÃO EM RESINA FOTOPOLIMERIZÁVEL 1 FACE',0,'24');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('85100200','RESTAURAÇÃO EM RESINA FOTOPOLIMERIZÁVEL 2 FACES',0,'24');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('85100218','RESTAURAÇÃO EM RESINA FOTOPOLIMERIZÁVEL 3 FACES',0,'24');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('85100226','RESTAURAÇÃO EM RESINA FOTOPOLIMERIZÁVEL 4 FACES OU MAIS FACES',0,'24');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('85400017','AJUSTE OCLUSAL POR ACRÉSCIMO',0,'24');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('85400025','AJUSTE OCLUSAL POR DESGASTE SELETIVO',0,'24');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('85400211','NÚCLEO DE PREENCHIMENTO',0,'24');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('85100137','RESTAURACAO EM IONOMERO DE VIDRO - 1
+FACE',0,'24');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('85100145','RESTAURACAO EM IONOMERO DE VIDRO - 2
+FACES',0,'24');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('85100153','RESTAURACAO EM
+IONOMERO DE VIDRO - 3 FACES',0,'24');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('85100161','RESTAURACAO EM
+IONOMERO DE VIDRO - 4 FACES',0,'24');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('85300012','DESSENSIBILIZACAO DENTARIA',0,'12');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('81000049','CONSULTA ODONTOLÓGICA DE URGÊNCIA',0,'1');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('81000057','CONSULTA ODONTOLÓGICA DE URGÊNCIA 24 HS',0,'1');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('82001022','INCISÃO E DRENAGEM
+EXTRA-ORAL DE ABSCESSO,
+INHCIESMÃOATEODMRAENEA/OGEUM',0,'0');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('82001030','INTRA-ORAL DE ABSCESSO, REHDEUMÇÃAOTOSMIMAPEL/EOSUDE',0,'0');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('82001197','LUXAÇÃO DE ARTICULAÇÃO TÊMPORO-MANDIBULAR',0,'0');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('82001251','REIMPLANTE DENTÁRIO COM CONTENÇÃO',0,'0');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('82001499','SUTURA DE FERIDA EM
+REGIÃO BUCO-MAXILO- FACIAL',0,'0');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('82001650','TRATAMENTO DE ALVEOLITE',0,'0');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('85100048','COLAGEM DE FRAGMENTOS DENTÁRIOS',0,'0');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('85200034','PULPECTOMIA',0,'0');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('85300063','TRATAMENTO DE ABSCESSO
+PERIODONTAL AGUDO',0,'0');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('85300071','TRATAMENTO DE GENGIVITE NECROSANTE AGUDA - GNA',0,'0');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('85300080','TRATAMENTO DE PERICORONARITE',0,'0');
+INSERT INTO procedimentos(TUSS,nome,valor,periodicidade) VALUES ('85400041','CONSERTO EM PRÓTESE
+PARCIAL REMOVÍVEL (EXCLUSIVAMENTE EM',0,'6');
