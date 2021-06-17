@@ -20,6 +20,10 @@ const routes = [
         path: "/pacientes",
         name: "Pacientes",
         component: PacienteList,
+      },{
+        path: "/paciente/:id",
+        name: ".paciente_edit",
+        component: PacienteNew,
       },  {
         path: "/pacientes/novo",
         name: ".paciente",

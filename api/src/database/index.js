@@ -5,7 +5,6 @@ const sequelizePaginate = require("sequelize-paginate");
 
 const sequelize = new Sequelize(connectionConfig);
 //# import models
-console.log(sequelize);
 
 const Users = require("../models/User");
 const Pacientes = require("../models/Paciente");

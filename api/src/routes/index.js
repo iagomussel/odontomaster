@@ -23,6 +23,7 @@ router.get("/pacientes/:page/:search", authenticateToken, PacienteController.ind
 router.get("/pacientes/:page", authenticateToken, PacienteController.index);
 router.get("/pacientes", authenticateToken, PacienteController.index);
 router.get("/paciente/ficha", authenticateToken, PacienteController.ficha);
+router.get("/paciente/:id", authenticateToken, PacienteController.find);
 router.post("/pacientes", authenticateToken, PacienteController.store);
 
 router.post("/paciente/:id", authenticateToken, PacienteController.store);

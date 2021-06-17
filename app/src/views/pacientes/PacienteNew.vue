@@ -8,6 +8,7 @@
       method="post"
       enctype="multipart/form-data"
     >
+      <input type="hidden" v-model="formulario.id" />
       <div class="panel panel-primary">
         <div class="panel-heading">
           <h4 class="panel-title">Dados Básicos</h4>
@@ -75,7 +76,11 @@
               <div class="row">
                 <div class="col s4">
                   <label for="convenio">Convênio</label>
-                  <hi-select-ajax v-model="formulario.convenio_id" url="convenios" TextField="nome"  />
+                  <hi-select-ajax
+                    v-model="formulario.convenio_id"
+                    url="convenios"
+                    TextField="nome"
+                  />
                 </div>
 
                 <div class="col s4">
@@ -90,12 +95,16 @@
                 </div>
                 <div class="col s4">
                   <label for="dentista">Dentista</label>
-                  <hi-select-ajax v-model="formulario.dentista_id" url="dentistas" TextField="nome" />
+                  <hi-select-ajax
+                    v-model="formulario.dentista_id"
+                    url="dentistas"
+                    TextField="nome"
+                  />
                 </div>
               </div>
             </div>
             <div class="col s3">
-                <hi-image-picker v-model="formulario.imagem"/>
+              <hi-image-picker v-model="formulario.imagem" />
             </div>
           </div>
           <!-- /.panel-body -->
@@ -117,14 +126,14 @@
                   class="form-control cep"
                   placeholder="Cep"
                   v-on:keyup="getCep"
-                  v-model="formulario.endereco.cep"
+                  v-model="formulario.enderecos[0].cep"
                 />
               </div>
 
               <div class="col s6">
                 <label for="rua">Rua</label>
                 <input
-                  v-model="formulario.endereco.logradouro"
+                  v-model="formulario.enderecos[0].logradouro"
                   type="text"
                   id="rua"
                   name="logradouro"
@@ -136,7 +145,7 @@
               <div class="col s2">
                 <label for="numero">Número</label>
                 <input
-                  v-model="formulario.endereco.numero"
+                  v-model="formulario.enderecos[0].numero"
                   type="text"
                   id="numero"
                   name="numero"
@@ -148,7 +157,7 @@
               <div class="col s2">
                 <label for="complemento">Complemento</label>
                 <input
-                  v-model="formulario.endereco.complemento"
+                  v-model="formulario.enderecos[0].complemento"
                   type="text"
                   id="complemento"
                   name="complemento"
@@ -162,7 +171,7 @@
               <div class="col s5">
                 <label for="bairro">Bairro</label>
                 <input
-                  v-model="formulario.endereco.bairro"
+                  v-model="formulario.enderecos[0].bairro"
                   type="text"
                   id="bairro"
                   name="bairro"
@@ -174,7 +183,7 @@
               <div class="col s5">
                 <label for="cidade">Cidade</label>
                 <input
-                  v-model="formulario.endereco.localidade"
+                  v-model="formulario.enderecos[0].localidade"
                   type="text"
                   id="cidade"
                   name="cidade"
@@ -185,40 +194,40 @@
 
               <div class="col s2">
                 <label for="uf">Estado</label>
-                 <!-- :value="formulario.endereco.uf"
-                  v-on:input="formulario.endereco.uf=$event" -->
+                <!-- :value="formulario.enderecos[0].uf"
+                  v-on:input="formulario.enderecos[0].uf=$event" -->
                 <hi-select
-
-                  v-model="formulario.endereco.uf"
-                  :options='["AC",
-"AL",
-"AM",
-"AP",
-"BA",
-"CE",
-"DF",
-"ES",
-"GO",
-"MA",
-"MG",
-"MS",
-"MT",
-"PA",
-"PB",
-"PE",
-"PI",
-"PR",
-"RJ",
-"RN",
-"RO",
-"RR",
-"RS",
-"SC",
-"SE",
-"SP",
-"TO"]'
+                  v-model="formulario.enderecos[0].uf"
+                  :options="[
+                    'AC',
+                    'AL',
+                    'AM',
+                    'AP',
+                    'BA',
+                    'CE',
+                    'DF',
+                    'ES',
+                    'GO',
+                    'MA',
+                    'MG',
+                    'MS',
+                    'MT',
+                    'PA',
+                    'PB',
+                    'PE',
+                    'PI',
+                    'PR',
+                    'RJ',
+                    'RN',
+                    'RO',
+                    'RR',
+                    'RS',
+                    'SC',
+                    'SE',
+                    'SP',
+                    'TO',
+                  ]"
                 />
-
               </div>
             </div>
           </div>
@@ -250,7 +259,13 @@
               </thead>
               <tbody class="tel_area">
                 <tr v-for="(telefone, ind) in formulario.telefones" v-bind:key="ind">
-                  <td><input type="text" v-mask="'(##) #####-####'" v-model="formulario.telefones[ind]" /></td>
+                  <td>
+                    <input
+                      type="text"
+                      v-mask="'(##) #####-####'"
+                      v-model="formulario.telefones[ind]"
+                    />
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -287,23 +302,29 @@
 import webClient from "@/client_axios";
 import { mask } from "vue-the-mask";
 import axios from "axios";
-import M from "materialize-css";
 import HiSelectAjax from "../../components/SelectAjax.vue";
 import HiSelect from "../../components/Select.vue";
 import HiImagePicker from "../../components/ImagePicker.vue"
 export default {
   created() {
     webClient.get("/paciente/ficha").then((res) => {
-      console.log("ficha:" + res.data);
       this.formulario.ficha = res.data;
     });
     //get dentistas
     webClient.get("/dentistas").then((res) => {
       if (res.data.data.lenght > 0) this.dentistas = res.data.data;
       else this.dentistas = [{ nome: "nenhum dentista cadastrado" }];
-      console.log(this.dentistas);
-      M.AutoInit();
     });
+    let id=this.$route.params.id
+    if(id){
+    webClient.get("/paciente/"+id).then((res) => {
+        console.log(res.data)
+        this.formulario = res.data;
+    }).catch(e=>{
+        console.log(e)
+    })
+
+    }
   },
   methods: {
     onSubmit() {
@@ -316,14 +337,14 @@ export default {
       });
     },
     getCep() {
-      this.formulario.endereco.cep = this.formulario.endereco.cep.replace(/[^0-9]/g, "");
-      let cep = this.formulario.endereco.cep.replace(/[^0-9]/g, "");
+      this.formulario.enderecos[0].cep = this.formulario.enderecos[0].cep.replace(/[^0-9]/g, "");
+      let cep = this.formulario.enderecos[0].cep.replace(/[^0-9]/g, "");
       console.log(cep);
       console.log(cep.length);
       if (cep.length >= 8) {
         axios.get("https://viacep.com.br/ws/" + cep + "/json").then((res) => {
           if (!res.data.error) {
-            this.formulario.endereco = res.data;
+            this.formulario.enderecos[0] = res.data;
             document.querySelector("#numero").focus();
           }
         });
@@ -331,10 +352,12 @@ export default {
     },
   },
   data() {
+
     return {
       dentistas: [],
       convenios: [],
       formulario: {
+        id:0,
         ficha: "",
         nome: "",
         data_nasc: "",
@@ -344,7 +367,7 @@ export default {
         convenio_id: "",
         n_associado: "",
         dentista_id: "",
-        endereco: {
+        enderecos:[ {
           cep: "",
           logradouro: "",
           numero: "",
@@ -352,7 +375,7 @@ export default {
           bairro: "",
           cidade: "",
           uf:"RJ"
-        },
+        }]
         telefones: [""],
         obs: "",
       },
