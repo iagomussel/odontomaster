@@ -14,7 +14,7 @@
         </div>
         <div class="panel-body">
           <div class="row">
-            <div class="col s8">
+            <div class="col s9">
               <div class="row">
                 <div class="col s2">
                   <label for="ficha">Ficha</label>
@@ -75,7 +75,7 @@
               <div class="row">
                 <div class="col s4">
                   <label for="convenio">Convênio</label>
-                  <hi-select-ajax v-model="formulario.convenio_id" url="convenios" />
+                  <hi-select-ajax v-model="formulario.convenio_id" url="convenios" TextField="nome"  />
                 </div>
 
                 <div class="col s4">
@@ -90,27 +90,12 @@
                 </div>
                 <div class="col s4">
                   <label for="dentista">Dentista</label>
-                  <hi-select-ajax v-model="formulario.dentista_id" url="dentistas" />
+                  <hi-select-ajax v-model="formulario.dentista_id" url="dentistas" TextField="nome" />
                 </div>
               </div>
             </div>
-            <div class="col s4">
-              <div>
-                <div class="btn-default btn-file">
-                  <img
-                    id="img_preview"
-                    class="circle responsive-img"
-                    src="../../assets/avatar.png"
-                  />
-                  <input type="file" id="imgInp" />
-                  <input
-                    v-model="formulario.imagem"
-                    type="hidden"
-                    id="imagem"
-                    name="imagem"
-                  />
-                </div>
-              </div>
+            <div class="col s3">
+                <hi-image-picker v-model="formulario.imagem"/>
             </div>
           </div>
           <!-- /.panel-body -->
@@ -136,7 +121,7 @@
                 />
               </div>
 
-              <div class="col s4">
+              <div class="col s6">
                 <label for="rua">Rua</label>
                 <input
                   v-model="formulario.endereco.logradouro"
@@ -174,7 +159,7 @@
             </div>
 
             <div class="row">
-              <div class="col s4">
+              <div class="col s5">
                 <label for="bairro">Bairro</label>
                 <input
                   v-model="formulario.endereco.bairro"
@@ -186,7 +171,7 @@
                 />
               </div>
 
-              <div class="col s4">
+              <div class="col s5">
                 <label for="cidade">Cidade</label>
                 <input
                   v-model="formulario.endereco.localidade"
@@ -260,12 +245,12 @@
             <table class="table table-borded table-hover table-sm">
               <thead>
                 <tr>
-                  <th>Telefone</th>
+                  <th>Telefone ex.:(21) 99999-9999</th>
                 </tr>
               </thead>
               <tbody class="tel_area">
                 <tr v-for="(telefone, ind) in formulario.telefones" v-bind:key="ind">
-                  <td><input type="text" v-model="formulario.telefones[ind]" /></td>
+                  <td><input type="text" v-mask="'(##) #####-####'" v-model="formulario.telefones[ind]" /></td>
                 </tr>
               </tbody>
             </table>
@@ -305,6 +290,7 @@ import axios from "axios";
 import M from "materialize-css";
 import HiSelectAjax from "../../components/SelectAjax.vue";
 import HiSelect from "../../components/Select.vue";
+import HiImagePicker from "../../components/ImagePicker.vue"
 export default {
   created() {
     webClient.get("/paciente/ficha").then((res) => {
@@ -377,28 +363,7 @@ export default {
   components: {
     "hi-select-ajax": HiSelectAjax,
     "hi-select": HiSelect,
+    "hi-image-picker": HiImagePicker,
   },
 };
 </script>
-<style scoped>
-.btn-file {
-  position: relative;
-  overflow: hidden;
-}
-
-.btn-file input[type="file"] {
-  position: absolute;
-  top: 0;
-  right: 0;
-  min-width: 100%;
-  min-height: 100%;
-  font-size: 100px;
-  text-align: right;
-  filter: alpha(opacity=0);
-  opacity: 0;
-  outline: none;
-  background: white;
-  cursor: inherit;
-  display: block;
-}
-</style>

@@ -13,25 +13,32 @@ export default {
     name: "hi-select-ajax",
     props:{
         url:String,
-        value:String
+        modelValue:String,
+        ValueField:{
+            type:String,
+            default:'id'
+        },TextField:{
+            type:String,
+            default:'name'
+        },
     },
     computed: {
         inputVal: {
-        get() {
-            return this.value;
+            get() {
+                return this.modelValue;
+            },
+            set(val) {
+                this.$emit('update:modelValue', val);
+            }
         },
-        set(val) {
-            this.$emit('input', val);
-        }
-        }
     },
     methods:{
         async GetOption(){
             let option = await webClient.get(this.url)
-            console.log(option.data.docs)
             let filtred_option = option.data.docs.map((v)=>{
-                return {[v.id]:v.name}
+                return {value:v[this.ValueField],label:v[this.TextField]}
             })
+            console.log(filtred_option)
             return filtred_option
         }
     },

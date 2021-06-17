@@ -25,6 +25,7 @@ module.exports = {
       ficha,
       nome,
       data_nasc,
+      sexo,
       email,
       imagem,
       convenio_id,
@@ -41,13 +42,13 @@ module.exports = {
       ficha = await Paciente.max("ficha");
       ficha += 1;
     }
-    console.log(data);
     try {
       const paciente = await Paciente.create({
         ficha,
         nome,
         data_nasc: data.format("YYYY-MM-DD"),
         email,
+        sexo,
         imagem,
         dentista_id,
         convenio_id,
