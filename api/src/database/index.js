@@ -1,9 +1,11 @@
 const { Sequelize, Model, DataTypes } = require("sequelize");
 const connectionConfig = require("../config/database");
-const sequelize = new Sequelize(connectionConfig);
-const sequelizePaginate = require("sequelize-paginate");
-//# import models
 
+const sequelizePaginate = require("sequelize-paginate");
+
+const sequelize = new Sequelize(connectionConfig);
+//# import models
+console.log(sequelize);
 
 const Users = require("../models/User");
 const Pacientes = require("../models/Paciente");

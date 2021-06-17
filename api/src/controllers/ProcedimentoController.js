@@ -6,7 +6,7 @@ module.exports = {
   async index(req, res) {
      const { page, search } = req.params;
      let procedimentos = await Procedimento.paginate({
-       page: page | 1,
+       page: page || 1,
        paginate: 10,
        where: WhereLike(Procedimento, search),
      });
@@ -19,6 +19,6 @@ module.exports = {
         nome,
       });
       return res.json(procedimentos);
-   
+
   },
 };

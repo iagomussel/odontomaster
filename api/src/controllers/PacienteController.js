@@ -8,7 +8,7 @@ module.exports = {
   async index(req, res) {
     const {page, search} = req.params
     let pacientes = await Paciente.paginate({
-      page: page | 1,
+      page: page || 1,
       paginate: 10,
       where: whereLike(Paciente, search),
     });
@@ -18,7 +18,7 @@ module.exports = {
 
   async ficha(req, res) {
     let ficha = await Paciente.max("ficha");
-    res.json(ficha);
+    res.json(ficha || 1);
   },
   async store(req, res) {
     let {

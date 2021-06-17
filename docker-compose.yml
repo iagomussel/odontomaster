@@ -1,23 +1,23 @@
 version: '3'
 services:
-    frontend:
-      build: .
-      image: himmussel/larodon-frontend
-      container_name: larodon-frontend
-      restart: always
-      networks:
-        - backend
-      environment:
-        PM2_PUBLIC_KEY: ${PM2_PUBLIC_KEY}
-        PM2_SECRET_KEY: ${PM2_SECRET_KEY}
-        DB_DATABASE: ${DB_DATABASE}
-        DB_PASSWORD: ${DB_PASSWORD}
-        DB_USERNAME: ${DB_USERNAME}
-        DB_HOST: laraveldb
-      ports:
-        - 81:80
-      volumes: 
-        - "./.docker/nginx.conf:/etc/nginx/nginx.conf"
+    # frontend:
+    #   build: .
+    #   image: himmussel/larodon-frontend
+    #   container_name: larodon-frontend
+    #   restart: always
+    #   networks:
+    #     - backend
+    #   environment:
+    #     PM2_PUBLIC_KEY: ${PM2_PUBLIC_KEY}
+    #     PM2_SECRET_KEY: ${PM2_SECRET_KEY}
+    #     DB_DATABASE: ${DB_DATABASE}
+    #     DB_PASSWORD: ${DB_PASSWORD}
+    #     DB_USERNAME: ${DB_USERNAME}
+    #     DB_HOST: laraveldb
+    #   ports:
+    #     - 81:80
+    #   volumes:
+    #     - "./.docker/nginx.conf:/etc/nginx/nginx.conf"
     db:
         image: mysql:5.7
         container_name: laraveldb

@@ -7,7 +7,7 @@ module.exports = {
   async index(req, res) {
        const { page, search } = req.params;
        let dentistas = await Dentista.paginate({
-         page: page | 1,
+         page: page || 1,
          paginate: 10,
          where: WhereLike(Dentista, search),
        });
@@ -23,9 +23,9 @@ module.exports = {
         password: passwordHash.generate(process.env.DEFAULT_PASSWORD),
       });
       console.log(user);
-      
+
       let dentista = await Dentista.create({ nome, imagem: "teste", user_id: user.id });
       return res.json(dentista);
-   
+
   },
 };

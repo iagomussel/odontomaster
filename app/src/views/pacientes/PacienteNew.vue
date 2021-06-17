@@ -44,8 +44,14 @@
                 <div class="input-field col s4">
                   <label for="data_nasc">Data de Nascimento</label>
 
-                  <input name="data_nasc" id="data_nasc" type="text"  v-mask="'##/##/####'" 
-                    placeholder="00/00/0000" v-model="formulario.data_nasc" />
+                  <input
+                    name="data_nasc"
+                    id="data_nasc"
+                    type="text"
+                    v-mask="'##/##/####'"
+                    placeholder="00/00/0000"
+                    v-model="formulario.data_nasc"
+                  />
                 </div>
 
                 <div class="input-field col s6">
@@ -59,25 +65,17 @@
                   />
                 </div>
                 <div class="input-field col s2">
-                  <select name="sexo" id="sexo" v-model="formulario.sexo" >
-
+                  <select name="sexo" id="sexo" v-model="formulario.sexo">
                     <option value="M">Masculino</option>
                     <option value="F">Feminino</option>
                   </select>
-                  
                 </div>
               </div>
 
               <div class="row">
                 <div class="col s4">
                   <label for="convenio">Convênio</label>
-                  <select
-                    name="convenio"
-                    v-model="formulario.convenio_id"
-                    class="form-select"
-                  >
-                    <option value="M">M</option>
-                  </select>
+                  <hi-select-ajax v-model="formulario.convenio_id" url="convenios" />
                 </div>
 
                 <div class="col s4">
@@ -92,23 +90,17 @@
                 </div>
                 <div class="col s4">
                   <label for="dentista">Dentista</label>
-                  <select
-                    name="dentista"
-                    v-model="formulario.dentista_id"
-                    class="form-select"
-                  >
-                    <option v-for="dentista, ind in dentistas" v-bind:key="ind" v-bind:value="dentista.id">{{dentista.nome}}</option>
-                  </select>
+                  <hi-select-ajax v-model="formulario.dentista_id" url="dentistas" />
                 </div>
               </div>
             </div>
             <div class="col s4">
-              <span class="input-group-btn">
-                <span class="btn btn-default btn-file">
+              <div>
+                <div class="btn-default btn-file">
                   <img
                     id="img_preview"
-                    class="img-thumbnail img-fluid"
-                    src="{{ asset('img/avatar.png') }}"
+                    class="circle responsive-img"
+                    src="../../assets/avatar.png"
                   />
                   <input type="file" id="imgInp" />
                   <input
@@ -117,8 +109,8 @@
                     id="imagem"
                     name="imagem"
                   />
-                </span>
-              </span>
+                </div>
+              </div>
             </div>
           </div>
           <!-- /.panel-body -->
@@ -147,7 +139,7 @@
               <div class="col s4">
                 <label for="rua">Rua</label>
                 <input
-                v-model="formulario.endereco.logradouro" 
+                  v-model="formulario.endereco.logradouro"
                   type="text"
                   id="rua"
                   name="logradouro"
@@ -159,7 +151,7 @@
               <div class="col s2">
                 <label for="numero">Número</label>
                 <input
-                v-model="formulario.endereco.numero" 
+                  v-model="formulario.endereco.numero"
                   type="text"
                   id="numero"
                   name="numero"
@@ -171,7 +163,7 @@
               <div class="col s2">
                 <label for="complemento">Complemento</label>
                 <input
-                v-model="formulario.endereco.complemento" 
+                  v-model="formulario.endereco.complemento"
                   type="text"
                   id="complemento"
                   name="complemento"
@@ -185,7 +177,7 @@
               <div class="col s4">
                 <label for="bairro">Bairro</label>
                 <input
-                v-model="formulario.endereco.bairro" 
+                  v-model="formulario.endereco.bairro"
                   type="text"
                   id="bairro"
                   name="bairro"
@@ -195,9 +187,9 @@
               </div>
 
               <div class="col s4">
-                <label for="cidade" >Cidade</label>
+                <label for="cidade">Cidade</label>
                 <input
-                v-model="formulario.endereco.localidade" 
+                  v-model="formulario.endereco.localidade"
                   type="text"
                   id="cidade"
                   name="cidade"
@@ -208,35 +200,40 @@
 
               <div class="col s2">
                 <label for="uf">Estado</label>
-                <select name="uf" v-model="formulario.endereco.uf" class="uf form-select" id="uf">
-                  <option value="AC">AC</option>
-                  <option value="AL">AL</option>
-                  <option value="AM">AM</option>
-                  <option value="AP">AP</option>
-                  <option value="BA">BA</option>
-                  <option value="CE">CE</option>
-                  <option value="DF">DF</option>
-                  <option value="ES">ES</option>
-                  <option value="GO">GO</option>
-                  <option value="MA">MA</option>
-                  <option value="MG">MG</option>
-                  <option value="MS">MS</option>
-                  <option value="MT">MT</option>
-                  <option value="PA">PA</option>
-                  <option value="PB">PB</option>
-                  <option value="PE">PE</option>
-                  <option value="PI">PI</option>
-                  <option value="PR">PR</option>
-                  <option value="RJ">RJ</option>
-                  <option value="RN">RN</option>
-                  <option value="RO">RO</option>
-                  <option value="RR">RR</option>
-                  <option value="RS">RS</option>
-                  <option value="SC">SC</option>
-                  <option value="SE">SE</option>
-                  <option value="SP">SP</option>
-                  <option value="TO">TO</option>
-                </select>
+                 <!-- :value="formulario.endereco.uf"
+                  v-on:input="formulario.endereco.uf=$event" -->
+                <hi-select
+
+                  v-model="formulario.endereco.uf"
+                  :options='["AC",
+"AL",
+"AM",
+"AP",
+"BA",
+"CE",
+"DF",
+"ES",
+"GO",
+"MA",
+"MG",
+"MS",
+"MT",
+"PA",
+"PB",
+"PE",
+"PI",
+"PR",
+"RJ",
+"RN",
+"RO",
+"RR",
+"RS",
+"SC",
+"SE",
+"SP",
+"TO"]'
+                />
+
               </div>
             </div>
           </div>
@@ -248,7 +245,15 @@
           <div class="panel-heading">
             <h4 class="panel-title">
               Telefones
-              <span class="btn btn-primary btn-teladd" @click="()=>{formulario.telefones.push('')}">Adicionar</span>
+              <span
+                class="btn btn-primary btn-teladd"
+                @click="
+                  () => {
+                    formulario.telefones.push('');
+                  }
+                "
+                >Adicionar</span
+              >
             </h4>
           </div>
           <div class="panel-body">
@@ -259,10 +264,9 @@
                 </tr>
               </thead>
               <tbody class="tel_area">
-                <tr v-for="telefone, ind in formulario.telefones" v-bind:key="ind">
+                <tr v-for="(telefone, ind) in formulario.telefones" v-bind:key="ind">
                   <td><input type="text" v-model="formulario.telefones[ind]" /></td>
                 </tr>
-
               </tbody>
             </table>
           </div>
@@ -296,63 +300,58 @@
 
 <script>
 import webClient from "@/client_axios";
-import {mask} from 'vue-the-mask'
-import axios from 'axios';
-import M from 'materialize-css';
+import { mask } from "vue-the-mask";
+import axios from "axios";
+import M from "materialize-css";
+import HiSelectAjax from "../../components/SelectAjax.vue";
+import HiSelect from "../../components/Select.vue";
 export default {
   created() {
-     webClient.get('/paciente/ficha').then((res)=>{
-      console.log("ficha:"+res.data)
+    webClient.get("/paciente/ficha").then((res) => {
+      console.log("ficha:" + res.data);
       this.formulario.ficha = res.data;
-    })
+    });
     //get dentistas
-    webClient.get('/dentistas').then((res)=>{
-      if(res.data.data.lenght>0)
-        this.dentistas = res.data.data;
-      else 
-        this.dentistas =[{"nome":"nenhum dentista cadastrado"}]
-      console.log(this.dentistas)
+    webClient.get("/dentistas").then((res) => {
+      if (res.data.data.lenght > 0) this.dentistas = res.data.data;
+      else this.dentistas = [{ nome: "nenhum dentista cadastrado" }];
+      console.log(this.dentistas);
       M.AutoInit();
-    })
+    });
   },
   methods: {
     onSubmit() {
       webClient.post("/pacientes", this.formulario).then((res) => {
-        if(res.data.error){
+        if (res.data.error) {
           console.log(res.data);
         } else {
-          
-          this.$router.push('/pacientes');
+          this.$router.push("/pacientes");
         }
       });
     },
-    getCep(){
-      this.formulario.endereco.cep=this.formulario.endereco.cep.replace(/[^0-9]/g,"")
-      let cep =this.formulario.endereco.cep.replace(/[^0-9]/g,"")
-      console.log(cep)
-      console.log(cep.length)
-      if(cep.length>=8){
-
-          axios.get('https://viacep.com.br/ws/'+cep+'/json').then((res)=>{
-            if(!res.data.error){
-              
-              this.formulario.endereco = res.data;
-              document.querySelector('#numero').focus()
-            }
-
-          })
+    getCep() {
+      this.formulario.endereco.cep = this.formulario.endereco.cep.replace(/[^0-9]/g, "");
+      let cep = this.formulario.endereco.cep.replace(/[^0-9]/g, "");
+      console.log(cep);
+      console.log(cep.length);
+      if (cep.length >= 8) {
+        axios.get("https://viacep.com.br/ws/" + cep + "/json").then((res) => {
+          if (!res.data.error) {
+            this.formulario.endereco = res.data;
+            document.querySelector("#numero").focus();
+          }
+        });
       }
-
-    }
+    },
   },
   data() {
     return {
-    dentistas:[],
-    convenios:[],
+      dentistas: [],
+      convenios: [],
       formulario: {
         ficha: "",
         nome: "",
-        data_nasc:"",
+        data_nasc: "",
         email: "",
         imagem: "",
         sexo: "M",
@@ -360,20 +359,25 @@ export default {
         n_associado: "",
         dentista_id: "",
         endereco: {
-            cep:"",
-            logradouro:"",
-            numero:"",
-            complemento:"",
-            bairro:"",
-            cidade:"",
+          cep: "",
+          logradouro: "",
+          numero: "",
+          complemento: "",
+          bairro: "",
+          cidade: "",
+          uf:"RJ"
         },
-        telefones: [''],
+        telefones: [""],
         obs: "",
       },
     };
   },
   name: "PacienteNovo",
-  directives: {mask},
+  directives: { mask },
+  components: {
+    "hi-select-ajax": HiSelectAjax,
+    "hi-select": HiSelect,
+  },
 };
 </script>
 <style scoped>
