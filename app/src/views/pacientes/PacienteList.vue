@@ -6,9 +6,9 @@
     :filter_fields="filter_field"
     :headers="{
       Ficha: 'ficha',
-      Avatar: 'imagem',
+      Imagem: 'imagem',
       Nome: 'nome',
-      Dentista: 'destista_nome',
+      Dentista: 'dentista',
       Sexo: 'sexo',
       'Data de Nascimento': 'data_nasc',
     }"
@@ -17,24 +17,23 @@
 </template>
 <script>
 import TablesComponent from "../../components/tables.vue";
-import moment from "moment";
 
 export default {
   methods: {
     filter_field: function (field, value) {
       switch (field) {
-        case "data_nasc":
-          var nasc = moment(value);
-          return nasc.format("DD/MM/Y");
         case "imagem":
           return (
-            "<img src='" +
+            '<div style="width:32px"><img src=\'' +
             value +
-            '\' class="circle responsive-img" />'
+            '\'  class="circle responsive-img" /></div>'
           );
+        case "dentista":
+          return value.nome;
       }
+      console.log("field: " + field + " value: " + value);
       return value;
-    }
+    },
   },
   components: {
     "hi-table": TablesComponent,

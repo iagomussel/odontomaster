@@ -2,14 +2,14 @@
   <div>
     <div class="">
       <div class="row">
-        <div class="col s1">
+        <div class="col s2">
           <a class="waves-effect waves-light btn" :href="novo_url">Novo</a>
         </div>
-        <div class="col s11">
+        <div class="col s10">
           <input type="text" v-model="searchterm" placeholder="Pesquisar" />
         </div>
       </div>
-      <table class="striped responsive-table">
+      <table class="highlight responsive-table">
         <thead>
           <tr>
             <th v-bind:key="{ key }" v-for="(header, col, key) in headers">
@@ -33,18 +33,16 @@
           </tr>
         </tbody>
       </table>
-      <div class="row" v-show="dados.pages>1">
+      <div class="row" v-show="dados.pages > 1">
         <div class="col s2 offset-s3">
           <div class="raised btn" @click="change_page(page - 1)">Anterior</div>
         </div>
 
         <div class="col s2 center-align valign-wrappe">
-          <div class="chip h-100 center-align">
-           {{ page }} de {{ dados.pages }}
-          </div>
+          <div class="chip h-100 center-align">{{ page }} de {{ dados.pages }}</div>
         </div>
         <div class="col s2 valign-wrapper">
-          <div class="raised btn " @click="change_page(page + 1)">Proxima</div>
+          <div class="raised btn" @click="change_page(page + 1)">Proxima</div>
         </div>
       </div>
     </div>
@@ -81,14 +79,14 @@ export default {
       document.location = this.ver_url.replace("__id__", id);
     },
     change_page(pageNum) {
-      this.page = pageNum
+      this.page = pageNum;
       this.page = this.page < 1 ? 1 : this.page;
       this.page = this.page > this.dados.pages ? this.dados.pages : this.page;
       webClient
         .get(
           this.url +
             "/" +
-            (this.page) +
+            this.page +
             "/" +
             (this.searchterm == undefined ? "" : this.searchterm)
         )
@@ -98,11 +96,10 @@ export default {
     },
   },
   watch: {
-    searchterm: function() {
+    searchterm: function () {
       this.change_page(1);
     },
   },
   components: {},
 };
 </script>
-<style></style>

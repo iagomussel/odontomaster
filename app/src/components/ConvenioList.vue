@@ -1,5 +1,5 @@
 <template>
-      <hi-table 
+      <hi-table
   url="/convenios"
   novo_url="/conveniod/novo"
   ver_url="/convenio/__id__"

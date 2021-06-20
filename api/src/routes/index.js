@@ -7,6 +7,7 @@ const DentistaController = require("../controllers/DentistaController");
 const ConsultasController = require("../controllers/ConsultasController");
 const ProcedimentoController = require("../controllers/ProcedimentoController");
 const ConvenioController = require("../controllers/ConvenioController");
+const FilesController = require("../controllers/FilesController");
 
 var router = express.Router();
 
@@ -96,4 +97,7 @@ router.post("/consulta", authenticateToken, ConsultasController.store);
 //edit
 router.post("/consulta/:id", authenticateToken, ConsultasController.store);
 
+//uploads
+router.post("/upload", authenticateToken, FilesController.upload);
+router.get("/upload/:id", FilesController.find);
 module.exports = router;

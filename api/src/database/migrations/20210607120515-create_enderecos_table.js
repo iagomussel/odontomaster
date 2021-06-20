@@ -3,11 +3,11 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable("enderecos", {
-      id: { 
+      id: {
         type: Sequelize.INTEGER,
         primaryKey:true,
         autoIncrement: true,
-        allowNull:false 
+        allowNull:false
       },
       logradouro: Sequelize.STRING,
       numero: Sequelize.STRING,

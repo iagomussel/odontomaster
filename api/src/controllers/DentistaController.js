@@ -6,8 +6,12 @@ const passwordHash = require("password-hash");
 module.exports = {
   async index(req, res) {
        const { page, search } = req.params;
+        let realpage = (page ? page : 1)
+        if (realpage == NaN) realpage = 1
+        if (realpage == 0) realpage++
+
        let dentistas = await Dentista.paginate({
-         page: page || 1,
+         page: realpage,
          paginate: 10,
          where: WhereLike(Dentista, search),
        });
@@ -15,16 +19,15 @@ module.exports = {
   },
 
   async store(req, res) {
-    let { nome } = req.body;
+    let { nome, imagem } = req.body;
 
 
       let user = await User.create({
         username: nome,
         password: passwordHash.generate(process.env.DEFAULT_PASSWORD),
       });
-      console.log(user);
 
-      let dentista = await Dentista.create({ nome, imagem: "teste", user_id: user.id });
+      let dentista = await Dentista.create({ nome, imagem, user_id: user.id });
       return res.json(dentista);
 
   },

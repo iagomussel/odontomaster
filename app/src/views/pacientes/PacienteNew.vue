@@ -77,7 +77,7 @@
                 <div class="col s4">
                   <label for="convenio">Convênio</label>
                   <hi-select-ajax
-                    v-model="formulario.convenio_id"
+                    v-model="formulario.convenioId"
                     url="convenios"
                     TextField="nome"
                   />
@@ -96,7 +96,7 @@
                 <div class="col s4">
                   <label for="dentista">Dentista</label>
                   <hi-select-ajax
-                    v-model="formulario.dentista_id"
+                    v-model="formulario.dentistaId"
                     url="dentistas"
                     TextField="nome"
                   />
@@ -183,7 +183,7 @@
               <div class="col s5">
                 <label for="cidade">Cidade</label>
                 <input
-                  v-model="formulario.enderecos[0].localidade"
+                  v-model="formulario.enderecos[0].cidade"
                   type="text"
                   id="cidade"
                   name="cidade"
@@ -243,7 +243,7 @@
                 class="btn btn-primary btn-teladd"
                 @click="
                   () => {
-                    formulario.telefones.push('');
+                    formulario.telefones.push({ telefone: '' });
                   }
                 "
                 >Adicionar</span
@@ -263,7 +263,7 @@
                     <input
                       type="text"
                       v-mask="'(##) #####-####'"
-                      v-model="formulario.telefones[ind]"
+                      v-model="formulario.telefones[ind].telefone"
                     />
                   </td>
                 </tr>
@@ -304,26 +304,29 @@ import { mask } from "vue-the-mask";
 import axios from "axios";
 import HiSelectAjax from "../../components/SelectAjax.vue";
 import HiSelect from "../../components/Select.vue";
-import HiImagePicker from "../../components/ImagePicker.vue"
+import HiImagePicker from "../../components/ImagePicker.vue";
 export default {
-  created() {
-    webClient.get("/paciente/ficha").then((res) => {
-      this.formulario.ficha = res.data;
-    });
+  mounted() {
     //get dentistas
     webClient.get("/dentistas").then((res) => {
-      if (res.data.data.lenght > 0) this.dentistas = res.data.data;
+      if (res.data.docs.lenght > 0) this.dentistas = res.data.data;
       else this.dentistas = [{ nome: "nenhum dentista cadastrado" }];
     });
-    let id=this.$route.params.id
-    if(id){
-    webClient.get("/paciente/"+id).then((res) => {
-        console.log(res.data)
-        this.formulario = res.data;
-    }).catch(e=>{
-        console.log(e)
-    })
-
+    let id = this.$route.params.id;
+    if (id) {
+      webClient
+        .get("/paciente/" + id)
+        .then((res) => {
+          console.log(this.formulario);
+          this.formulario = { ...this.formulario, ...res.data };
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } else {
+      webClient.get("/paciente/ficha").then((res) => {
+        this.formulario.ficha = res.data;
+      });
     }
   },
   methods: {
@@ -337,14 +340,23 @@ export default {
       });
     },
     getCep() {
-      this.formulario.enderecos[0].cep = this.formulario.enderecos[0].cep.replace(/[^0-9]/g, "");
+      this.formulario.enderecos[0].cep = this.formulario.enderecos[0].cep.replace(
+        /[^0-9]/g,
+        ""
+      );
       let cep = this.formulario.enderecos[0].cep.replace(/[^0-9]/g, "");
-      console.log(cep);
-      console.log(cep.length);
       if (cep.length >= 8) {
         axios.get("https://viacep.com.br/ws/" + cep + "/json").then((res) => {
           if (!res.data.error) {
-            this.formulario.enderecos[0] = res.data;
+            const { logradouro, bairro, localidade, uf, cep } = res.data;
+            this.formulario.enderecos[0] = {
+              ...this.formulario.enderecos[0],
+              logradouro,
+              bairro,
+              cidade: localidade,
+              uf,
+              cep,
+            };
             document.querySelector("#numero").focus();
           }
         });
@@ -352,31 +364,32 @@ export default {
     },
   },
   data() {
-
     return {
       dentistas: [],
       convenios: [],
       formulario: {
-        id:0,
-        ficha: "",
-        nome: "",
-        data_nasc: "",
-        email: "",
-        imagem: "",
+        id: 0,
+        ficha: null,
+        nome: null,
+        data_nasc: null,
+        email: null,
+        imagem: null,
         sexo: "M",
-        convenio_id: "",
-        n_associado: "",
-        dentista_id: "",
-        enderecos:[ {
-          cep: "",
-          logradouro: "",
-          numero: "",
-          complemento: "",
-          bairro: "",
-          cidade: "",
-          uf:"RJ"
-        }]
-        telefones: [""],
+        convenioId: null,
+        n_associado: null,
+        dentistaId: null,
+        enderecos: [
+          {
+            cep: "25922456",
+            logradouro: null,
+            numero: null,
+            complemento: null,
+            bairro: null,
+            cidade: null,
+            uf: "RJ",
+          },
+        ],
+        telefones: [{ telefone: null }],
         obs: "",
       },
     };
