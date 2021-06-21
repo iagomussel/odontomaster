@@ -3,3 +3,4 @@ app/dist
 api/node_modules
 api/uploads
 .docker/data
+.env
