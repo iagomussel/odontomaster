@@ -11,6 +11,20 @@ module.exports = {
             underscored: true,
             paranoid: true,
         },
-        use_env_variable: false,
-    }
+    },
+    production: {
+        dialect: process.env.DB_DIALECT,
+        username: process.env.DB_USERNAME,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_DATABASE,
+        host: process.env.DB_HOST,
+        define: {
+            timestamp: true,
+            underscored: true,
+            paranoid: true,
+        },
+    },
+
+
+    use_env_variable: false,
 };
