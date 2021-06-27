@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input type="text" v-model="dia" class="data center-align" v-mask="'##/##/####'" />
+    <input type="text" v-mask="'##/##/####'" v-model="dia" class="data center-align"/>
     <div
       class="row"
       v-bind:style="{ height: horariosList().length * 29 + 'px' }"
@@ -87,28 +87,14 @@
 </template>
 
 <script>
-
 import { mask } from "vue-the-mask";
 import webClient from '@/client_axios';
 import moment from "moment";
-import M from "materialize-css";
-import i18n from "../../utils/materialize/i8n.js";
 
 export default {
   created() {
     this.verdia(0);
     this.get_barra_horario();
-
-    document.addEventListener("DOMContentLoaded", function() {
-
-       let el = document.querySelectorAll(".data");
-      M.Datepicker.init(el, {
-        selectMonths: true, // Creates a dropdown to control month
-        selectYears: 100, // Creates a dropdown of 15 years to control year
-        format: "dd/mm/yyyy",
-        i18n: i18n
-      });
-    });
   },
   data() {
     return {
@@ -138,7 +124,7 @@ export default {
       this.get_data(d.format("DD_MM_YYYY"));
     },
     agendar(){
-
+      this.$router.push("/agenda/novo")
       console.log('agendado')
     },
     get_data(data){

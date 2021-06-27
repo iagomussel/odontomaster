@@ -28,6 +28,19 @@ import webClient from "../../client_axios.js";
 import HiImagePicker from "../../components/ImagePicker.vue";
 
 export default {
+    mount(){
+         let id = this.$route.params.id;
+        if (id) {
+        webClient
+            .get("/dentista/" + id)
+            .then((res) => {
+            this.formulario = { ...this.formulario, ...res.data };
+            })
+            .catch((e) => {
+            console.log(e);
+            });
+        }
+    },
   data() {
     return {
       dataImages: [],

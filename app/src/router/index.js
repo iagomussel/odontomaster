@@ -11,6 +11,8 @@ import ProcedimentoNew from "@/views/procedimentos/ProcedimentoNew.vue";
 
 import Scheduler from "@/views/scheduler/Scheduler.vue";
 
+import SchedulerNew from "@/views/scheduler/SchedulerNew.vue";
+
 const routes = [
     {
         path: "/",
@@ -28,11 +30,15 @@ const routes = [
         path: "/pacientes/novo",
         name: ".paciente",
         component: PacienteNew,
-      }, {
+    }, {
         path: "/dentistas",
         name: "Dentistas",
         component: DentistaList,
-      },  {
+    }, {
+        path: "/dentistas/:id",
+        name: ".DentistasEdit",
+        component: DentistaNew,
+    },  {
         path: "/dentistas/novo",
         name: ".dentistas",
         component: DentistaNew,
@@ -58,8 +64,8 @@ const routes = [
         component: Scheduler,
       },  {
         path: "/agenda/novo",
-        name: ".agenda",
-        component: Home,
+        name: ".agendaNovo",
+        component: SchedulerNew,
       },
 ];
 
