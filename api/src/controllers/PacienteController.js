@@ -60,7 +60,7 @@ module.exports = {
             ficha = await Paciente.max("ficha");
             ficha += 1;
         }
-        const [paciente] = await Paciente.findOrCreate({
+        const [paciente, pacienteCreated] = await Paciente.findOrCreate({
             where: { id },
             defaults: {
                 ficha,
@@ -73,10 +73,20 @@ module.exports = {
                 convenioId,
             }
         });
+        if (!pacienteCreated) {
+            paciente.ficha = ficha;
+            paciente.nome = nome
+            paciente.data_nasc = data.format("YYYY-MM-DD")
+            paciente.email = email
+            paciente.sexo = sexo
+            paciente.imagem = imagem
+            paciente.save();
+
+        }
         for (ind in enderecos) {
             let { logradouro, bairro, cidade, uf, cep, numero, complemento } = enderecos[ind];
             let endereco = { logradouro, bairro, cidade, uf, cep, numero, complemento }
-            let [ createdEndereco ] = await Endereco.findOrCreate({
+            let [createdEndereco] = await Endereco.findOrCreate({
                 where: endereco,
                 defaults: endereco
             }

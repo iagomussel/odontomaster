@@ -2,6 +2,8 @@
   <div>
     <multiselect
       :searchable="true"
+      :clearOnSearch="true"
+      :createTag="true"
       :filterResults="false"
       :resolveOnLoad="true"
       :delay="0"

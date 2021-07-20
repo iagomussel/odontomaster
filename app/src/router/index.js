@@ -35,7 +35,7 @@ const routes = [
         name: "Dentistas",
         component: DentistaList,
     }, {
-        path: "/dentistas/:id",
+        path: "/dentista/:id",
         name: ".DentistasEdit",
         component: DentistaNew,
     },  {
@@ -50,15 +50,23 @@ const routes = [
         path: "/convenios/novo",
         name: ".convenios",
         component: ConveniosNew,
-      },{
+    }, {
+        path: "/convenio/:id",
+        name: ".convenioEdit",
+        component: ConveniosNew,
+    },{
         path: "/procedimentos",
         name: "Procedimentos",
         component: ProcedimentoList,
-      },  {
+    }, {
         path: "/procedimentos/novo",
         name: ".procedimentos",
         component: ProcedimentoNew,
-      },{
+    }, {
+        path: "/procedimento/:id",
+        name: ".procedimentosEdit",
+        component: ProcedimentoNew,
+    },{
         path: "/agenda",
         name: "Agenda",
         component: Scheduler,

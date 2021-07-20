@@ -2,7 +2,11 @@
 <div>
     <multiselect
       v-model="inputVal"
-      :options="options">
+      :options="options"
+      :searchable="true"
+      :createTag="true"
+      :clearOnSearch="true"
+      >
       >
     </multiselect>
 </div>

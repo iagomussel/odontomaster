@@ -57,6 +57,7 @@ export default {
     this.change_page(1);
   },
   props: {
+    
     url: String,
     headers: Object,
     novo_url: String,

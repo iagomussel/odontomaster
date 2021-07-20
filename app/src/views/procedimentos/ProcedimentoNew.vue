@@ -1,9 +1,21 @@
 <template>
-    
+
     <form method="POST" action="" @submit.prevent="onSubmit" role="form">
         <div class="form-group">
             <label for="nome">Nome</label>
             <input id="nome" name="nome" placeholder="Nome" type="text" required="required" >
+        </div>
+        <div class="form-group">
+        <label for="valor">Valor</label>
+            <input id="valor" name="valor" placeholder="valor" type="text" required="required" >
+        </div>
+        <div class="form-group">
+            <label for="duracao">Duração (Em minutos)</label>
+            <input id="duracao"  name="duracao" placeholder="30" type="text" required="required" >
+        </div>
+        <div class="form-group">
+            <label for="periodicidade">Periodicidade (Em meses)</label>
+            <input id="periodicidade"  name="periodicidade" placeholder="0" type="text" required="required" >
         </div>
         <div class="form-group">
             <button name="submit" type="submit" class="btn btn-primary">Gravar</button>
