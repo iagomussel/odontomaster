@@ -1,6 +1,6 @@
 const Dentista = require("../models/Dentista");
 const User= require("../models/User");
-const WhereLike = require("../utils/WhereLike");
+const WhereLike = require("../utils/whereLike");
 const passwordHash = require("password-hash");
 
 module.exports = {

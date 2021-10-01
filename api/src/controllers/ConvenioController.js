@@ -1,5 +1,5 @@
 const Convenio = require("../models/Convenio");
-const WhereLike = require("../utils/WhereLike");
+const WhereLike = require("../utils/whereLike");
 module.exports = {
   async index(req, res) {
     const { page, search } = req.params;

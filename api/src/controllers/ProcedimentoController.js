@@ -1,5 +1,5 @@
 const Procedimento = require("../models/Procedimento");
-const WhereLike = require("../utils/WhereLike");
+const WhereLike = require("../utils/whereLike");
 
 
 module.exports = {

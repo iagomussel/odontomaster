@@ -24,4 +24,6 @@ COPY ./api ./api
 
 RUN npm run build --prefix app
 
+RUN chmod +x /tmp/start.sh
+
 CMD ["/tmp/start.sh"]
