@@ -3,7 +3,7 @@ const passwordHash = require("password-hash");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('Users', [{
+    return queryInterface.bulkInsert('users', [{
       username: 'admin',
       password: passwordHash.generate('admin'),
       created_at: new Date(),
@@ -12,7 +12,7 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    
+
     return queryInterface.bulkDelete('Users', null, {});
   }
 };

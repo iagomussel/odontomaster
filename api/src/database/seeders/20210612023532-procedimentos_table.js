@@ -3,8 +3,8 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
 
-    
-    await queryInterface.bulkInsert('Procedimentos', [
+
+    await queryInterface.bulkInsert('procedimentos', [
         {
             "TUSS": "85300080",
             "nome": "TRATAMENTO DE PERICORONARITE",

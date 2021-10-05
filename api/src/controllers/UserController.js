@@ -2,7 +2,7 @@ const User = require("../models/User");
 const { Op } = require("sequelize");
 const passwordHash = require("password-hash");
 var jwt = require("jsonwebtoken");
-
+require('dotenv').config();
 function maketoken(username){
   return { token: jwt.sign({username:username}, process.env.JWT_KEY, { expiresIn: '1800s' }) }
 }
@@ -41,6 +41,6 @@ module.exports = {
   async refreshtoken(req, res) {
     return res.json(maketoken(req.user.username))
   },
-  
+
 
 };
