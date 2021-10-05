@@ -1,9 +1,11 @@
 const Paciente = require("../models/Paciente");
+const Dentista = require("../models/Dentista");
+const User = require("../models/User");
 const Endereco = require("../models/Endereco");
 const Telefone = require("../models/Telefone");
 const moment = require("moment");
 const whereLike = require("../utils/whereLike");
-const { findByPk } = require("../models/Paciente");
+const passwordHash = require("password-hash");
 
 module.exports = {
     async index(req, res) {
@@ -60,6 +62,21 @@ module.exports = {
             ficha = await Paciente.max("ficha");
             ficha += 1;
         }
+
+        let dentista = await Dentista.findOne({
+            where: Number.isInteger(dentistaId) ? { id: dentistaId } : { nome: dentistaId}
+        })
+        if(!dentista){
+            let nome =  dentistaId;
+            let imagem = null;
+            let user = await User.create({
+                username: nome,
+                password: passwordHash.generate(process.env.DEFAULT_PASSWORD),
+            });
+
+           dentista = await Dentista.create({ nome, imagem, user_id: user.id });
+        }
+        console.log(dentista)
         const [paciente, pacienteCreated] = await Paciente.findOrCreate({
             where: { id },
             defaults: {
@@ -69,7 +86,7 @@ module.exports = {
                 email,
                 sexo,
                 imagem,
-                dentistaId,
+                dentistaId:dentista.id,
                 convenioId,
             }
         });
