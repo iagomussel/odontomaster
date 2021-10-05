@@ -1,5 +1,6 @@
 <template>
   <form method="POST" @submit.prevent="onSubmit" role="form">
+      <div class="row">Cadastro de Dentistas</div>
     <div class="row">
       <div class="input-field col s9">
         <label for="nome">Nome</label>

@@ -14,6 +14,7 @@ module.exports = {
 
     async store(req, res) {
         const {
+            id,
             paciente,
             dentista,
             procedimento,
@@ -32,10 +33,25 @@ module.exports = {
 
         // return res.json(consulta_generate)
 
-        const consulta = await Consulta.create(consulta_generate)
+        const [consulta, consultaCreated] = await Consulta.findOrCreate({
+            where: { id },
+            defaults: consulta_generate
+        })
+        if (!consultaCreated) {
+            consulta.horario = consulta_generate.horario
+            consulta.horario_termino = consulta_generate.horario_termino
+            consulta.save();
+            let consultaEncaixe = await Consulta.findOne({ where: { encaixe_id: consulta.id } })
+            if (consultaEncaixe) {
+                consultaEncaixe.horario = consulta_generate.horario
+                consultaEncaixe.horario_termino = consulta_generate.horario_termino
+                consultaEncaixe.save();
+            }
+        }
         await consulta.setPaciente(pacienteM)
         await consulta.setDentista(dentistaM)
         await consulta.setProcedimento(procedimentoM)
+
         res.json(consulta);
     },
 };

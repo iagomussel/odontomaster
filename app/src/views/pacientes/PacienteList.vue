@@ -29,7 +29,8 @@ export default {
             '\'  class="circle responsive-img" /></div>'
           );
         case "dentista":
-          return value.nome;
+          if (value == null || value.nome == undefined) return "-";
+          else return value.nome | "-";
       }
       console.log("field: " + field + " value: " + value);
       return value;
