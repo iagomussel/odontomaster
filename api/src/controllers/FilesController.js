@@ -20,10 +20,13 @@ class FilesController {
 
     const form = new formidable.IncomingForm();
     await form.parse(req, async (err, fields, files) => {
-
+        const upload_dir = path.join(__dirname, '..', '..', 'uploads')
+        if (!fs.existsSync(upload_dir)) {
+            fs.mkdirSync(upload_dir);
+        }
         const oldPath = files.file.path;
         const fileName = files.file.name + moment().format("ddmmDDMMYYY");
-        const newPath = path.join(__dirname, '..','..','uploads', fileName);
+        const newPath = path.join(upload_dir, fileName);
         await fs.renameSync(oldPath, newPath);
 
         let f = await Files.create({ name: fileName, contentType:files.file.type})
