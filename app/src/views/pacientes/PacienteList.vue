@@ -30,7 +30,7 @@ export default {
           );
         case "dentista":
           if (value == null || value.nome == undefined) return "-";
-          else return value.nome | "-";
+          else return value.nome;
       }
       console.log("field: " + field + " value: " + value);
       return value;
