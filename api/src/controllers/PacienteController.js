@@ -1,11 +1,13 @@
 const Paciente = require("../models/Paciente");
 const Dentista = require("../models/Dentista");
+const Convenio = require("../models/Convenio");
 const User = require("../models/User");
 const Endereco = require("../models/Endereco");
 const Telefone = require("../models/Telefone");
 const moment = require("moment");
 const whereLike = require("../utils/whereLike");
 const passwordHash = require("password-hash");
+
 
 module.exports = {
     async index(req, res) {
@@ -62,21 +64,32 @@ module.exports = {
             ficha = await Paciente.max("ficha");
             ficha += 1;
         }
-
+        /* dentista create on register paciente */
         let dentista = await Dentista.findOne({
             where: Number.isInteger(dentistaId) ? { id: dentistaId } : { nome: dentistaId}
         })
         if(!dentista){
-            let nome =  dentistaId;
+            let _nome =  dentistaId;
             let imagem = null;
             let user = await User.create({
                 username: nome,
                 password: passwordHash.generate(process.env.DEFAULT_PASSWORD),
             });
 
-           dentista = await Dentista.create({ nome, imagem, user_id: user.id });
+            dentista = await Dentista.create({ nome: _nome, imagem, user_id: user.id });
         }
-        console.log(dentista)
+
+
+        /*convenio create on register paciente */
+        let convenio = await Convenio.findOne({
+            where: Number.isInteger(convenioId) ? { id: convenioId } : { nome: convenioId }
+        })
+        if (!convenio) {
+
+            let _nome = convenioId;
+            convenio = await Convenio.create({ nome:_nome });
+        }
+
         const [paciente, pacienteCreated] = await Paciente.findOrCreate({
             where: { id },
             defaults: {
@@ -87,7 +100,7 @@ module.exports = {
                 sexo,
                 imagem,
                 dentistaId:dentista.id,
-                convenioId,
+                convenioId:convenio.id,
             }
         });
         if (!pacienteCreated) {
