@@ -17,17 +17,36 @@ module.exports = {
        });
        return res.json(dentistas);
   },
-
+    async find(req, res) {
+        let dentista = await Dentista.findByPk(req.params.id);
+        res.json(dentista);
+    },
   async store(req, res) {
-    let { nome, imagem } = req.body;
+    let { id,nome, imagem } = req.body;
+    let user;
+      let [dentista, dentistaCreated] = await Dentista.findOrCreate(
+        {
+            where:{id},
+            defaults:{ nome, imagem}
+        });
+        if(dentistaCreated){
+            user = await User.create({
+                username: nome,
+                password: passwordHash.generate(process.env.DEFAULT_PASSWORD),
+            });
+        } else {
+            user = await User.findOne(
+               { where:{id:dentista.user_id}}
+            )
+            user.username=nome
+            user.save();
+            dentista.nome=nome;
+            dentista.imagem=imagem;
+            dentista.save();
+        }
 
+        dentista.setUser(user);
 
-      let user = await User.create({
-        username: nome,
-        password: passwordHash.generate(process.env.DEFAULT_PASSWORD),
-      });
-
-      let dentista = await Dentista.create({ nome, imagem, user_id: user.id });
       return res.json(dentista);
 
   },

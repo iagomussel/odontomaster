@@ -12,7 +12,7 @@ const FilesController = require("../controllers/FilesController");
 var router = express.Router();
 
 router.get("/", authenticateToken, (req, res, next) => {
-  return res.json({ message: "OK" });
+    return res.json({ message: "OK" });
 });
 
 router.post("/login", UserController.login);
@@ -31,16 +31,17 @@ router.post("/paciente/:id", authenticateToken, PacienteController.store);
 
 //dentistas
 router.get(
-  "/dentistas/:page/:search",
-  authenticateToken,
-  DentistaController.index
+    "/dentistas/:page/:search",
+    authenticateToken,
+    DentistaController.index
 );
 router.get(
-  "/dentistas/:page",
-  authenticateToken,
-  DentistaController.index
+    "/dentistas/:page",
+    authenticateToken,
+    DentistaController.index
 );
 router.get("/dentistas", authenticateToken, DentistaController.index);
+router.get("/dentista/:id", authenticateToken, DentistaController.find);
 
 router.post("/dentistas", authenticateToken, DentistaController.store);
 
@@ -48,16 +49,16 @@ router.post("/dentista/:id", authenticateToken, DentistaController.store);
 
 //procedimentos
 router.get(
-  "/procedimentos/:page/:search",
-  authenticateToken,
-  ProcedimentoController.index
+    "/procedimentos/:page/:search",
+    authenticateToken,
+    ProcedimentoController.index
 );
 
 //procedimentos
 router.get(
-  "/procedimentos/:page",
-  authenticateToken,
-  ProcedimentoController.index
+    "/procedimentos/:page",
+    authenticateToken,
+    ProcedimentoController.index
 );
 
 router.get("/procedimentos", authenticateToken, ProcedimentoController.index);
@@ -65,22 +66,22 @@ router.get("/procedimentos", authenticateToken, ProcedimentoController.index);
 router.post("/procedimentos", authenticateToken, ProcedimentoController.store);
 
 router.post(
-  "/procedimento/:id",
-  authenticateToken,
-  ProcedimentoController.store
+    "/procedimento/:id",
+    authenticateToken,
+    ProcedimentoController.store
 );
 
 
 //convenio
 router.get(
-  "/convenios/:page/:search",
-  authenticateToken,
-  ConvenioController.index
+    "/convenios/:page/:search",
+    authenticateToken,
+    ConvenioController.index
 );
 router.get(
-  "/convenios/:page",
-  authenticateToken,
-  ConvenioController.index
+    "/convenios/:page",
+    authenticateToken,
+    ConvenioController.index
 );
 
 router.get("/convenios", authenticateToken, ConvenioController.index);

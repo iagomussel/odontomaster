@@ -1,6 +1,6 @@
 <template>
   <form method="POST" @submit.prevent="onSubmit" role="form">
-      <div class="row">Cadastro de Dentistas</div>
+    <div class="row">Cadastro de Dentistas</div>
     <div class="row">
       <div class="input-field col s9">
         <label for="nome">Nome</label>
@@ -24,24 +24,25 @@
   </form>
 </template>
 <script>
-import webClient from "../../client_axios.js";
+import webClient from "@/client_axios";
 
 import HiImagePicker from "../../components/ImagePicker.vue";
 
 export default {
-    mount(){
-         let id = this.$route.params.id;
-        if (id) {
-        webClient
-            .get("/dentista/" + id)
-            .then((res) => {
-            this.formulario = { ...this.formulario, ...res.data };
-            })
-            .catch((e) => {
-            console.log(e);
-            });
-        }
-    },
+  mounted() {
+    let id = this.$route.params.id;
+    console.log(id);
+    if (id) {
+      webClient
+        .get("/dentista/" + id)
+        .then((res) => {
+          this.formulario = { ...this.formulario, ...res.data };
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  },
   data() {
     return {
       dataImages: [],

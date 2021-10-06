@@ -36,7 +36,7 @@ const routes = [
         component: DentistaList,
     }, {
         path: "/dentista/:id",
-        name: ".DentistasEdit",
+        name: ".dentistas_edit",
         component: DentistaNew,
     },  {
         path: "/dentistas/novo",
