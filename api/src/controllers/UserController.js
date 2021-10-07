@@ -1,10 +1,11 @@
 const User = require("../models/User");
 const { Op } = require("sequelize");
 const passwordHash = require("password-hash");
+const Constants = require("../utils/Constants");
 var jwt = require("jsonwebtoken");
 require('dotenv').config();
 function maketoken(username){
-  return { token: jwt.sign({username:username}, process.env.JWT_KEY, { expiresIn: '1800s' }) }
+  return { token: jwt.sign({username:username}, Constants.JWT_KEY, { expiresIn: '1800s' }) }
 }
 
 module.exports = {

@@ -2,6 +2,7 @@ const Dentista = require("../models/Dentista");
 const User= require("../models/User");
 const WhereLike = require("../utils/whereLike");
 const passwordHash = require("password-hash");
+const Constants = require("../utils/Constants")
 
 module.exports = {
   async index(req, res) {
@@ -23,10 +24,11 @@ module.exports = {
     },
   async store(req, res) {
     let { id,nome, imagem } = req.body;
+    if (imagem == "") imagem = Constants.IMAGE_DEFAULT
     let user;
       let [dentista, dentistaCreated] = await Dentista.findOrCreate(
         {
-            where:{id},
+            where:{id:(id?id:null)},
             defaults:{ nome, imagem}
         });
         if(dentistaCreated){

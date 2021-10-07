@@ -38,7 +38,7 @@ module.exports = {
         res.json(ficha ? (ficha + 1) : 1);
     },
     async store(req, res) {
-        const {
+        let {
             id,
             ficha,
             nome,
@@ -51,7 +51,7 @@ module.exports = {
             enderecos,
             telefones,
         } = req.body;
-
+        if (imagem == "") imagem = Constants.IMAGE_DEFAULT
         const createdTelefones = []
         const createdEnderecos = [];
 
@@ -70,7 +70,7 @@ module.exports = {
         })
         if(!dentista){
             let _nome =  dentistaId;
-            let imagem = null;
+            let imagem = Constants.IMAGE_DEFAULT;
             let user = await User.create({
                 username: nome,
                 password: passwordHash.generate(process.env.DEFAULT_PASSWORD),
