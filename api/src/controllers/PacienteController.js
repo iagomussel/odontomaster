@@ -52,6 +52,8 @@ module.exports = {
             telefones,
         } = req.body;
         if (imagem == "") imagem = Constants.IMAGE_DEFAULT
+
+
         const createdTelefones = []
         const createdEnderecos = [];
 
@@ -81,9 +83,19 @@ module.exports = {
 
 
         /*convenio create on register paciente */
-        let convenio = await Convenio.findOne({
-            where: Number.isInteger(convenioId) ? { id: convenioId } : { nome: convenioId }
-        })
+        let convenio;
+        if (convenioId == null || convenioId == "") {
+            convenio = await Convenio.findOne({
+                where: {
+                    default: true
+                }
+            })
+        } else {
+            convenio = await Convenio.findOne({
+                where: Number.isInteger(convenioId) ? { id: convenioId } : { nome: convenioId }
+            })
+        }
+
         if (!convenio) {
 
             let _nome = convenioId;
