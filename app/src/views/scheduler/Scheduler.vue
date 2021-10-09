@@ -69,6 +69,25 @@
                         : evento.paciente
                     }}</small
                   >
+                  <div class="complete_event_description">
+                    {{
+                      evento.paciente != null && evento.paciente
+                        ? "Paciente: " + evento.paciente.nome
+                        : evento.paciente
+                    }}<br />
+                    {{
+                      evento.paciente != null &&
+                      evento.paciente.telefones.length > 0 &&
+                      evento.paciente.telefones[0].telefone != null
+                        ? "Telefone: " + evento.paciente.telefones[0].telefone
+                        : "Sem telefone cadastrado"
+                    }}<br />
+                    {{
+                      evento.procedimento != null && evento.procedimento
+                        ? "Procedimento: " + evento.procedimento.nome
+                        : evento.procedimento
+                    }}<br />
+                  </div>
                   <a
                     href="#"
                     class="encaixe_btn"
@@ -171,7 +190,15 @@ export default {
     ver_agendamento(consulta) {
       this.$router.push({
         path: "/agenda/novo",
-        query: { id: consulta.id, encaixe_id:consulta.encaixe_id, dentista:consulta.dentista_id, horario:consulta.horario, data: this.dia, procedimento: consulta.procedimento_id, paciente: consulta.paciente_id },
+        query: {
+          id: consulta.id,
+          encaixe_id: consulta.encaixe_id,
+          dentista: consulta.dentista_id,
+          horario: consulta.horario,
+          data: this.dia,
+          procedimento: consulta.procedimento_id,
+          paciente: consulta.paciente_id,
+        },
       });
     },
     get_data(data) {
@@ -310,7 +337,6 @@ export default {
 
 .events-container-overlay {
   position: absolute;
-  z-index: 2;
 
   border-left: 1px solid #000;
   -webkit-user-select: none; /* Safari */
@@ -365,6 +391,33 @@ export default {
   font-size: 10px;
   color: rgb(255, 255, 255);
   width: 70%;
+}
+.evento .complete_event_description {
+  min-width: 100%;
+  z-index: 1;
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  left: 0px;
+  top: 56px;
+  transform: translate(0, 10px);
+  background-color: #bfbfbf;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+  padding: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 8px;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+.evento:hover .complete_event_description {
+  z-index: 1;
+  opacity: 1;
+  visibility: visible;
+  transform: translate(0, -25px);
+  transition: all 0.5s cubic-bezier(0.75, -0.02, 0.2, 0.97);
 }
 .evento .horario {
   display: none;

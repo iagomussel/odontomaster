@@ -39,4 +39,19 @@ App.watch = {
 export default App;
 </script>
 
-<style></style>
+<style>
+.container {
+  margin: 0 !important;
+  max-width: 100% !important;
+  width: 100% !important ;
+
+}
+@media only screen and (min-width: 993px){
+    .container {
+        padding: 50px  !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+        width: 100%  !important;
+    }
+}
+</style>
