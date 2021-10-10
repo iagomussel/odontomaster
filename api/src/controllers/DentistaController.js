@@ -24,7 +24,7 @@ module.exports = {
     },
   async store(req, res) {
     let { id,nome, imagem } = req.body;
-    if (imagem == "") imagem = Constants.IMAGE_DEFAULT
+      if (imagem == "" || imagem == null) imagem = Constants.IMAGE_DEFAULT
     let user;
       let [dentista, dentistaCreated] = await Dentista.findOrCreate(
         {

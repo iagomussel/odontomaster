@@ -3,7 +3,7 @@
     <div class="row">Cadastro de Dentistas</div>
     <div class="row">
       <div class="input-field col s9">
-        <label for="nome">Nome</label>
+        <label  class="active" for="nome">Nome</label>
         <input
           id="nome"
           name="nome"

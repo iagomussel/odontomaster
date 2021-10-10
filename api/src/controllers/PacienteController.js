@@ -7,6 +7,7 @@ const Telefone = require("../models/Telefone");
 const moment = require("moment");
 const whereLike = require("../utils/whereLike");
 const passwordHash = require("password-hash");
+const Constants = require("../utils/Constants");
 
 
 module.exports = {
@@ -51,7 +52,8 @@ module.exports = {
             enderecos,
             telefones,
         } = req.body;
-        if (imagem == "") imagem = Constants.IMAGE_DEFAULT
+        if (imagem == "" || imagem ==  null) imagem = Constants.IMAGE_DEFAULT
+        console.log(imagem)
 
 
         const createdTelefones = []
@@ -68,10 +70,10 @@ module.exports = {
         }
         /* dentista create on register paciente */
         let dentista = await Dentista.findOne({
-            where: Number.isInteger(dentistaId) ? { id: dentistaId } : { nome: dentistaId}
+            where: Number.isInteger(dentistaId) ? { id: dentistaId } : { nome: dentistaId }
         })
-        if(!dentista){
-            let _nome =  dentistaId;
+        if (!dentista) {
+            let _nome = dentistaId;
             let imagem = Constants.IMAGE_DEFAULT;
             let user = await User.create({
                 username: nome,
@@ -99,7 +101,7 @@ module.exports = {
         if (!convenio) {
 
             let _nome = convenioId;
-            convenio = await Convenio.create({ nome:_nome });
+            convenio = await Convenio.create({ nome: _nome });
         }
 
         const [paciente, pacienteCreated] = await Paciente.findOrCreate({
@@ -111,8 +113,8 @@ module.exports = {
                 email,
                 sexo,
                 imagem,
-                dentistaId:dentista.id,
-                convenioId:convenio.id,
+                dentistaId: dentista.id,
+                convenioId: convenio.id,
             }
         });
         if (!pacienteCreated) {

@@ -86,6 +86,8 @@ router.get(
 
 router.get("/convenios", authenticateToken, ConvenioController.index);
 
+router.get("/convenio/:id", authenticateToken, ConvenioController.find);
+
 router.post("/convenios", authenticateToken, ConvenioController.store);
 
 router.post("/convenio/:id", authenticateToken, ConvenioController.store);
