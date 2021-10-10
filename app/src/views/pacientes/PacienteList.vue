@@ -23,16 +23,11 @@ export default {
     filter_field: function (field, value) {
       switch (field) {
         case "imagem":
-          return (
-            '<div style="width:32px"><img src=\'' +
-            value +
-            '\'  class="circle responsive-img" /></div>'
-          );
+          return  '<img src=\''+value+'\' width=40 height=40 class="rounded-circle"/>';
         case "dentista":
           if (value == null || value.nome == undefined) return "-";
           else return value.nome;
       }
-      console.log("field: " + field + " value: " + value);
       return value;
     },
   },
