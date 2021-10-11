@@ -53,7 +53,6 @@ module.exports = {
             telefones,
         } = req.body;
         if (imagem == "" || imagem ==  null) imagem = Constants.IMAGE_DEFAULT
-        console.log(imagem)
 
 
         const createdTelefones = []
@@ -112,9 +111,7 @@ module.exports = {
                 data_nasc: data.format("YYYY-MM-DD"),
                 email,
                 sexo,
-                imagem,
-                dentistaId: dentista.id,
-                convenioId: convenio.id,
+                imagem
             }
         });
         if (!pacienteCreated) {
@@ -143,6 +140,9 @@ module.exports = {
             });
             createdTelefones.push(createdTelefone)
         }
+
+        await paciente.setDentista(dentista)
+        await paciente.setConvenio(convenio)
         await paciente.setEnderecos(createdEnderecos);
         await paciente.setTelefones(createdTelefones)
         return res.json(paciente);
