@@ -23,7 +23,7 @@ RUN npm install --prefix api
 
 COPY ./api ./api
 
-RUN npm run build --prefix app
+RUN npm run build --prefix app 
 
 RUN chmod +x /tmp/start.sh
 
