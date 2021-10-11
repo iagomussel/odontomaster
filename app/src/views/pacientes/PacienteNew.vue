@@ -18,7 +18,7 @@
             <div class="col s9">
               <div class="row">
                 <div class="col s2">
-                  <label  class="active" for="ficha">Ficha</label>
+                  <label class="active" for="ficha">Ficha</label>
                   <input
                     v-model="formulario.ficha"
                     type="text"
@@ -28,8 +28,8 @@
                     placeholder="000"
                   />
                 </div>
-                <div class="col s10">
-                  <label  class="active" for="nome">Nome</label>
+                <div class="col s7">
+                  <label class="active" for="nome">Nome</label>
                   <input
                     type="text"
                     v-model="formulario.nome"
@@ -40,10 +40,21 @@
                     autofocus
                   />
                 </div>
+
+                <div class="col s2">
+                  <label class="active" for="sexo">Sexo</label>
+                  <hi-select
+                    name="sexo"
+                    id="sexo"
+                    v-model="formulario.sexo"
+                    :options="['M', 'F']"
+                  >
+                  </hi-select>
+                </div>
               </div>
               <div class="row">
-                <div class="input-field col s4">
-                  <label  class="active" for="data_nasc">Data de Nascimento</label>
+                <div class="input-field col s6">
+                  <label class="active" for="data_nasc">Data de Nascimento</label>
 
                   <input
                     name="data_nasc"
@@ -56,7 +67,7 @@
                 </div>
 
                 <div class="input-field col s6">
-                  <label  class="active" for="email">Email</label>
+                  <label class="active" for="email">Email</label>
                   <input
                     type="text"
                     v-model="formulario.email"
@@ -65,17 +76,11 @@
                     placeholder="exemplo@gmail.com"
                   />
                 </div>
-                <div class="input-field col s2">
-                  <select name="sexo" id="sexo" v-model="formulario.sexo">
-                    <option value="M">Masculino</option>
-                    <option value="F">Feminino</option>
-                  </select>
-                </div>
               </div>
 
               <div class="row">
                 <div class="col s4">
-                  <label  class="active" for="convenio">Convênio</label>
+                  <label class="active" for="convenio">Convênio</label>
                   <hi-select-ajax
                     v-model="formulario.convenioId"
                     url="convenios"
@@ -84,7 +89,7 @@
                 </div>
 
                 <div class="col s4">
-                  <label  class="active" for="codigoAssociado">N. Associado</label>
+                  <label class="active" for="codigoAssociado">N. Associado</label>
                   <input
                     type="text"
                     id="codigoAssociado"
@@ -94,7 +99,7 @@
                   />
                 </div>
                 <div class="col s4">
-                  <label  class="active" for="dentista">Dentista</label>
+                  <label class="active" for="dentista">Dentista</label>
                   <hi-select-ajax
                     v-model="formulario.dentistaId"
                     url="dentistas"
@@ -118,7 +123,7 @@
           <div class="panel-body">
             <div class="row">
               <div class="col s2">
-                <label  class="active" for="cep">Cep</label>
+                <label class="active" for="cep">Cep</label>
                 <input
                   type="text"
                   id="cep"
@@ -131,7 +136,7 @@
               </div>
 
               <div class="col s6">
-                <label  class="active" for="rua">Rua</label>
+                <label class="active" for="rua">Rua</label>
                 <input
                   v-model="formulario.enderecos[0].logradouro"
                   type="text"
@@ -143,7 +148,7 @@
               </div>
 
               <div class="col s2">
-                <label  class="active" for="numero">Número</label>
+                <label class="active" for="numero">Número</label>
                 <input
                   v-model="formulario.enderecos[0].numero"
                   type="text"
@@ -155,7 +160,7 @@
               </div>
 
               <div class="col s2">
-                <label  class="active" for="complemento">Complemento</label>
+                <label class="active" for="complemento">Complemento</label>
                 <input
                   v-model="formulario.enderecos[0].complemento"
                   type="text"
@@ -169,7 +174,7 @@
 
             <div class="row">
               <div class="col s5">
-                <label  class="active" for="bairro">Bairro</label>
+                <label class="active" for="bairro">Bairro</label>
                 <input
                   v-model="formulario.enderecos[0].bairro"
                   type="text"
@@ -181,7 +186,7 @@
               </div>
 
               <div class="col s5">
-                <label  class="active" for="cidade">Cidade</label>
+                <label class="active" for="cidade">Cidade</label>
                 <input
                   v-model="formulario.enderecos[0].cidade"
                   type="text"
@@ -193,7 +198,7 @@
               </div>
 
               <div class="col s2">
-                <label  class="active" for="uf">Estado</label>
+                <label class="active" for="uf">Estado</label>
                 <!-- :value="formulario.enderecos[0].uf"
                   v-on:input="formulario.enderecos[0].uf=$event" -->
                 <hi-select

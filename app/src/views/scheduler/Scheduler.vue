@@ -1,6 +1,18 @@
 <template>
   <div>
-    <input type="text" v-mask="'##/##/####'" v-model="dia" class="data center-align" />
+    <div class="row">
+      <div class="col s1"></div>
+      <div class="col s1"><a class="btn " style="margin: 0 auto;" v-on:click="verdia(-1)">Anterior</a></div>
+      <div class="col s8">
+        <input
+          type="text"
+          v-mask="'##/##/####'"
+          v-model="dia"
+          class="data center-align"
+        />
+      </div>
+      <div class="col s1"><a class="btn" style="margin: 0 auto;" v-on:click="verdia(1)">Próximo</a></div>
+    </div>
     <div class="row" v-bind:style="{ height: horariosList().length * 29 + 'px' }">
       <!-- coluna dos horarios-->
       <div class="col s1 p-0 h-100">
@@ -158,11 +170,8 @@ export default {
       dados: {
         agendamentos: [
           { nome: "Carregando...", consulta: [] },
-
           { nome: "Carregando...", consulta: [] },
-
           { nome: "Carregando...", consulta: [] },
-
           { nome: "Carregando...", consulta: [] },
         ],
       },
@@ -173,6 +182,7 @@ export default {
   methods: {
     verdia(desloc) {
       let d = moment(this.dia, "DD/MM/yyyy").add(1 * desloc, "Days");
+      this.dia = d.format("DD/MM/yyyy");
       this.get_data(d.format("DD_MM_YYYY"));
     },
     agendar(dentista, horario) {
@@ -388,7 +398,7 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 10px;
+  font-size: 12px;
   color: rgb(255, 255, 255);
   width: 70%;
 }
@@ -409,7 +419,7 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 8px;
+  font-size: 12px;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
 }
 .evento:hover .complete_event_description {

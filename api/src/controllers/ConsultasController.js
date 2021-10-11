@@ -3,12 +3,31 @@ const Consulta = require("../models/Consulta");
 const Procedimento = require("../models/Procedimento");
 const Paciente = require("../models/Paciente");
 const moment = require('moment')
+
+const { Op } = require("sequelize")
 module.exports = {
     async index(req, res) {
+        const { data } = req.params;
+        let dateObj = moment(data, "DD_MM_YYYY");
 
         let dados = await Dentista.findAll({
-            include: { all: true, nested: true }
+            include: [
+                {
+                    model: Consulta,
+                    required: false,
+                    as: "consulta",
+                    nested:true,
+                    where: {
+                        horario: {
+                            [Op.between]: [dateObj.startOf("Day").format(), dateObj.endOf("Day").format()]
+                        }
+                    },
+                    include: { all: true, nested: true }
+                }
+            ]
         });
+
+
         return res.json(dados);
     },
 
