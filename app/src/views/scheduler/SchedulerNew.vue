@@ -49,7 +49,7 @@ import webClient from "../../client_axios.js";
 
 import HiSelectAjax from "../../components/SelectAjax.vue";
 import { mask } from "vue-the-mask";
-
+const moment = require ("moment")
 export default {
   data() {
     console.log(this.$route.query);
@@ -71,7 +71,8 @@ export default {
     onSubmit() {
       webClient.post("/consulta", this.formulario).then((res) => {
         if (res.data) {
-          this.$router.push({ path: "/agenda", query: { dia: res.data.Data } });
+        let data = moment(this.formulario.data, "DD/MM/yyyy")
+          this.$router.push({ path: "/agenda", query: { dia: data.format("DD_MM_YYYY")} });
         }
       });
     },
