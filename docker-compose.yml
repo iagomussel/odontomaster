@@ -38,9 +38,11 @@ services:
         ports:
           - 3306:3306
         volumes:
-          - ./.docker/db:/var/lib/mysql
+          - mysql:/var/lib/mysql
 networks:
     backend:
         driver: bridge
+volumes:
+    mysql:
 
 
