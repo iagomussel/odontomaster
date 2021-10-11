@@ -13,8 +13,9 @@ class Paciente extends Model {
           }
         },
         sexo: DataTypes.STRING,
-        email: DataTypes.STRING,
-        imagem: DataTypes.STRING,
+            email: DataTypes.STRING,
+            imagem: DataTypes.STRING,
+            n_associado: DataTypes.STRING,
       },
       { sequelize }
     );

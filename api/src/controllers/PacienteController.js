@@ -51,6 +51,7 @@ module.exports = {
             dentistaId,
             enderecos,
             telefones,
+            n_associado,
         } = req.body;
         if (imagem == "" || imagem ==  null) imagem = Constants.IMAGE_DEFAULT
 
@@ -111,7 +112,8 @@ module.exports = {
                 data_nasc: data.format("YYYY-MM-DD"),
                 email,
                 sexo,
-                imagem
+                imagem,
+                n_associado
             }
         });
         if (!pacienteCreated) {
@@ -121,6 +123,7 @@ module.exports = {
             paciente.email = email
             paciente.sexo = sexo
             paciente.imagem = imagem
+            paciente.n_associado = n_associado
             paciente.save();
 
         }
