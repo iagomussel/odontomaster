@@ -13,8 +13,6 @@ services:
       networks:
         - backend
       environment:
-        PM2_PUBLIC_KEY: ${PM2_PUBLIC_KEY}
-        PM2_SECRET_KEY: ${PM2_SECRET_KEY}
         DB_DIALECT: ${DB_CONNECTION}
         DB_DATABASE: ${DB_DATABASE}
         DB_PASSWORD: ${DB_PASSWORD}
@@ -40,7 +38,7 @@ services:
         ports:
           - 3306:3306
         volumes:
-          - ./.docker/data:/var/lib/mysql
+          - ./.docker/db:/var/lib/mysql
 networks:
     backend:
         driver: bridge
