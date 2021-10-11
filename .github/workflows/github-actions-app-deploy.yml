@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - 'main'
-
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -28,6 +27,3 @@ jobs:
         with:
           push: true
           tags: himmussel/odontomaster:latest
-      -
-        name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}
