@@ -1,56 +1,61 @@
 {
-  "name": "app",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --mode production",
-    "lint": "vue-cli-service lint"
-  },
-  "dependencies": {
-    "@vueform/multiselect": "^1.5.0",
-    "axios": "^0.21.1",
-    "bootstrap": "^5.0.1",
-    "core-js": "^3.6.5",
-    "dotenv": "^8.6.0",
-    "jquery": "^3.6.0",
-    "materialize-css": "^1.0.0-rc.2",
-    "moment": "^2.29.1",
-    "v-pagination-3": "^0.1.5",
-    "vue": "^3.0.0",
-    "vue-multiselect": "^2.1.6",
-    "vue-router": "^4.0.8",
-    "vue-select-image": "^1.9.0",
-    "vue-text-mask": "^6.1.2",
-    "vue-the-mask": "^0.11.1",
-    "vue3-datepicker": "^0.2.4"
-  },
-  "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^7.0.0"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
+    "name": "app",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "serve": "vue-cli-service serve",
+        "build": "vue-cli-service build --mode production",
+        "lint": "vue-cli-service lint"
     },
-    "extends": [
-      "plugin:vue/vue3-essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
+    "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.15.4",
+        "@fortawesome/fontawesome-svg-core": "^1.2.36",
+        "@fortawesome/free-solid-svg-icons": "^5.15.4",
+        "@fortawesome/vue-fontawesome": "^3.0.0-4",
+        "@vue/cli-service": "^4.5.14",
+        "@vueform/multiselect": "^1.5.0",
+        "axios": "^0.21.1",
+        "bootstrap": "^5.0.1",
+        "core-js": "^3.6.5",
+        "dotenv": "^8.6.0",
+        "jquery": "^3.6.0",
+        "materialize-css": "^1.0.0-rc.2",
+        "moment": "^2.29.1",
+        "v-pagination-3": "^0.1.5",
+        "vue": "^3.0.0",
+        "vue-multiselect": "^2.1.6",
+        "vue-router": "^4.0.8",
+        "vue-select-image": "^1.9.0",
+        "vue-text-mask": "^6.1.2",
+        "vue-the-mask": "^0.11.1",
+        "vue3-datepicker": "^0.2.4"
     },
-    "rules": {}
-  },
-  "proxy": "http://localhots:3000",
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+    "devDependencies": {
+        "@vue/cli-plugin-babel": "~4.5.0",
+        "@vue/cli-plugin-eslint": "~4.5.0",
+        "@vue/compiler-sfc": "^3.0.0",
+        "babel-eslint": "^10.1.0",
+        "eslint": "^6.7.2",
+        "eslint-plugin-vue": "^7.0.0"
+    },
+    "eslintConfig": {
+        "root": true,
+        "env": {
+            "node": true
+        },
+        "extends": [
+            "plugin:vue/vue3-essential",
+            "eslint:recommended"
+        ],
+        "parserOptions": {
+            "parser": "babel-eslint"
+        },
+        "rules": {}
+    },
+    "proxy": "http://localhots:3000",
+    "browserslist": [
+        "> 1%",
+        "last 2 versions",
+        "not dead"
+    ]
 }

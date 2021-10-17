@@ -4,7 +4,7 @@
     novo_url="/dentistas/novo"
     ver_url="/dentista/__id__"
     :filter_fields="filter_field"
-    :headers="{ ID: 'id', Avatar: 'imagem', Nome: 'nome' }"
+    :headers="{ ID: 'id', Imagem: 'imagem', Nome: 'nome' }"
   >
   </hi-table>
 </template>
