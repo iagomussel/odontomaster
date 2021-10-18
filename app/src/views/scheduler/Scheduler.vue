@@ -2,7 +2,9 @@
   <div>
     <div class="row">
       <div class="col s1"></div>
-      <div class="col s1"><a class="btn " style="margin: 0 auto;" v-on:click="verdia(-1)">Anterior</a></div>
+      <div class="col s1">
+        <a class="btn" style="margin: 0 auto" v-on:click="verdia(-1)">Anterior</a>
+      </div>
       <div class="col s8">
         <input
           type="text"
@@ -11,7 +13,9 @@
           class="data center-align"
         />
       </div>
-      <div class="col s1"><a class="btn" style="margin: 0 auto;" v-on:click="verdia(1)">Próximo</a></div>
+      <div class="col s1">
+        <a class="btn" style="margin: 0 auto" v-on:click="verdia(1)">Próximo</a>
+      </div>
     </div>
     <div class="row" v-bind:style="{ height: horariosList().length * 29 + 'px' }">
       <!-- coluna dos horarios-->
@@ -99,6 +103,12 @@
                         ? "Procedimento: " + evento.procedimento.nome
                         : evento.procedimento
                     }}<br />
+                    <a
+                      href="#"
+                      class="waves-effect waves-light btn-small"
+                      v-on:click="desagendar(evento.id)"
+                      >Desmarcar</a
+                    >
                   </div>
                   <a
                     href="#"
@@ -191,6 +201,13 @@ export default {
         query: { dentista, horario, data: this.dia },
       });
     },
+    desagendar(consulta_id) {
+      webClient.get("/consultas/unschedule/" + consulta_id).then((res) => {
+        if (res.data.status == "ok") {
+          this.verdia(0);
+        }
+      });
+    },
     agendar_encaixe(dentista, horario, encaixe_id) {
       this.$router.push({
         path: "/agenda/novo",
@@ -215,7 +232,6 @@ export default {
       webClient.get("/consultas/" + data).then((res) => {
         this.dados.agendamentos = res.data;
       });
-      console.log(data);
     },
     horariosList: function () {
       var horarios = [];

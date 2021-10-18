@@ -16,7 +16,7 @@ module.exports = {
                     model: Consulta,
                     required: false,
                     as: "consulta",
-                    nested:true,
+                    nested: true,
                     where: {
                         horario: {
                             [Op.between]: [dateObj.startOf("Day").format(), dateObj.endOf("Day").format()]
@@ -73,4 +73,24 @@ module.exports = {
 
         res.json(consulta);
     },
+    async unschedule(req, res) {
+        const { id } = req.params;
+
+        const consulta = await Consulta.findOne({
+            where: { id }
+        })
+        const consulta_encaixe = await Consulta.findOne({
+            where: { encaixe_id: consulta.id }
+        })
+        if (consulta_encaixe) {
+            consulta_encaixe.encaixe_id = null;
+            consulta_encaixe.save()
+        }
+        if (await consulta.destroy()) {
+            return res.json({ "status": "ok" })
+        }
+        return res.json({ "status": "someting wrong" })
+
+
+    }
 };

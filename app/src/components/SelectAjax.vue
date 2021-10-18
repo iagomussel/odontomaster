@@ -10,6 +10,7 @@
       v-model="inputVal"
       :options="GetOption"
       ref="multiselect"
+      @tag="tag"
     >
     </multiselect>
   </div>
@@ -43,12 +44,14 @@ export default {
   },
   methods: {
     async GetOption(query) {
-      console.log(query);
       let option = await webClient.get(this.url + (query ? "/1/" + query : ""));
       let filtred_option = option.data.docs.map((v) => {
         return { value: v[this.ValueField], label: v[this.TextField] };
       });
       return filtred_option;
+    },
+    tag(e) {
+      console.log("teste " + e);
     },
   },
   components: {

@@ -5,6 +5,10 @@
         <label class="active">Paciente</label>
         <hi-select-ajax v-model="formulario.paciente" url="pacientes" TextField="nome" />
       </div>
+      <div class="input-field"  v-if="isNewPaciente">
+        <label class="active">Telefone</label>
+        <input v-model="formulario.telefone" type="text" />
+      </div>
       <div class="input-field" v-if="!formulario.encaixe_id">
         <label class="active">Dentista</label>
         <hi-select-ajax v-model="formulario.dentista" url="dentistas" TextField="nome" />
@@ -52,9 +56,9 @@ import { mask } from "vue-the-mask";
 const moment = require ("moment")
 export default {
   data() {
-    console.log(this.$route.query);
     return {
       dataImages: [],
+      isNewPaciente:false,
       formulario: {
         id: null,
         encaixe_id: null,
@@ -76,6 +80,10 @@ export default {
         }
       });
     },
+    onPacienteNew(e){
+        console.log("here"+e);
+        console.log(this.formulario.paciente);
+    }
   },
   components: {
     "hi-select-ajax": HiSelectAjax,

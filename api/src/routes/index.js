@@ -100,6 +100,9 @@ router.post("/consulta", authenticateToken, ConsultasController.store);
 //edit
 router.post("/consulta/:id", authenticateToken, ConsultasController.store);
 
+//cancel
+router.get("/consultas/unschedule/:id", authenticateToken, ConsultasController.unschedule);
+
 //uploads
 router.post("/upload", authenticateToken, FilesController.upload);
 router.get("/upload/:id", FilesController.find);
