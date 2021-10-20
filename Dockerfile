@@ -1,5 +1,7 @@
 FROM nginx
 
+ARG VERSION
+
 WORKDIR /var/www
 
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
@@ -23,7 +25,9 @@ RUN npm install --prefix api
 
 COPY ./api ./api
 
-RUN npm run build --prefix app 
+RUN "VUE_APP_BUILD=${VERSION}";
+
+RUN npm run build --prefix app
 
 RUN chmod +x /tmp/start.sh
 
