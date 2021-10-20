@@ -11,7 +11,7 @@
 export default {
     data: ()=>{
         return {
-            build: process.env.BUILD
+            build: process.env.VUE_APP_BUILD
         }
     }
 };
