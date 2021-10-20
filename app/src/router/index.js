@@ -10,6 +10,8 @@ import ProcedimentoList from "@/views/procedimentos/ProcedimentoList.vue";
 import ProcedimentoNew from "@/views/procedimentos/ProcedimentoNew.vue";
 
 import Scheduler from "@/views/scheduler/Scheduler.vue";
+import Sobre from "@/views/About.vue";
+
 
 import SchedulerNew from "@/views/scheduler/SchedulerNew.vue";
 
@@ -74,7 +76,11 @@ const routes = [
         path: "/agenda/novo",
         name: ".agendaNovo",
         component: SchedulerNew,
-      },
+    },  {
+        path: "/sobre",
+        name: "Sobre",
+        component: Sobre,
+    },
 ];
 
 const router = createRouter({

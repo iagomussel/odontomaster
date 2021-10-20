@@ -25,7 +25,7 @@ RUN npm install --prefix api
 
 COPY ./api ./api
 
-RUN "VUE_APP_BUILD=${VERSION}";
+RUN "echo 'VUE_APP_BUILD=${VERSION}' >> app/.env.production";
 
 RUN npm run build --prefix app
 
