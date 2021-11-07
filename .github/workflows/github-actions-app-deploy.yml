@@ -5,7 +5,7 @@ on:
     branches:
       - 'main'
       - 'develop'
-      - 'feature/github-action'
+      - 'feature/github_action'
 jobs:
   docker:
     runs-on: ubuntu-latest
