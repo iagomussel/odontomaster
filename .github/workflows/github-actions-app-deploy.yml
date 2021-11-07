@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - 'main'
+      - 'develop'
+      - 'feature/github-action'
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -24,14 +26,14 @@ jobs:
 
       -
         name: create env files for app
-        run: printf "\nVUE_APP_BUILD=%s\nVUE_APP_BASE_API=/api/\n" ${GITHUB_RUN_ID} >> ./app/.env.production
+        run: printf "\nVUE_APP_BUILD=%s\nVUE_APP_BASE_API=/api/\n" ${GITHUB_RUN_ID}
 
       -
         name: create env files for api
         run: |
             print "JWT_KEY=%s \
             DEFAULT_PASSWORD=123123 \
-            GITHUB_TOKEN=%s\n " ${{ secrets.JWT_SECRET }} ${{ secrets.TOKEN }} >> .api/.env
+            GITHUB_TOKEN=%s\n " ${{ secrets.JWT_SECRET }} ${{ secrets.TOKEN }}
 
       -
         name: Build and push
