@@ -5,13 +5,13 @@ const PacienteController = require("../controllers/PacienteController");
 const DentistaController = require("../controllers/DentistaController");
 const {
     UserController,
-    SchedulerController
+    SchedulerController,
+    GithubController
 }= require("../controllers");
 const ProcedimentoController = require("../controllers/ProcedimentoController");
 const ConvenioController = require("../controllers/ConvenioController");
 const FilesController = require("../controllers/FilesController");
-
-const GitHub = require ("../utils/GitHub")
+const GitHubController = require("../controllers/github.js");
 
 var router = express.Router();
 
@@ -113,6 +113,6 @@ router.post("/upload", authenticateToken, FilesController.upload);
 router.get("/upload/:id", FilesController.find);
 
 //github post issue
-router.post("/report", GitHub.report);
+router.post("/report", GitHubController.report);
 
 module.exports = router;

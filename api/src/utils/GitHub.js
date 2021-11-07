@@ -1,33 +1,43 @@
 const Constants = require("./Constants")
 
+const { Octokit } = require("@octokit/rest")
 class GitHub {
     constructor() {
-        this.sendIssueToGh = require('github-create-issue');
-
+        console.log("called GitHub")
         this.user = Constants.GitHub.user;
         this.repo = Constants.GitHub.repo;
         this.opts = {
             token: Constants.GitHub.token,
         }
+
     }
 
     sendIssue(title, description) {
-        this.sendIssueToGh(this.user + '/' + this.repo, title + ' -[ Requisito do cliente]- \n' + description, this.opts,
-            (error, issue, info) => {
-                if (info) {
-                    console.error(info);
-                }
-                if (error) {
-                    throw new Error(error.message);
-                }
-                console.log(issue);
-            });
+        console.log("called sendIssue")
+        const octokit = new Octokit({
+            auth: this.opts.token,
+        })
+        octokit.issues.create({
+            owner: this.user,
+            repo: this.repo,
+            title: title,
+            body: description,
+        })
     }
-    async report(req, res) {
-        this.sendIssue(req.body.title, req.body.description);
-        res.json("ok");
-    }
-}
 
+    getAllIssues() {
+        console.log("called getAllIssues")
+        const octokit = new Octokit({
+            auth: this.opts.token,
+        })
+        return octokit.issues.listForRepo({
+            owner: this.user,
+            repo: this.repo,
+        })
+    }
+
+
+
+}
 
 module.exports = new GitHub();

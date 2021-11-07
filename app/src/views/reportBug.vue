@@ -16,7 +16,7 @@
           class="form-control"
           id="title"
           name="title"
-          v-model="title"
+          v-model="formulario.title"
           placeholder="Title"
         />
       </div>
@@ -26,10 +26,14 @@
           class="form-control"
           id="description"
           name="description"
-          v-model="description"
+          v-model="formulario.description"
           placeholder="Description"
         ></textarea>
         </div>
+        <button type="submit" class="btn btn-primary">
+          Enviar
+        </button>
+
     </form>
   </div>
 </template>
@@ -48,10 +52,8 @@ export default {
   data() {
     return {
       formulario: {
-        nome: "",
-        valor: "",
-        duracao: "",
-        periodicidade: "",
+          title:"",
+          description:""
       },
     };
   },
