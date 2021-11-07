@@ -8,6 +8,8 @@ var indexRouter = require('./routes/index');
 var app = express();
 
 app.use(cors());
+
+
 require('./models')
 
 app.use(logger('dev'));

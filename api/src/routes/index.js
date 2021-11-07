@@ -3,14 +3,14 @@ var express = require("express");
 
 const PacienteController = require("../controllers/PacienteController");
 const DentistaController = require("../controllers/DentistaController");
-const [
+const {
     UserController,
     SchedulerController
-] = require("../controllers");
+}= require("../controllers");
 const ProcedimentoController = require("../controllers/ProcedimentoController");
 const ConvenioController = require("../controllers/ConvenioController");
 const FilesController = require("../controllers/FilesController");
-const Cron = require('../utils/Cron')
+
 
 
 var router = express.Router();
@@ -112,5 +112,4 @@ router.get("/consultas/unschedule/:id", authenticateToken, SchedulerController.u
 router.post("/upload", authenticateToken, FilesController.upload);
 router.get("/upload/:id", FilesController.find);
 
-router.get("/cron", Cron.index);
 module.exports = router;

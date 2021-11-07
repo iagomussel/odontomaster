@@ -175,8 +175,6 @@ module.exports = {
                 imagem,
                 convenioId,
                 dentistaId,
-                enderecos,
-                telefones,
                 n_associado,
             } = paciente;
             if (imagem == "" || imagem == null) imagem = Constants.IMAGE_DEFAULT
@@ -268,8 +266,6 @@ module.exports = {
 
             await paciente.setDentista(dentista)
             await paciente.setConvenio(convenio)
-            await paciente.setEnderecos(createdEnderecos);
-            await paciente.setTelefones(createdTelefones)
             console.log(res.json(paciente));
 
         }
