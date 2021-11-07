@@ -11,7 +11,7 @@ const ProcedimentoController = require("../controllers/ProcedimentoController");
 const ConvenioController = require("../controllers/ConvenioController");
 const FilesController = require("../controllers/FilesController");
 
-
+const GitHub = require ("../utils/GitHub")
 
 var router = express.Router();
 
@@ -111,5 +111,8 @@ router.get("/consultas/unschedule/:id", authenticateToken, SchedulerController.u
 //uploads
 router.post("/upload", authenticateToken, FilesController.upload);
 router.get("/upload/:id", FilesController.find);
+
+//github post issue
+router.post("/report", GitHub.report);
 
 module.exports = router;

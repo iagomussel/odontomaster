@@ -81,6 +81,16 @@ const routes = [
         name: "Sobre",
         component: Sobre,
     },
+    {
+        path: '/report',
+        name: '.Report',
+        component: () => import('@/views/reportBug.vue'),
+    },{
+        path: '/reportTanks',
+        name: '.ReportTanks',
+        component: () => import('@/views/reportTanks.vue'),
+    }
+
 ];
 
 const router = createRouter({

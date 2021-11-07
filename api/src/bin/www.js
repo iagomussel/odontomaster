@@ -45,34 +45,19 @@ function normalizePort(val) {
         return val;
     }
 
-    //check if port is in use
-    while (true) {
-        console.log('port: ' + port);
-        try {
-            var server = http.createServer().listen(port);
-            server.on('error', function (error) {
-                if (error.code === 'EADDRINUSE') {
-                    console.log('Port ' + port + ' is in use, trying next one.');
-                }
-                port++;
-                server.close();
-            });
-            server.on('listening', function () {
-                server.close();
-                return port;
-            });
-        } catch (error) {
-            console.log('Port ' + port + ' is in use, trying next one.');
-            port++;
-            if (error.code === 'EADDRINUSE') {
-                console.log('Port ' + port + ' is in use, trying next one.');
-            } else {
-                break;
-                throw error;
-            }
-
-        }
+    //check port is in range
+    if(port > 65500) {
+        return false;
     }
+
+
+
+    //check if port is in use
+    if (port > 0) {
+        return port;
+     } else {
+         return normalizePort(port+1)
+     }
 
     return false;
 }
