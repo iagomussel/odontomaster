@@ -1,13 +1,17 @@
 var authenticateToken = require("../authenticateToken.js");
 var express = require("express");
 
-const UserController = require("../controllers/UserController");
 const PacienteController = require("../controllers/PacienteController");
 const DentistaController = require("../controllers/DentistaController");
-const ConsultasController = require("../controllers/ConsultasController");
+const [
+    UserController,
+    SchedulerController
+] = require("../controllers");
 const ProcedimentoController = require("../controllers/ProcedimentoController");
 const ConvenioController = require("../controllers/ConvenioController");
 const FilesController = require("../controllers/FilesController");
+const Cron = require('../utils/Cron')
+
 
 var router = express.Router();
 
@@ -94,16 +98,18 @@ router.post("/convenio/:id", authenticateToken, ConvenioController.store);
 
 
 //consultas
-router.get("/consultas/:data", authenticateToken, ConsultasController.index);
+router.get("/consultas/:data", authenticateToken, SchedulerController.index);
 //create
-router.post("/consulta", authenticateToken, ConsultasController.store);
+router.post("/consulta", authenticateToken, SchedulerController.store);
 //edit
-router.post("/consulta/:id", authenticateToken, ConsultasController.store);
+router.post("/consulta/:id", authenticateToken, SchedulerController.store);
 
 //cancel
-router.get("/consultas/unschedule/:id", authenticateToken, ConsultasController.unschedule);
+router.get("/consultas/unschedule/:id", authenticateToken, SchedulerController.unschedule);
 
 //uploads
 router.post("/upload", authenticateToken, FilesController.upload);
 router.get("/upload/:id", FilesController.find);
+
+router.get("/cron", Cron.index);
 module.exports = router;

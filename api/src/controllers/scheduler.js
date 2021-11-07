@@ -5,7 +5,7 @@ const Paciente = require("../models/Paciente");
 const moment = require('moment')
 
 const { Op } = require("sequelize")
-module.exports = {
+const SchedolerController = {
     async index(req, res) {
         const { data } = req.params;
         let dateObj = moment(data, "DD_MM_YYYY");
@@ -94,3 +94,4 @@ module.exports = {
 
     }
 };
+module.exports = SchedolerController;

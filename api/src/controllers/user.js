@@ -19,14 +19,36 @@ module.exports = {
         },
       },
     });
+    if (!user) {
+      //check if existe someone user in the database
+      // count user on database
+        let count = await User.count();
+        if(count == 0){
+            //create user
+            user = await User.create({
+                username: username,
+                password: passwordHash.generate(password),
+            });
+        } else {
+            //return error
+            return res.status(401).json({
+                message: "User not found",
+            });
+
+        }
+    }
+
 
     if (user && passwordHash.verify(password, user.password)) {
+        //return token
+
       return res.send(maketoken(username));
     }
 
     return res
       .status(403)
-      .send({ status: "error", message: "invalid credencials" });
+      .json({ status: "error",
+      message: "Username or password is incorrect" });
   },
   async register(req, res) {
     const { username, password } = req.body;
