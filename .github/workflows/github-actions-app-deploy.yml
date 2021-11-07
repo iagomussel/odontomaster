@@ -26,14 +26,12 @@ jobs:
 
       -
         name: create env files for app
-        run: printf "\nVUE_APP_BUILD=%s\nVUE_APP_BASE_API=/api/\n" ${GITHUB_RUN_ID}
-
-      -
-        name: create env files for api
         run: |
-            print "JWT_KEY=%s \
-            DEFAULT_PASSWORD=123123 \
-            GITHUB_TOKEN=%s\n " ${{ secrets.JWT_SECRET }} ${{ secrets.TOKEN }}
+            printf "\nVUE_APP_BUILD=%s\n" ${GITHUB_RUN_ID}
+            printf "VUE_APP_BASE_API=/api/\n"
+            printf "JWT_KEY=%s\n" ${{ secrets.JWT_SECRET }}
+            printf "DEFAULT_PASSWORD=123123\n"
+            printf "GITHUB_TOKEN=%s\n" ${{ secrets.TOKEN }}
 
       -
         name: Build and push
