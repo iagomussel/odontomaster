@@ -3,6 +3,7 @@
     url="/pacientes"
     novo_url="/pacientes/novo"
     ver_url="/paciente/__id__"
+    import_url="/pacientes/import"
     :filter_fields="filter_field"
     :headers="{
       Ficha: 'ficha',

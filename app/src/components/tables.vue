@@ -4,10 +4,14 @@
       <div class="row">
         <div class="col s2">
           <a class="waves-effect waves-light btn" :href="novo_url">Novo</a>
+        </div>        <div class="col s2">
+            <a class"waves-effect waves-light btn" @click="import_file()">importar</a>
         </div>
-        <div class="col s10">
+        <div class="col s8">
           <input type="text" v-model="searchterm" placeholder="Pesquisar" />
         </div>
+
+
       </div>
       <table class="highlight responsive-table">
         <thead>
@@ -57,11 +61,12 @@ export default {
     this.change_page(1);
   },
   props: {
-    
+
     url: String,
     headers: Object,
     novo_url: String,
     ver_url: String,
+    import_url: String,
     filter_fields: Function,
   },
   data() {
@@ -78,6 +83,23 @@ export default {
   methods: {
     get_show_url(id) {
       document.location = this.ver_url.replace("__id__", id);
+    },
+    import_file() {
+      var input = document.createElement("input");
+      input.type = "file";
+      input.accept = "application/csv";
+      input.onchange = (e) => {
+        var file = e.target.files[0];
+        var reader = new FileReader();
+        reader.onload = (e) => {
+          var data = (e.target.result);
+          webClient.post(this.import_url, data).then((response) => {
+            this.change_page(1);
+          });
+        };
+        reader.readAsText(file);
+      };
+      input.click();
     },
     change_page(pageNum) {
       this.page = pageNum;

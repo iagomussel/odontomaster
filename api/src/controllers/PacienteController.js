@@ -53,7 +53,7 @@ module.exports = {
             telefones,
             n_associado,
         } = req.body;
-        if (imagem == "" || imagem ==  null) imagem = Constants.IMAGE_DEFAULT
+        if (imagem == "" || imagem == null) imagem = Constants.IMAGE_DEFAULT
 
 
         const createdTelefones = []
@@ -154,4 +154,125 @@ module.exports = {
         //     return res.status(401).json({ erro: "Cadastro não realizado" });
         // }
     },
+
+    async import(req, res) {
+        /*
+        this function import a list of pacientes from a csv file
+        created by: @iagomussel
+        params: csv file
+
+        */
+        let { file } = req.files
+        let pacientes = await csv().fromFile(file.path);
+        for (ind in pacientes) {
+            let paciente = pacientes[ind]
+            let {
+                ficha,
+                nome,
+                data_nasc,
+                sexo,
+                email,
+                imagem,
+                convenioId,
+                dentistaId,
+                enderecos,
+                telefones,
+                n_associado,
+            } = paciente;
+            if (imagem == "" || imagem == null) imagem = Constants.IMAGE_DEFAULT
+            const createdTelefones = []
+            const createdEnderecos = [];
+
+            let data = moment(data_nasc, "DD/MM/YYYY");
+            if (!data.isValid()) {
+                data = moment();
+            }
+
+            if (ficha == "") {
+                ficha = await Paciente.max("ficha");
+                ficha += 1;
+            }
+            /* dentista create on register paciente */
+            let dentista = await Dentista.findOne({
+                where: Number.isInteger(dentistaId) ? { id: dentistaId } : { nome: dentistaId }
+            })
+            if (!dentista) {
+                let _nome = dentistaId;
+                let imagem = Constants.IMAGE_DEFAULT;
+                let user = await User.create({
+                    username: nome,
+                    password: passwordHash.generate(process.env.DEFAULT_PASSWORD),
+                });
+
+                dentista = await Dentista.create({ nome: _nome, imagem, user_id: user.id });
+            }
+            /*convenio create on register paciente */
+            let convenio;
+            if (convenioId == null || convenioId == "") {
+                convenio = await Convenio.findOne({
+                    where: {
+                        default: true
+                    }
+                })
+            } else {
+                convenio = await Convenio.findOne({
+                    where: Number.isInteger(convenioId) ? { id: convenioId } : { nome: convenioId }
+                })
+            }
+
+            if (!convenio) {
+
+                let _nome = convenioId;
+                convenio = await Convenio.create({ nome: _nome });
+            }
+
+            const [paciente, pacienteCreated] = await Paciente.findOrCreate({
+                where: { id },
+                defaults: {
+                    ficha,
+                    nome,
+                    data_nasc: data.format("YYYY-MM-DD"),
+                    email,
+                    sexo,
+                    imagem,
+                    n_associado
+                }
+            });
+            if (!pacienteCreated) {
+                paciente.ficha = ficha;
+                paciente.nome = nome
+                paciente.data_nasc = data.format("YYYY-MM-DD")
+                paciente.email = email
+                paciente.sexo = sexo
+                paciente.imagem = imagem
+                paciente.n_associado = n_associado
+                paciente.save();
+
+            }
+            for (ind in enderecos) {
+                let { logradouro, bairro, cidade, uf, cep, numero, complemento } = enderecos[ind];
+                let endereco = { logradouro, bairro, cidade, uf, cep, numero, complemento }
+                let [createdEndereco] = await Endereco.findOrCreate({
+                    where: endereco,
+                    defaults: endereco
+                }
+                );
+                createdEnderecos.push(createdEndereco)
+            }
+            for (ind in telefones) {
+                let [createdTelefone] = await Telefone.findOrCreate({
+                    where: { telefone: telefones[ind].telefone },
+                });
+                createdTelefones.push(createdTelefone)
+            }
+
+            await paciente.setDentista(dentista)
+            await paciente.setConvenio(convenio)
+            await paciente.setEnderecos(createdEnderecos);
+            await paciente.setTelefones(createdTelefones)
+            console.log(res.json(paciente));
+
+        }
+    }
+
 };
