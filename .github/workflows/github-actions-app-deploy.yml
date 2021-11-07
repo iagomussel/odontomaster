@@ -26,14 +26,13 @@ jobs:
 
       -
         name: create env files for app
-        uses: actions/checkout@v2
         run: |
             ls -las
-            printf "\nVUE_APP_BUILD=%s\n" ${GITHUB_RUN_ID} >> app/.env-production
-            printf "VUE_APP_BASE_API=/api/\n" >> app/.env-production
-            printf "JWT_KEY=%s\n" "${{ secrets.JWT_SECRET }}" >> api/.env
-            printf "DEFAULT_PASSWORD=123123\n" >> api/.env
-            printf "GITHUB_TOKEN=%s\n" "${{ secrets.TOKEN }}" >> api/.env
+            printf "\nVUE_APP_BUILD=%s\n" ${GITHUB_RUN_ID} >> /github/workspace/app/.env-production
+            printf "VUE_APP_BASE_API=/api/\n" >> /github/workspace/app/.env-production
+            printf "JWT_KEY=%s\n" "${{ secrets.JWT_SECRET }}" >> /github/workspace/api/.env
+            printf "DEFAULT_PASSWORD=123123\n" >> /github/workspace/api/.env
+            printf "GITHUB_TOKEN=%s\n" "${{ secrets.TOKEN }}" >> /github/workspace/api/.env
 
       -
         name: Build and push
