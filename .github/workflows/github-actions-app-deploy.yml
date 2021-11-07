@@ -25,6 +25,10 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       -
+        name: DockerCheckout
+        uses: actions/checkout@v2
+        
+      -
         name: create env files for app
         run: |
             ls -las
