@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - 'main'
+      - 'develop'
+      - 'feature/github_action'
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -23,15 +25,17 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       -
-        name: create env files for app
-        run: printf "\nVUE_APP_BUILD=%s\nVUE_APP_BASE_API=/api/\n" ${GITHUB_RUN_ID} >> ./app/.env.production
+        name: DockerCheckout
+        uses: actions/checkout@v2
 
       -
-        name: create env files for api
+        name: create env files for app
         run: |
-            print "JWT_KEY=%s \
-            DEFAULT_PASSWORD=123123 \
-            GITHUB_TOKEN=%s\n " ${{ secrets.JWT_SECRET }} ${{ secrets.TOKEN }} >> .api/.env
+            printf "\nVUE_APP_BUILD=%s\n" ${GITHUB_RUN_ID} >> app/.env-production
+            printf "VUE_APP_BASE_API=/api/\n" >> app/.env-production
+            printf "JWT_KEY=%s\n" "${{ secrets.JWT_SECRET }}" >> api/.env
+            printf "DEFAULT_PASSWORD=123123\n" >> api/.env
+            printf "GITHUB_TOKEN=%s\n" "${{ secrets.TOKEN }}" >> api/.env
 
       -
         name: Build and push
