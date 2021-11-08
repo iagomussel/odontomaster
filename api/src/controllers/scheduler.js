@@ -1,7 +1,7 @@
 const Dentista = require("../models/Dentista");
-const Consulta = require("../models/Consulta");
+const Consulta = require("../models/Consultation");
 const Procedimento = require("../models/Procedimento");
-const Paciente = require("../models/Paciente");
+const Paciente = require("../models/patient");
 const moment = require('moment')
 
 const { Op } = require("sequelize")

@@ -1,4 +1,4 @@
-const Paciente = require("../models/Paciente");
+const patient = require("../models/patient");
 const Dentista = require("../models/Dentista");
 const Convenio = require("../models/Convenio");
 const User = require("../models/User");
@@ -17,25 +17,25 @@ module.exports = {
         if (realpage == NaN) realpage = 1
 
         if (realpage == 0) realpage++
-        let pacientes = await Paciente.paginate({
+        let patients = await patient.paginate({
             page: realpage,
             paginate: 10,
-            where: whereLike(Paciente, search),
+            where: whereLike(patient, search),
             include: ['enderecos', 'telefones', "dentista", 'convenio']
 
         });
-        return res.json(pacientes);
+        return res.json(patients);
     },
 
 
     async find(req, res) {
-        let paciente = await Paciente.findByPk(req.params.id, {
+        let patient = await patient.findByPk(req.params.id, {
             include: ['enderecos', 'telefones', "dentista", 'convenio']
         });
-        res.json(paciente);
+        res.json(patient);
     },
     async ficha(req, res) {
-        let ficha = await Paciente.max("ficha");
+        let ficha = await patient.max("ficha");
         res.json(ficha ? (ficha + 1) : 1);
     },
     async store(req, res) {
@@ -65,10 +65,10 @@ module.exports = {
         }
 
         if (ficha == "") {
-            ficha = await Paciente.max("ficha");
+            ficha = await patient.max("ficha");
             ficha += 1;
         }
-        /* dentista create on register paciente */
+        /* dentista create on register patient */
         let dentista = await Dentista.findOne({
             where: Number.isInteger(dentistaId) ? { id: dentistaId } : { nome: dentistaId }
         })
@@ -84,7 +84,7 @@ module.exports = {
         }
 
 
-        /*convenio create on register paciente */
+        /*convenio create on register patient */
         let convenio;
         if (convenioId == null || convenioId == "") {
             convenio = await Convenio.findOne({
@@ -104,7 +104,7 @@ module.exports = {
             convenio = await Convenio.create({ nome: _nome });
         }
 
-        const [paciente, pacienteCreated] = await Paciente.findOrCreate({
+        const [patient, patientCreated] = await patient.findOrCreate({
             where: { id },
             defaults: {
                 ficha,
@@ -116,15 +116,15 @@ module.exports = {
                 n_associado
             }
         });
-        if (!pacienteCreated) {
-            paciente.ficha = ficha;
-            paciente.nome = nome
-            paciente.data_nasc = data.format("YYYY-MM-DD")
-            paciente.email = email
-            paciente.sexo = sexo
-            paciente.imagem = imagem
-            paciente.n_associado = n_associado
-            paciente.save();
+        if (!patientCreated) {
+            patient.ficha = ficha;
+            patient.nome = nome
+            patient.data_nasc = data.format("YYYY-MM-DD")
+            patient.email = email
+            patient.sexo = sexo
+            patient.imagem = imagem
+            patient.n_associado = n_associado
+            patient.save();
 
         }
         for (ind in enderecos) {
@@ -144,11 +144,11 @@ module.exports = {
             createdTelefones.push(createdTelefone)
         }
 
-        await paciente.setDentista(dentista)
-        await paciente.setConvenio(convenio)
-        await paciente.setEnderecos(createdEnderecos);
-        await paciente.setTelefones(createdTelefones)
-        return res.json(paciente);
+        await patient.setDentista(dentista)
+        await patient.setConvenio(convenio)
+        await patient.setEnderecos(createdEnderecos);
+        await patient.setTelefones(createdTelefones)
+        return res.json(patient);
 
         // } catch {
         //     return res.status(401).json({ erro: "Cadastro não realizado" });
@@ -157,15 +157,15 @@ module.exports = {
 
     async import(req, res) {
         /*
-        this function import a list of pacientes from a csv file
+        this function import a list of patients from a csv file
         created by: @iagomussel
         params: csv file
 
         */
         let { file } = req.files
-        let pacientes = await csv().fromFile(file.path);
-        for (ind in pacientes) {
-            let paciente = pacientes[ind]
+        let patients = await csv().fromFile(file.path);
+        for (ind in patients) {
+            let patient = patients[ind]
             let {
                 ficha,
                 nome,
@@ -176,7 +176,7 @@ module.exports = {
                 convenioId,
                 dentistaId,
                 n_associado,
-            } = paciente;
+            } = patient;
             if (imagem == "" || imagem == null) imagem = Constants.IMAGE_DEFAULT
             const createdTelefones = []
             const createdEnderecos = [];
@@ -187,10 +187,10 @@ module.exports = {
             }
 
             if (ficha == "") {
-                ficha = await Paciente.max("ficha");
+                ficha = await patient.max("ficha");
                 ficha += 1;
             }
-            /* dentista create on register paciente */
+            /* dentista create on register patient */
             let dentista = await Dentista.findOne({
                 where: Number.isInteger(dentistaId) ? { id: dentistaId } : { nome: dentistaId }
             })
@@ -204,7 +204,7 @@ module.exports = {
 
                 dentista = await Dentista.create({ nome: _nome, imagem, user_id: user.id });
             }
-            /*convenio create on register paciente */
+            /*convenio create on register patient */
             let convenio;
             if (convenioId == null || convenioId == "") {
                 convenio = await Convenio.findOne({
@@ -224,7 +224,7 @@ module.exports = {
                 convenio = await Convenio.create({ nome: _nome });
             }
 
-            const [paciente, pacienteCreated] = await Paciente.findOrCreate({
+            const [patient, patientCreated] = await patient.findOrCreate({
                 where: { id },
                 defaults: {
                     ficha,
@@ -236,15 +236,15 @@ module.exports = {
                     n_associado
                 }
             });
-            if (!pacienteCreated) {
-                paciente.ficha = ficha;
-                paciente.nome = nome
-                paciente.data_nasc = data.format("YYYY-MM-DD")
-                paciente.email = email
-                paciente.sexo = sexo
-                paciente.imagem = imagem
-                paciente.n_associado = n_associado
-                paciente.save();
+            if (!patientCreated) {
+                patient.ficha = ficha;
+                patient.nome = nome
+                patient.data_nasc = data.format("YYYY-MM-DD")
+                patient.email = email
+                patient.sexo = sexo
+                patient.imagem = imagem
+                patient.n_associado = n_associado
+                patient.save();
 
             }
             for (ind in enderecos) {
@@ -264,9 +264,9 @@ module.exports = {
                 createdTelefones.push(createdTelefone)
             }
 
-            await paciente.setDentista(dentista)
-            await paciente.setConvenio(convenio)
-            console.log(res.json(paciente));
+            await patient.setDentista(dentista)
+            await patient.setConvenio(convenio)
+            console.log(res.json(patient));
 
         }
     }
