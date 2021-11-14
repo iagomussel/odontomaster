@@ -29,7 +29,7 @@ class Patient extends Model {
       through: "pacientes_enderecos",
       as: "enderecos",
     });
-    this.belongsToMany(models.Telefone, {
+    this.belongsToMany(models.Phones, {
       through: "pacientes_telefones",
       as: "telefones",
     });

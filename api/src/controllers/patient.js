@@ -5,7 +5,7 @@ const {
     User,
     Addresses,
     Phones,
-} = require("../models").models;
+} = require("../models");
 
 
 const moment = require("moment");

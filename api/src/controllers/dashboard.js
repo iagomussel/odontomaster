@@ -1,5 +1,8 @@
-patient = require('../models/patient');
-const {Consultation} = require('../models').models;
+
+const {
+    Patient,
+    Consultation
+} = require('../models');
 
 
 module.exports = {
@@ -13,17 +16,17 @@ module.exports = {
         }
 
         /* get patient count */
-        result.data.patientCount = await patient.count();
+        result.data.patientCount = await Patient.count();
 
         /** get Consultation count */
-        result.data.consultationCount = await consultation.count({
+        result.data.consultationCount = await Consultation.count({
             where: {
                 status: 'active'
             }
         });
 
         /** get canceled Consultations */
-        result.data.canceledConsultationCount = await consultation.count({
+        result.data.canceledConsultationCount = await Consultation.count({
             where: {
                 status: 'canceled'
             }

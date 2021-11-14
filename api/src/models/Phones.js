@@ -11,7 +11,7 @@ class Phones extends Model {
     );
   }
   static associate(models) {
-    this.belongsToMany(models.Paciente, {
+    this.belongsToMany(models.Patient, {
       through: "patient_phones",
       as: "patient",
     });

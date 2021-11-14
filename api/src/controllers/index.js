@@ -13,8 +13,13 @@ fs
     })
     .forEach(file => {
         const controller = require(path.join(__dirname, file));
-        controller.controllerName = file.slice(0, -3).charAt(0) + "Controller";
+        //capitalize first letter
+        const controllerName = file.charAt(0).toUpperCase() + file.slice(1, -3);
+
+        controller.controllerName = controllerName + "Controller";
+
         controllers[controller.controllerName] = controller;
+        console.log("load controller "+controller.controllerName);
     });
 
 

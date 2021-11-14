@@ -2,7 +2,7 @@ var authenticateToken = require("../authenticateToken");
 var express = require("express");
 
 const {
-    PatientControlle,
+    PatientController,
     ProfessionalController,
     UserController,
     SchedulerController,
@@ -114,6 +114,6 @@ router.post("/upload", authenticateToken, FilesController.upload);
 router.get("/upload/:id", FilesController.find);
 
 //github post issue
-router.post("/report", GitHubController.report);
+router.post("/report", GithubController.report);
 
 module.exports = router;
