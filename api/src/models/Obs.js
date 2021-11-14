@@ -6,7 +6,7 @@ class Obs extends Model {
       {
         Observacao: {type: DataTypes.STRING}
       },
-      { sequelize, tableName:'observacoes'}
+      { sequelize}
     )
 
     }

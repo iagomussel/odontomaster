@@ -19,7 +19,7 @@ class Consultation extends Model {
                 paciente_nome: DataTypes.STRING,
                 paciente_telefone: DataTypes.STRING,
             },
-            { sequelize, tableName: 'consultas' }
+            { sequelize}
         )
 
     }

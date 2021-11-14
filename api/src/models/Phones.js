@@ -7,7 +7,7 @@ class Phones extends Model {
         phone: DataTypes.STRING,
         type: DataTypes.STRING,
       },
-      { sequelize, tableName: "phones" }
+      { sequelize }
     );
   }
   static associate(models) {

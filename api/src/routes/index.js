@@ -32,7 +32,6 @@ router.get("/paciente/ficha", authenticateToken, PatientController.ficha);
 router.get("/paciente/:id", authenticateToken, PatientController.find);
 router.post("/pacientes", authenticateToken, PatientController.store);
 router.post("/pacientes/import", authenticateToken, PatientController.import);
-
 router.post("/paciente/:id", authenticateToken, PatientController.store);
 
 //dentistas

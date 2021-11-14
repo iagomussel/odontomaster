@@ -5,18 +5,18 @@ class Professional extends Model {
   static init(sequelize) {
     super.init(
       {
-        name: DataTypes.STRING,
-        image: DataTypes.STRING,
+        nome: DataTypes.STRING,
+        imagem: DataTypes.STRING,
       },
-      { sequelize, tableName: "professional" }
+      { sequelize}
     )
 
 
   }
   static associate(models){
       this.belongsTo(models.User, { foreignKey: "user_id", as: "user" })
-      this.hasMany(models.Consultation, { foreignKey: "dentista_id", as: "consultation" })
-      this.hasMany(models.Patient, { foreignKey: "dentista_id", as: "paciete" })
+      this.hasMany(models.Consultation, { foreignKey: "professional_id", as: "consultation" })
+      this.hasMany(models.Patient, { foreignKey: "patient_id", as: "patient" })
   }
 }
 

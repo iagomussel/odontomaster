@@ -5,6 +5,7 @@ const {
     User,
     Addresses,
     Phones,
+    Agreements
 } = require("../models");
 
 
@@ -25,7 +26,7 @@ module.exports = {
             page: realpage,
             paginate: 10,
             where: whereLike(patient, search),
-            include: ['addresses', 'phones', "professional", 'convenio']
+            include: ['addresses', 'phones', "professional", 'agreements']
 
         });
         return res.json(patients);
@@ -33,13 +34,13 @@ module.exports = {
 
 
     async find(req, res) {
-        let patient = await patient.findByPk(req.params.id, {
-            include: ['addresses', 'phones', "dentista", 'convenio']
+        let patient = await Patient.findByPk(req.params.id, {
+            include: ['addresses', 'phones', "professional", 'agreements']
         });
         res.json(patient);
     },
     async ficha(req, res) {
-        let ficha = await patient.max("ficha");
+        let ficha = await Patient.max("ficha");
         res.json(ficha ? (ficha + 1) : 1);
     },
     async store(req, res) {
@@ -73,7 +74,7 @@ module.exports = {
             ficha += 1;
         }
         /* dentista create on register patient */
-        let dentista = await Dentista.findOne({
+        let dentista = await Professional.findOne({
             where: Number.isInteger(dentistaId) ? { id: dentistaId } : { nome: dentistaId }
         })
         if (!dentista) {
@@ -84,20 +85,20 @@ module.exports = {
                 password: passwordHash.generate(process.env.DEFAULT_PASSWORD),
             });
 
-            dentista = await Dentista.create({ nome: _nome, imagem, user_id: user.id });
+            dentista = await Professional.create({ nome: _nome, imagem, user_id: user.id });
         }
 
 
         /*convenio create on register patient */
         let convenio;
         if (convenioId == null || convenioId == "") {
-            convenio = await Convenio.findOne({
+            convenio = await Agreements.findOne({
                 where: {
                     default: true
                 }
             })
         } else {
-            convenio = await Convenio.findOne({
+            convenio = await Agreements.findOne({
                 where: Number.isInteger(convenioId) ? { id: convenioId } : { nome: convenioId }
             })
         }
@@ -105,10 +106,10 @@ module.exports = {
         if (!convenio) {
 
             let _nome = convenioId;
-            convenio = await Convenio.create({ nome: _nome });
+            convenio = await Agreements.create({ nome: _nome });
         }
 
-        const [patient, patientCreated] = await patient.findOrCreate({
+        const [patient, patientCreated] = await Patient.findOrCreate({
             where: { id },
             defaults: {
                 ficha,
@@ -134,22 +135,22 @@ module.exports = {
         for (ind in addresses) {
             let { logradouro, bairro, cidade, uf, cep, numero, complemento } = addresses[ind];
             let endereco = { logradouro, bairro, cidade, uf, cep, numero, complemento }
-            let [createdEndereco] = await Endereco.findOrCreate({
+            let [createdAddresses] = await Addresses.findOrCreate({
                 where: endereco,
                 defaults: endereco
             }
             );
-            createdAddresses.push(createdEndereco)
+            createdAddresses.push(createdAddresses)
         }
         for (ind in phones) {
-            let [createdTelefone] = await Telefone.findOrCreate({
+            let [createdPhones] = await Phone.findOrCreate({
                 where: { telefone: phones[ind].telefone },
             });
-            createdPhones.push(createdTelefone)
+            createdPhones.push(createdPhones)
         }
 
         await patient.setProfessional(dentista)
-        await patient.setConvenio(convenio)
+        await patient.setAgreements(convenio)
         await patient.setAddresses(createdAddresses);
         await patient.setPhones(createdPhones)
         return res.json(patient);
@@ -192,7 +193,7 @@ module.exports = {
                 ficha += 1;
             }
             /* dentista create on register patient */
-            let dentista = await Dentista.findOne({
+            let dentista = await Professional.findOne({
                 where: Number.isInteger(dentistaId) ? { id: dentistaId } : { nome: dentistaId }
             })
             if (!dentista) {
@@ -203,18 +204,18 @@ module.exports = {
                     password: passwordHash.generate(process.env.DEFAULT_PASSWORD),
                 });
 
-                dentista = await Dentista.create({ nome: _nome, imagem, user_id: user.id });
+                dentista = await Professional.create({ nome: _nome, imagem, user_id: user.id });
             }
             /*convenio create on register patient */
             let convenio;
             if (convenioId == null || convenioId == "") {
-                convenio = await Convenio.findOne({
+                convenio = await Agreements.findOne({
                     where: {
                         default: true
                     }
                 })
             } else {
-                convenio = await Convenio.findOne({
+                convenio = await Agreements.findOne({
                     where: Number.isInteger(convenioId) ? { id: convenioId } : { nome: convenioId }
                 })
             }
@@ -222,7 +223,7 @@ module.exports = {
             if (!convenio) {
 
                 let _nome = convenioId;
-                convenio = await Convenio.create({ nome: _nome });
+                convenio = await Agreements.create({ nome: _nome });
             }
 
             const [patient, patientCreated] = await patient.findOrCreate({
@@ -251,22 +252,22 @@ module.exports = {
             for (ind in addresses) {
                 let { logradouro, bairro, cidade, uf, cep, numero, complemento } = addresses[ind];
                 let endereco = { logradouro, bairro, cidade, uf, cep, numero, complemento }
-                let [createdEndereco] = await Endereco.findOrCreate({
+                let [createdAddressess] = await Addressess.findOrCreate({
                     where: endereco,
                     defaults: endereco
                 }
                 );
-                createdAddresses.push(createdEndereco)
+                createdAddresses.push(createdAddressess)
             }
             for (ind in phones) {
-                let [createdTelefone] = await Telefone.findOrCreate({
+                let [createdPhones] = await Phones.findOrCreate({
                     where: { telefone: phones[ind].telefone },
                 });
-                createdPhones.push(createdTelefone)
+                createdPhones.push(createdPhones)
             }
 
-            await patient.setDentista(dentista)
-            await patient.setConvenio(convenio)
+            await patient.setProfessional(dentista)
+            await patient.setAgreements(convenio)
             console.log(res.json(patient));
 
         }

@@ -13,17 +13,14 @@ class Addresses extends Model {
                 cep: { type: DataTypes.STRING },
             },
             {
-                name: {
-                    singular: 'Endereco',
-                    plural: 'Enderecos',
-                },
                 sequelize,
-                tableName: "enderecos"
             }
         );
     }
     static associate(models) {
-        this.belongsToMany(models.Patient, { through: "pacientes_enderecos", as: "pacientes" });
+        this.belongsToMany(models.Patient, {
+            through: "patient_addresses",
+            as: "patients" });
     }
 }
 
