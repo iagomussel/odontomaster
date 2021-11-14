@@ -1,4 +1,4 @@
-const Dentista = require("../models/Dentista");
+const Dentista = require("../models/professional");
 const User = require("../models/User");
 const WhereLike = require("../utils/whereLike");
 const passwordHash = require("password-hash");

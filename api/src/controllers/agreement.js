@@ -1,4 +1,4 @@
-const Convenio = require("../models/Convenio");
+const Convenio = require("../models/Agreements");
 const WhereLike = require("../utils/whereLike");
 module.exports = {
     async index(req, res) {

@@ -1,5 +1,5 @@
 patient = require('../models/patient');
-consultation = require('../models/consultation');
+const {Consultation} = require('../models').models;
 
 
 module.exports = {
@@ -29,7 +29,7 @@ module.exports = {
             }
         })
 
-        
+
     }
 
 };

@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require("sequelize");
 const moment = require("moment");
-class Consulta extends Model {
+class Consultation extends Model {
     static init(sequelize) {
         super.init(
             {
@@ -24,13 +24,13 @@ class Consulta extends Model {
 
     }
     static associate(models) {
-        this.belongsTo(models.Paciente, { foreignKey: "paciente_id", as: "paciente" })
-        this.belongsTo(models.Dentista, { foreignKey: "dentista_id", as: "dentista" })
-        this.belongsTo(models.Procedimento, { foreignKey: "procedimento_id", as: "procedimento" })
-        this.hasOne(models.Consulta, { foreignKey: "encaixe_id", as: "encaixe" })
+        this.belongsTo(models.Patient, { foreignKey: "patient_id", as: "patient" })
+        this.belongsTo(models.Professional, { foreignKey: "professional_id", as: "professional" })
+        this.belongsTo(models.Procedure, { foreignKey: "procedure_id", as: "procedure" })
+        this.hasOne(models.Consultation, { foreignKey: "fitting_id", as: "fitting" })
     }
 }
 
-module.exports = Consulta;
+module.exports = Consultation;
 
 

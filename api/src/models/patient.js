@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require("sequelize");
 const moment = require('moment');
-class Paciente extends Model {
+class Patient extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -23,9 +23,9 @@ class Paciente extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.Dentista, { as: "dentista" });
-    this.belongsTo(models.Convenio, { as: "convenio" });
-    this.belongsToMany(models.Endereco, {
+    this.belongsTo(models.Professional, { as: "professional" });
+    this.belongsTo(models.Agreements, { as: "agreements" });
+    this.belongsToMany(models.Addresses, {
       through: "pacientes_enderecos",
       as: "enderecos",
     });
@@ -33,8 +33,8 @@ class Paciente extends Model {
       through: "pacientes_telefones",
       as: "telefones",
     });
-    this.hasMany(models.Observacoes, { foreignKey: "paciente_id", as: "observacoes" })
+    this.hasMany(models.Obs, { foreignKey: "paciente_id", as: "observacoes" })
   }
 }
 
-module.exports = Paciente;
+module.exports = Patient;

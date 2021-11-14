@@ -1,9 +1,13 @@
-const patient = require("../models/patient");
-const Dentista = require("../models/Dentista");
-const Convenio = require("../models/Convenio");
-const User = require("../models/User");
-const Endereco = require("../models/Endereco");
-const Telefone = require("../models/Telefone");
+// require models
+const {
+    Patient,
+    Professional,
+    User,
+    Addresses,
+    Phones,
+} = require("../models").models;
+
+
 const moment = require("moment");
 const whereLike = require("../utils/whereLike");
 const passwordHash = require("password-hash");
@@ -21,7 +25,7 @@ module.exports = {
             page: realpage,
             paginate: 10,
             where: whereLike(patient, search),
-            include: ['enderecos', 'telefones', "dentista", 'convenio']
+            include: ['addresses', 'phones', "professional", 'convenio']
 
         });
         return res.json(patients);
@@ -30,7 +34,7 @@ module.exports = {
 
     async find(req, res) {
         let patient = await patient.findByPk(req.params.id, {
-            include: ['enderecos', 'telefones', "dentista", 'convenio']
+            include: ['addresses', 'phones', "dentista", 'convenio']
         });
         res.json(patient);
     },
@@ -49,15 +53,15 @@ module.exports = {
             imagem,
             convenioId,
             dentistaId,
-            enderecos,
-            telefones,
+            addresses,
+            phones,
             n_associado,
         } = req.body;
         if (imagem == "" || imagem == null) imagem = Constants.IMAGE_DEFAULT
 
 
-        const createdTelefones = []
-        const createdEnderecos = [];
+        const createdPhones = []
+        const createdAddresses = [];
 
         let data = moment(data_nasc, "DD/MM/YYYY");
         if (!data.isValid()) {
@@ -127,32 +131,29 @@ module.exports = {
             patient.save();
 
         }
-        for (ind in enderecos) {
-            let { logradouro, bairro, cidade, uf, cep, numero, complemento } = enderecos[ind];
+        for (ind in addresses) {
+            let { logradouro, bairro, cidade, uf, cep, numero, complemento } = addresses[ind];
             let endereco = { logradouro, bairro, cidade, uf, cep, numero, complemento }
             let [createdEndereco] = await Endereco.findOrCreate({
                 where: endereco,
                 defaults: endereco
             }
             );
-            createdEnderecos.push(createdEndereco)
+            createdAddresses.push(createdEndereco)
         }
-        for (ind in telefones) {
+        for (ind in phones) {
             let [createdTelefone] = await Telefone.findOrCreate({
-                where: { telefone: telefones[ind].telefone },
+                where: { telefone: phones[ind].telefone },
             });
-            createdTelefones.push(createdTelefone)
+            createdPhones.push(createdTelefone)
         }
 
-        await patient.setDentista(dentista)
+        await patient.setProfessional(dentista)
         await patient.setConvenio(convenio)
-        await patient.setEnderecos(createdEnderecos);
-        await patient.setTelefones(createdTelefones)
+        await patient.setAddresses(createdAddresses);
+        await patient.setPhones(createdPhones)
         return res.json(patient);
 
-        // } catch {
-        //     return res.status(401).json({ erro: "Cadastro não realizado" });
-        // }
     },
 
     async import(req, res) {
@@ -178,8 +179,8 @@ module.exports = {
                 n_associado,
             } = patient;
             if (imagem == "" || imagem == null) imagem = Constants.IMAGE_DEFAULT
-            const createdTelefones = []
-            const createdEnderecos = [];
+            const createdPhones = []
+            const createdAddresses = [];
 
             let data = moment(data_nasc, "DD/MM/YYYY");
             if (!data.isValid()) {
@@ -247,21 +248,21 @@ module.exports = {
                 patient.save();
 
             }
-            for (ind in enderecos) {
-                let { logradouro, bairro, cidade, uf, cep, numero, complemento } = enderecos[ind];
+            for (ind in addresses) {
+                let { logradouro, bairro, cidade, uf, cep, numero, complemento } = addresses[ind];
                 let endereco = { logradouro, bairro, cidade, uf, cep, numero, complemento }
                 let [createdEndereco] = await Endereco.findOrCreate({
                     where: endereco,
                     defaults: endereco
                 }
                 );
-                createdEnderecos.push(createdEndereco)
+                createdAddresses.push(createdEndereco)
             }
-            for (ind in telefones) {
+            for (ind in phones) {
                 let [createdTelefone] = await Telefone.findOrCreate({
-                    where: { telefone: telefones[ind].telefone },
+                    where: { telefone: phones[ind].telefone },
                 });
-                createdTelefones.push(createdTelefone)
+                createdPhones.push(createdTelefone)
             }
 
             await patient.setDentista(dentista)

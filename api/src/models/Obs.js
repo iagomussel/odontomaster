@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require("sequelize");
 
-class Observacoes extends Model {
+class Obs extends Model {
   static init(sequelize){
     super.init(
       {
@@ -11,10 +11,10 @@ class Observacoes extends Model {
 
     }
     static associate(models){
-        this.belongsTo(models.Paciente, { as: "paciente" });
+        this.belongsTo(models.Patient, { as: "patient" });
     }
 }
 
-module.exports= Observacoes;
+module.exports= Obs;
 
 

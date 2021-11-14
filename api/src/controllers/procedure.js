@@ -1,4 +1,4 @@
-const Procedimento = require("../models/Procedimento");
+const Procedimento = require("../models/Procedure");
 const WhereLike = require("../utils/whereLike");
 
 
@@ -27,7 +27,7 @@ module.exports = {
 
         //check parameters for procedimento creation
         if (!nome || !valor || !duracao || !periodicidade) {
-            
+
             return res.status(400).json({ error: "é necessario informar todos os dados" });
         }
 

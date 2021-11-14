@@ -1,17 +1,18 @@
-var authenticateToken = require("../authenticateToken.js");
+var authenticateToken = require("../authenticateToken");
 var express = require("express");
 
-const PacienteController = require("../controllers/PacienteController");
-const DentistaController = require("../controllers/DentistaController");
 const {
+    PatientControlle,
+    ProfessionalController,
     UserController,
     SchedulerController,
-    GithubController
+    GithubController,
+    ProcedureController,
+    FilesController,
+    AgreementController
+
 }= require("../controllers");
-const ProcedimentoController = require("../controllers/ProcedimentoController");
-const ConvenioController = require("../controllers/ConvenioController");
-const FilesController = require("../controllers/FilesController");
-const GitHubController = require("../controllers/github.js");
+
 
 var router = express.Router();
 
@@ -24,56 +25,56 @@ router.post("/register", UserController.register);
 router.get("/refreshtoken", authenticateToken, UserController.refreshtoken);
 
 //pacientes
-router.get("/pacientes/:page/:search", authenticateToken, PacienteController.index);
-router.get("/pacientes/:page", authenticateToken, PacienteController.index);
-router.get("/pacientes", authenticateToken, PacienteController.index);
-router.get("/paciente/ficha", authenticateToken, PacienteController.ficha);
-router.get("/paciente/:id", authenticateToken, PacienteController.find);
-router.post("/pacientes", authenticateToken, PacienteController.store);
-router.post("/pacientes/import", authenticateToken, PacienteController.import);
+router.get("/pacientes/:page/:search", authenticateToken, PatientController.index);
+router.get("/pacientes/:page", authenticateToken, PatientController.index);
+router.get("/pacientes", authenticateToken, PatientController.index);
+router.get("/paciente/ficha", authenticateToken, PatientController.ficha);
+router.get("/paciente/:id", authenticateToken, PatientController.find);
+router.post("/pacientes", authenticateToken, PatientController.store);
+router.post("/pacientes/import", authenticateToken, PatientController.import);
 
-router.post("/paciente/:id", authenticateToken, PacienteController.store);
+router.post("/paciente/:id", authenticateToken, PatientController.store);
 
 //dentistas
 router.get(
     "/dentistas/:page/:search",
     authenticateToken,
-    DentistaController.index
+    ProfessionalController.index
 );
 router.get(
     "/dentistas/:page",
     authenticateToken,
-    DentistaController.index
+    ProfessionalController.index
 );
-router.get("/dentistas", authenticateToken, DentistaController.index);
-router.get("/dentista/:id", authenticateToken, DentistaController.find);
+router.get("/dentistas", authenticateToken, ProfessionalController.index);
+router.get("/dentista/:id", authenticateToken, ProfessionalController.find);
 
-router.post("/dentistas", authenticateToken, DentistaController.store);
+router.post("/dentistas", authenticateToken, ProfessionalController.store);
 
-router.post("/dentista/:id", authenticateToken, DentistaController.store);
+router.post("/dentista/:id", authenticateToken, ProfessionalController.store);
 
 //procedimentos
 router.get(
     "/procedimentos/:page/:search",
     authenticateToken,
-    ProcedimentoController.index
+    ProcedureController.index
 );
 
 //procedimentos
 router.get(
     "/procedimentos/:page",
     authenticateToken,
-    ProcedimentoController.index
+    ProcedureController.index
 );
 
-router.get("/procedimentos", authenticateToken, ProcedimentoController.index);
+router.get("/procedimentos", authenticateToken, ProcedureController.index);
 
-router.post("/procedimentos", authenticateToken, ProcedimentoController.store);
+router.post("/procedimentos", authenticateToken, ProcedureController.store);
 
 router.post(
     "/procedimento/:id",
     authenticateToken,
-    ProcedimentoController.store
+    ProcedureController.store
 );
 
 
@@ -81,21 +82,21 @@ router.post(
 router.get(
     "/convenios/:page/:search",
     authenticateToken,
-    ConvenioController.index
+    AgreementController.index
 );
 router.get(
     "/convenios/:page",
     authenticateToken,
-    ConvenioController.index
+    AgreementController.index
 );
 
-router.get("/convenios", authenticateToken, ConvenioController.index);
+router.get("/convenios", authenticateToken, AgreementController.index);
 
-router.get("/convenio/:id", authenticateToken, ConvenioController.find);
+router.get("/convenio/:id", authenticateToken, AgreementController.find);
 
-router.post("/convenios", authenticateToken, ConvenioController.store);
+router.post("/convenios", authenticateToken, AgreementController.store);
 
-router.post("/convenio/:id", authenticateToken, ConvenioController.store);
+router.post("/convenio/:id", authenticateToken, AgreementController.store);
 
 
 //consultas
