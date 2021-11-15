@@ -19,7 +19,6 @@ fs
         controller.controllerName = controllerName + "Controller";
 
         controllers[controller.controllerName] = controller;
-        console.log("load controller "+controller.controllerName);
     });
 
 

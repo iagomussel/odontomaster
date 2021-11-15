@@ -36,10 +36,10 @@ Object.keys(db).forEach(modelName => {
 })
 
 sequelize.sync({alter: true}).then(result => {
-    console.log(result);
+    //console.log(result);
 
 }).catch(err => {
-    console.log(err);
+    console.error(err);
 });
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

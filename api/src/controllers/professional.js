@@ -41,7 +41,7 @@ module.exports = {
                 password: passwordHash.generate(process.env.DEFAULT_PASSWORD),
             });
         } else {
-            console.log(dentista)
+
             user = await User.findOne(
                 { where: { id: dentista.user_id } }
             )

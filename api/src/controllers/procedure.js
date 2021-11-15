@@ -8,7 +8,6 @@ module.exports = {
         let realpage = (page ? page : 1)
         if (realpage == NaN) realpage = 1
         if (realpage == 0) realpage++
-        console.log("page ==>" + realpage)
         let procedimentos = await Procedimento.paginate({
             page: realpage,
             paginate: 10,

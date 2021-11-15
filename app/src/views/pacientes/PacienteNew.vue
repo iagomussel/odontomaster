@@ -240,61 +240,45 @@
         </div>
         <!-- /.panel -->
 
-        <div class="panel panel-primary">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              Telefones
-              <span
-                class="btn btn-primary btn-teladd"
-                @click="
-                  () => {
-                    formulario.telefones.push({ telefone: '' });
-                  }
-                "
-                >Adicionar</span
-              >
-            </h4>
-          </div>
-          <div class="panel-body">
-            <table class="table table-borded table-hover table-sm">
-              <thead>
-                <tr>
-                  <th>Telefone ex.:(21) 99999-9999</th>
-                </tr>
-              </thead>
-              <tbody class="tel_area">
-                <tr v-for="(telefone, ind) in formulario.telefones" v-bind:key="ind">
-                  <td>
-                    <input
-                      type="text"
-                      v-mask="'(##) #####-####'"
-                      v-model="formulario.telefones[ind].telefone"
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="panel panel-primary">
-          <div class="panel-heading">
-            <h4 class="panel-title">Descrição</h4>
-          </div>
-          <div class="panel-body">
-            <div class="row">
-              <div class="col s12">
-                <textarea
-                  rows="10"
-                  cols="40"
-                  class="form-control"
-                  name="obs"
-                  id="obs"
+
+        <!-- FieldList Telefones-->
+        <hi-field-list
+          v-model="formulario.telefones"
+          title="Telefones"
+          :fields="[
+            {
+              type: 'text',
+              name: 'telefone',
+              mask: '(##)#####-####',
+              placeholder: '',
+              label: 'Telefone',
+            },
+            {
+              type: 'text',
+              name: 'tipo',
+              label: 'Tipo',
+              placeholder: 'Tipo',
+              label: 'Tipo',
+            }
+
+          ]"
+            />
+
+
+                <hi-field-list
+                title="Observações sobre o paciente"
                   v-model="formulario.obs"
-                ></textarea>
-              </div>
-            </div>
-          </div>
-        </div>
+                :fields="[
+                            {
+              type: 'text',
+              name: 'Obs',
+              mask: '',
+              placeholder: '',
+              label: 'Observações',
+            }
+                ]"
+                />
+
 
         <button type="submit" class="btn btn-primary">Cadastrar</button>
         <button type="reset" class="btn btn-default">Limpar</button>
@@ -310,6 +294,7 @@ import axios from "axios";
 import HiSelectAjax from "../../components/SelectAjax.vue";
 import HiSelect from "../../components/Select.vue";
 import HiImagePicker from "../../components/ImagePicker.vue";
+import HiFieldList from "../../components/FieldList.vue";
 export default {
   mounted() {
     //get dentistas
@@ -394,8 +379,8 @@ export default {
             uf: "RJ",
           },
         ],
-        telefones: [{ telefone: null }],
-        obs: "",
+        telefones: [],
+        obs: [],
       },
     };
   },
@@ -405,6 +390,7 @@ export default {
     "hi-select-ajax": HiSelectAjax,
     "hi-select": HiSelect,
     "hi-image-picker": HiImagePicker,
+    "hi-field-list": HiFieldList,
   },
 };
 </script>

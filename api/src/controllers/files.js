@@ -30,7 +30,7 @@ class FilesController {
         await fs.renameSync(oldPath, newPath);
 
         let f = await Files.create({ name: fileName, contentType:files.file.type})
-        console.log(req.protocol + '://' + req.get('host') + req.originalUrl)
+        
         return res.json(req.protocol + '://' + req.get('host') + req.originalUrl+"/"+f.id);
     });
   }

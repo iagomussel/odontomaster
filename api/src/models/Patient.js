@@ -5,6 +5,7 @@ class Patient extends Model {
         super.init(
             {
                 ficha: DataTypes.BIGINT,
+
                 nome: DataTypes.STRING,
                 data_nasc: {
                     type: DataTypes.DATE,
@@ -23,17 +24,27 @@ class Patient extends Model {
     }
 
     static associate(models) {
-        this.belongsTo(models.Professional, { as: "professional" });
-        this.belongsTo(models.Agreements, { as: "agreements" });
+        this.hasMany(models.Consultation,
+             { foreignKey: 'paciente_id', as: 'consultations' }
+        );
+
+        this.belongsToMany(
+            models.Professional,
+             {through:"patient_professionals", as: "professionals" });
+        this.belongsToMany(
+            models.Agreement,
+            {through:"patient_agreements", as: "agreements" });
         this.belongsToMany(models.Addresses, {
             through: "patient_addresses",
-            as: "Addresses",
+            as: "addresses",
         });
         this.belongsToMany(models.Phones, {
             through: "patient_phones",
-            as: "Phones",
+            as: "phones",
         });
         this.hasMany(models.Obs, { foreignKey: "patient_id", as: "obs" })
+
+
     }
 }
 
