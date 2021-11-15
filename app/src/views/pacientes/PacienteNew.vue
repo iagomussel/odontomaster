@@ -53,7 +53,7 @@
                 </div>
               </div>
               <div class="row">
-                <div class="input-field col s6">
+                <div class="input-field col s4">
                   <label class="active" for="data_nasc">Data de Nascimento</label>
 
                   <input
@@ -66,7 +66,7 @@
                   />
                 </div>
 
-                <div class="input-field col s6">
+                <div class="input-field col s4">
                   <label class="active" for="email">Email</label>
                   <input
                     type="text"
@@ -76,28 +76,6 @@
                     placeholder="exemplo@gmail.com"
                   />
                 </div>
-              </div>
-
-              <div class="row">
-                <div class="col s4">
-                  <label class="active" for="convenio">Convênio</label>
-                  <hi-select-ajax
-                    v-model="formulario.convenioId"
-                    url="convenios"
-                    TextField="nome"
-                  />
-                </div>
-
-                <div class="col s4">
-                  <label class="active" for="codigoAssociado">N. Associado</label>
-                  <input
-                    type="text"
-                    id="codigoAssociado"
-                    v-model="formulario.n_associado"
-                    name="codigoAssociado"
-                    class="form-control"
-                  />
-                </div>
                 <div class="col s4">
                   <label class="active" for="dentista">Dentista</label>
                   <hi-select-ajax
@@ -105,8 +83,36 @@
                     url="dentistas"
                     TextField="nome"
                   />
-                </div>
+                  </div>
               </div>
+              <div class="row">
+                  <div class="col s12">                  <hi-field-list
+                    v-model="formulario.convenios"
+                    title="Convenios"
+                    :fields="[
+                      {
+                        type: 'hi-select-ajax',
+                        name: 'convenioId',
+                        label: 'Convenio',
+                        url: 'convenios',
+                        TextField: 'nome',
+                      },
+                      {
+                        type: 'text',
+                        name: 'numero',
+                        label: 'Numero',
+                      },
+                      {
+                        type: 'hi-select',
+                        label: 'Ativo',
+                        name: 'ativo',
+                        options: ['Sim', 'Não'],
+                      },
+                    ]"
+                  /></div>
+              </div>
+
+
             </div>
             <div class="col s3">
               <hi-image-picker v-model="formulario.imagem" />
@@ -114,6 +120,7 @@
           </div>
           <!-- /.panel-body -->
         </div>
+
         <!-- /.panel -->
 
         <div class="panel panel-primary">
@@ -199,8 +206,6 @@
 
               <div class="col s2">
                 <label class="active" for="uf">Estado</label>
-                <!-- :value="formulario.enderecos[0].uf"
-                  v-on:input="formulario.enderecos[0].uf=$event" -->
                 <hi-select
                   v-model="formulario.enderecos[0].uf"
                   :options="[
@@ -240,7 +245,6 @@
         </div>
         <!-- /.panel -->
 
-
         <!-- FieldList Telefones-->
         <hi-field-list
           v-model="formulario.telefones"
@@ -254,31 +258,36 @@
               label: 'Telefone',
             },
             {
-              type: 'text',
+              type: 'hi-select',
               name: 'tipo',
               label: 'Tipo',
               placeholder: 'Tipo',
               label: 'Tipo',
+            options: ['Celular', 'Fixo', 'Trabalho'],
+            },
+            {
+                type:'text',
+                name:'contato',
+                label:'Contato',
+                
             }
 
           ]"
-            />
+        />
 
-
-                <hi-field-list
-                title="Observações sobre o paciente"
-                  v-model="formulario.obs"
-                :fields="[
-                            {
+        <hi-field-list
+          title="Observações sobre o paciente"
+          v-model="formulario.obs"
+          :fields="[
+            {
               type: 'text',
               name: 'Obs',
               mask: '',
               placeholder: '',
               label: 'Observações',
-            }
-                ]"
-                />
-
+            },
+          ]"
+        />
 
         <button type="submit" class="btn btn-primary">Cadastrar</button>
         <button type="reset" class="btn btn-default">Limpar</button>
@@ -365,8 +374,7 @@ export default {
         email: null,
         imagem: null,
         sexo: "M",
-        convenioId: null,
-        n_associado: null,
+        convenios: [],
         dentistaId: null,
         enderecos: [
           {

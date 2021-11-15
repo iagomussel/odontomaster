@@ -18,7 +18,6 @@
                   <span>{{ item[field.name] }}</span>
                 </td>
                 <td>
-
                   <div
                     class="btn-floating btn-small waves-effect waves-light red"
                     @click="remove(item)"
@@ -58,7 +57,13 @@
 </template>
 <script>
 import { library } from "@fortawesome/fontawesome-svg-core";
-import {faSave, faTimes, faPlus, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faSave,
+  faTimes,
+  faPlus,
+  faPen,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 
 library.add(faPlus);
 library.add(faPen);
@@ -73,7 +78,7 @@ export default {
   props: {
     modelValue: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     title: {
       type: String,
@@ -82,42 +87,19 @@ export default {
     fields: {
       type: Array,
       default: () => {
-        return [
-          {
-            name: {
-              type: String,
-              default: "name",
-            },
-            type: {
-              type: String,
-              default: "text",
-            },
-            mask: {
-              type: String,
-              default: "",
-            },
-            placeholder: {
-              type: String,
-              default: "",
-            },
-            label: {
-              type: String,
-              default: "",
-            },
-          },
-        ];
+        return [];
       },
     },
   },
-  computed:{
-    list:{
-        get(){
-            return this.modelValue;
-        },
-        set(value){
-            this.$emit('update:modelValue', value);
-        }
-    }
+  computed: {
+    list: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit("update:modelValue", value);
+      },
+    },
   },
 
   data() {
@@ -130,12 +112,12 @@ export default {
   name: "hi-field-list",
   methods: {
     openModalAdd() {
-        console.log("openModalAdd");
+      console.log("openModalAdd");
       this.ShowModalAdd = true;
     },
     add() {
       this.list.push(this.form);
-      this.closeModalAdd()
+      this.closeModalAdd();
     },
 
     remove(item) {
@@ -144,8 +126,7 @@ export default {
     closeModalAdd() {
       this.ShowModalAdd = false;
       this.form = {};
-    }
-
+    },
   },
   components: {
     HiModal,
