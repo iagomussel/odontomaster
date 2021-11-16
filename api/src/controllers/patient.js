@@ -80,10 +80,10 @@ module.exports = {
             ficha = await Patient.max("ficha");
             ficha += 1;
         }
-         console.log(professionals)
+        console.log(professionals)
         if (professionals.length > 0) {
             for (let p of professionals) {
-                if (Number.isInteger(p.professional.id)){
+                if (Number.isInteger(p.professional.id)) {
                     const professional = await Professional.findByPk(p.professional.id);
                     if (professional) {
                         createdProfessionals.push(professional);
@@ -91,18 +91,23 @@ module.exports = {
                         return res.status(400).json({ error: "Professional not found" });
                     }
                 } else {
-                    let name = p.professional.id
+                    let name = p.professional
+                    console.log(Constants.PASSWORD_DEFAULT)
                     let [user] = await User.findOrCreate({
-                        where: { nome:name },
-                         defaults:{
-                                nome:name,
-                                password: passwordHash.generate(constants.DEFAULT_PASSWORD),
-                         } });
+                        where: { username: name },
+                        defaults: {
+
+                            username: nome,
+                            password: passwordHash.generate(process.env.DEFAULT_PASSWORD),
+                        }
+                    });
 
                     const professional = await Professional.create({
-                        nome:name,
-                        image:p.professional.image,
+                        nome: name,
+                        image: Constants.IMAGE_DEFAULT,
+
                     });
+                    professional.setUser(user);
                     createdProfessionals.push(professional);
                 }
 
@@ -119,16 +124,18 @@ module.exports = {
             createsAgreements.push({ convenio, numero: '', ativo: "Sim" })
         }
         for (let u_plan of plans) {
-
-            let CreatedConvenio = await Agreement.findOne({
-                where: Number.isInteger(u_plan.agreement.id) ? { id: u_plan.agreement.id } : { nome: u_plan.agreement.id }
-            })
-
-            if (!CreatedConvenio) {
-
-                let _nome = u_plan.agreement.id;
+            let CreatedConvenio = null;
+            if (u_plan.agreement.id == undefined) {
+                let _nome = u_plan.agreement;
                 CreatedConvenio = await Agreement.create({ nome: _nome });
+            } else {
+                CreatedConvenio = await Agreement.findOne({
+                    where: Number.isInteger(u_plan.agreement.id) ? { id: u_plan.agreement.id } : { nome: u_plan.agreement.id }
+                })
             }
+
+            
+
             createdAgreements.push(CreatedConvenio)
             forCreatePlans.push({
                 agreement: CreatedConvenio,
@@ -177,7 +184,7 @@ module.exports = {
 
         //create obs
         for (ind in obs) {
-            if(obs[ind].obs == undefined|| obs[ind].obs == "" || obs[ind].obs == null) continue;
+            if (obs[ind].obs == undefined || obs[ind].obs == "" || obs[ind].obs == null) continue;
             let [observation, created] = await Obs.findOrCreate({
                 where: {
                     obs: obs[ind].obs,

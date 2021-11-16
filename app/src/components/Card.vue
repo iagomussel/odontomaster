@@ -7,7 +7,7 @@
           <h3 class="m-b-0 f-w-700 text-white">{{ value }}</h3>
         </div>
         <div class="col-auto">
-          <font-awesome-icon icon="user-secret" size="3x" :style="{ color }" />
+          <font-awesome-icon :icon="icon" size="3x" :style="{ color }" />
         </div>
       </div>
       <p class="m-b-0 text-white">
@@ -18,9 +18,10 @@
 </template>
 <script>
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
+import { fas } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faUserSecret);
+library.add(fas);
+
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 export default {
   props: {
@@ -43,6 +44,10 @@ export default {
     link: {
       type: String,
       default: "",
+    },
+    icon: {
+      type: String,
+      default: "users",
     },
   },
   name: "hi-card",

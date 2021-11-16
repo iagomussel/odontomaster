@@ -9,7 +9,8 @@ const {
     GithubController,
     ProcedureController,
     FilesController,
-    AgreementController
+    AgreementController,
+    DashboardController
 
 }= require("../controllers");
 
@@ -114,5 +115,7 @@ router.get("/upload/:id", FilesController.find);
 
 //github post issue
 router.post("/report", GithubController.report);
+
+router.get("/dashboard", authenticateToken, DashboardController.index);
 
 module.exports = router;
