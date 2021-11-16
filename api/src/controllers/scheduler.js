@@ -1,8 +1,12 @@
-const Dentista = require("../models/Dentista");
-const Consulta = require("../models/Consulta");
-const Procedimento = require("../models/Procedimento");
-const Paciente = require("../models/Paciente");
+
 const moment = require('moment')
+const {
+    Professional,
+    Consultation,
+    Procedure,
+    Patient,
+
+} = require("../models")
 
 const { Op } = require("sequelize")
 const SchedolerController = {
@@ -10,10 +14,10 @@ const SchedolerController = {
         const { data } = req.params;
         let dateObj = moment(data, "DD_MM_YYYY");
 
-        let dados = await Dentista.findAll({
+        let dados = await Professional.findAll({
             include: [
                 {
-                    model: Consulta,
+                    model: Consultation,
                     required: false,
                     as: "consulta",
                     nested: true,
@@ -42,9 +46,9 @@ const SchedolerController = {
             encaixe_id,
 
         } = req.body
-        const procedimentoM = await Procedimento.findByPk(procedimento)
-        const pacienteM = await Paciente.findByPk(paciente)
-        var dentistaM = await Dentista.findByPk(dentista)
+        const procedimentoM = await Procedure.findByPk(procedimento)
+        const pacienteM = await Patient.findByPk(paciente)
+        var dentistaM = await Professional.findByPk(dentista)
         consulta_generate = {};
         consulta_generate.horario = moment(data + "-" + horario, "DD/MM/YYYY-h:mm").toISOString()
         consulta_generate.horario_termino = moment(data + "-" + horario, "DD/MM/YYYY-h:mm").add(30, "minutes").toISOString()
@@ -52,7 +56,7 @@ const SchedolerController = {
 
         // return res.json(consulta_generate)
 
-        const [consulta, consultaCreated] = await Consulta.findOrCreate({
+        const [consulta, consultaCreated] = await Consultation.findOrCreate({
             where: { id },
             defaults: consulta_generate
         })
@@ -60,26 +64,26 @@ const SchedolerController = {
             consulta.horario = consulta_generate.horario
             consulta.horario_termino = consulta_generate.horario_termino
             consulta.save();
-            let consultaEncaixe = await Consulta.findOne({ where: { encaixe_id: consulta.id } })
+            let consultaEncaixe = await Consultation.findOne({ where: { encaixe_id: consulta.id } })
             if (consultaEncaixe) {
                 consultaEncaixe.horario = consulta_generate.horario
                 consultaEncaixe.horario_termino = consulta_generate.horario_termino
                 consultaEncaixe.save();
             }
         }
-        await consulta.setPaciente(pacienteM)
-        await consulta.setDentista(dentistaM)
-        await consulta.setProcedimento(procedimentoM)
+        await consulta.setPatient(pacienteM)
+        await consulta.setProfessional(dentistaM)
+        await consulta.setProcedure(procedimentoM)
 
         res.json(consulta);
     },
     async unschedule(req, res) {
         const { id } = req.params;
 
-        const consulta = await Consulta.findOne({
+        const consulta = await Consultation.findOne({
             where: { id }
         })
-        const consulta_encaixe = await Consulta.findOne({
+        const consulta_encaixe = await Consultation.findOne({
             where: { encaixe_id: consulta.id }
         })
         if (consulta_encaixe) {

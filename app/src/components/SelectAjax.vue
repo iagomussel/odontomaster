@@ -29,7 +29,7 @@ export default {
     },
     TextField: {
       type: String,
-      default: "name",
+      default: "nome",
     },
   },
   computed: {
@@ -46,13 +46,11 @@ export default {
     async GetOption(query) {
       let option = await webClient.get(this.url + (query ? "/1/" + query : ""));
       let filtred_option = option.data.docs.map((v) => {
-        return { value: v[this.ValueField], label: v[this.TextField] };
+        return { value: v, label: v[this.TextField] };
       });
       return filtred_option;
     },
-    tag(e) {
-      console.log("teste " + e);
-    },
+
   },
   components: {
     Multiselect,

@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require("sequelize");
 
-class Endereco extends Model {
+class Addresses extends Model {
     static init(sequelize) {
         super.init(
             {
@@ -13,20 +13,17 @@ class Endereco extends Model {
                 cep: { type: DataTypes.STRING },
             },
             {
-                name: {
-                    singular: 'Endereco',
-                    plural: 'Enderecos',
-                },
                 sequelize,
-                tableName: "enderecos"
             }
         );
     }
     static associate(models) {
-        this.belongsToMany(models.Paciente, { through: "pacientes_enderecos", as: "pacientes" });
+        this.belongsToMany(models.Patient, {
+            through: "patient_addresses",
+            as: "patients" });
     }
 }
 
-module.exports = Endereco;
+module.exports = Addresses;
 
 

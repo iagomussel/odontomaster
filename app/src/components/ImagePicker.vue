@@ -55,7 +55,6 @@ export default {
             );
           },
         }).then(res =>{
-            console.log(res)
             this.inputVal = res.data
             this.loading =false
         })
@@ -66,7 +65,6 @@ export default {
       reader.readAsDataURL(Myfile);
     },
     changeImage(e) {
-      console.log(this.inputVal);
       this.inputVal = e.target.result;
     },
   },

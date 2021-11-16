@@ -1,18 +1,14 @@
-var logger = require('morgan');
+//var logger = require('morgan');
+
+require('dotenv').config();
 var express = require('express');
 var cors = require('cors');
-require('dotenv').config();
 
 var indexRouter = require('./routes/index');
 
 var app = express();
 
 app.use(cors());
-
-
-require('./models')
-
-app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

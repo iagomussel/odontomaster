@@ -9,8 +9,10 @@
       Ficha: 'ficha',
       Imagem: 'imagem',
       Nome: 'nome',
-      Dentista: 'dentista',
+      Convenio: 'agreements',
+      Dentista: 'professionals',
       Sexo: 'sexo',
+      Cidade: 'addresses',
       'Data de Nascimento': 'data_nasc',
     }"
   >
@@ -25,9 +27,12 @@ export default {
       switch (field) {
         case "imagem":
           return  '<img src=\''+value+'\' width=40 height=40 class="rounded-circle"/>';
-        case "dentista":
-          if (value == null || value.nome == undefined) return "-";
-          else return value.nome;
+        case "professionals":
+            return value.map((item) => item.nome).join(", ");
+        case "addresses":
+            return value.map((item) => item.cidade).join(", ");
+        case "agreements":
+            return value.map((item) => item.nome).join(", ");
       }
       return value;
     },

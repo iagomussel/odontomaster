@@ -1,24 +1,24 @@
 const { Model, DataTypes } = require("sequelize");
 
 
-class Dentista extends Model {
+class Professional extends Model {
   static init(sequelize) {
     super.init(
       {
         nome: DataTypes.STRING,
         imagem: DataTypes.STRING,
       },
-      { sequelize, tableName: "dentistas" }
+      { sequelize}
     )
 
 
   }
   static associate(models){
       this.belongsTo(models.User, { foreignKey: "user_id", as: "user" })
-      this.hasMany(models.Consulta, { foreignKey: "dentista_id", as: "consulta" })
-      this.hasMany(models.Paciente, { foreignKey: "dentista_id", as: "paciete" })
+      this.hasMany(models.Consultation, { foreignKey: "professional_id", as: "consultation" })
+      this.hasMany(models.Patient, { foreignKey: "patient_id", as: "patient" })
   }
 }
 
-module.exports = Dentista;
+module.exports = Professional;
 

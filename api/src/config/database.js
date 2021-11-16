@@ -22,6 +22,7 @@ module.exports = {
             timestamp: true,
             underscored: true,
             paranoid: true,
+            
         },
     },
 
