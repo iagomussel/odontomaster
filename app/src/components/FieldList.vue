@@ -3,35 +3,42 @@
     <div class="col s12 m12">
       <div class="card gray lighten-5">
         <div class="card-content black-text">
-          <span class="card-title">{{ title }}</span>
-
-          <table class="table table-borded table-hover table-sm">
-            <thead>
-              <tr>
-                <th v-for="(field, index) in fields" :key="index">{{ field.label }}</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody class="tel_area">
-              <tr v-for="(item, ind) in list" v-bind:key="ind">
-                <td v-for="(field, field_ind) in fields" v-bind:key="field_ind">
-                  <span>{{ item[field.name] }}</span>
-                </td>
-                <td>
-                  <div
-                    class="btn-floating btn-small waves-effect waves-light red"
-                    @click="remove(item)"
-                  >
-                    <font-awesome-icon icon="trash" />
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="card-action">
-          <div class="btn waves-effect waves-light" @click="openModalAdd()">
-            <font-awesome-icon icon="plus" />Adicionar
+          <span
+            :class="'card-title collapsible-toggle ' + (ShowCollapsible ? ' active' : '')"
+            @click="toggleCollapsible()"
+            >{{ title }}</span
+          >
+          <div class="collapsible-content" v-if="ShowCollapsible">
+            <table class="table table-borded table-hover table-sm">
+              <thead>
+                <tr>
+                  <th v-for="(field, index) in fields" :key="index">{{ field.label }}</th>
+                  <th>#</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item, ind) in list" v-bind:key="ind">
+                  <td v-for="(field, field_ind) in fields" v-bind:key="field_ind">
+                    <span>{{ field.TextField == undefined?
+                        item[field.name]:
+                        item[field.name][field.TextField] }}</span>
+                  </td>
+                  <td>
+                    <div
+                      class="btn-floating btn-small waves-effect waves-light red"
+                      @click="remove(item)"
+                    >
+                      <font-awesome-icon icon="trash" />
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="card-action">
+              <div class="btn waves-effect waves-light" @click="openModalAdd()">
+                <font-awesome-icon icon="plus" />Adicionar
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -94,10 +101,12 @@ export default {
   computed: {
     list: {
       get() {
+          console.log("gettering list ", this.modelValue);
         return this.modelValue;
       },
-      set(value) {
-        this.$emit("update:modelValue", value);
+      set(val) {
+        this.$emit("input", val);
+        this.$emit("update:modelValue", val);
       },
     },
   },
@@ -105,18 +114,22 @@ export default {
   data() {
     return {
       ShowModalAdd: false,
+      ShowCollapsible: false,
       form: {},
     };
   },
 
   name: "hi-field-list",
   methods: {
+    toggleCollapsible() {
+      this.ShowCollapsible = !this.ShowCollapsible;
+    },
     openModalAdd() {
       console.log("openModalAdd");
       this.ShowModalAdd = true;
     },
     add() {
-      this.list.push(this.form);
+    this.list.push(this.form);
       this.closeModalAdd();
     },
 
@@ -135,4 +148,24 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+/* Style the collapsible content. Note: hidden by default */
+.collapsible-content {
+  padding: 0 18px;
+  overflow: hidden;
+  background-color: #f1f1f1;
+
+  transition: max-height 0.2s ease-out;
+}
+.collapsible-toggle:after {
+  content: "\02795"; /* Unicode character for "plus" sign (+) */
+  font-size: 13px;
+  color: white;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2796"; /* Unicode character for "minus" sign (-) */
+}
+</style>

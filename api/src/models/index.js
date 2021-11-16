@@ -35,7 +35,7 @@ Object.keys(db).forEach(modelName => {
 
 })
 
-sequelize.sync({alter: true}).then(result => {
+sequelize.sync({ alter: true, logging: ()=>{}}).then(result => {
     //console.log(result);
 
 }).catch(err => {

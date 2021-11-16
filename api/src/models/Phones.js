@@ -4,8 +4,10 @@ class Phones extends Model {
   static init(sequelize) {
     super.init(
       {
-        phone: DataTypes.STRING,
-        type: DataTypes.STRING,
+        telefone: DataTypes.STRING,
+        tipo: DataTypes.STRING,
+        contato: DataTypes.STRING,
+            
       },
       { sequelize }
     );

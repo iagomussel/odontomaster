@@ -53,7 +53,7 @@
                 </div>
               </div>
               <div class="row">
-                <div class="input-field col s4">
+                <div class="input-field col s6">
                   <label class="active" for="data_nasc">Data de Nascimento</label>
 
                   <input
@@ -66,7 +66,7 @@
                   />
                 </div>
 
-                <div class="input-field col s4">
+                <div class="input-field col s6">
                   <label class="active" for="email">Email</label>
                   <input
                     type="text"
@@ -76,23 +76,35 @@
                     placeholder="exemplo@gmail.com"
                   />
                 </div>
-                <div class="col s4">
-                  <label class="active" for="dentista">Dentista</label>
-                  <hi-select-ajax
-                    v-model="formulario.dentistaId"
-                    url="dentistas"
-                    TextField="nome"
-                  />
+
+              </div>
+              <div class="row">
+                  <div class="col s12">
+                       <hi-field-list
+                  v-model="formulario.professionals"
+                  :fields="[
+                    {
+                      name: 'professional',
+                      label: 'Nome',
+                      type: 'hi-select-ajax',
+                      url: 'dentistas',
+                      TextField: 'nome',
+                      exposed: true
+                    },
+                  ]"
+                  title="Dentistas"
+                />
                   </div>
               </div>
               <div class="row">
-                  <div class="col s12">                  <hi-field-list
-                    v-model="formulario.convenios"
+                <div class="col s12">
+                  <hi-field-list
+                    v-model="formulario.plans"
                     title="Convenios"
                     :fields="[
                       {
                         type: 'hi-select-ajax',
-                        name: 'convenioId',
+                        name: 'agreement',
                         label: 'Convenio',
                         url: 'convenios',
                         TextField: 'nome',
@@ -109,10 +121,9 @@
                         options: ['Sim', 'Não'],
                       },
                     ]"
-                  /></div>
+                  />
+                </div>
               </div>
-
-
             </div>
             <div class="col s3">
               <hi-image-picker v-model="formulario.imagem" />
@@ -138,14 +149,14 @@
                   class="form-control cep"
                   placeholder="Cep"
                   v-on:keyup="getCep"
-                  v-model="formulario.enderecos[0].cep"
+                  v-model="formulario.addresses[0].cep"
                 />
               </div>
 
               <div class="col s6">
                 <label class="active" for="rua">Rua</label>
                 <input
-                  v-model="formulario.enderecos[0].logradouro"
+                  v-model="formulario.addresses[0].logradouro"
                   type="text"
                   id="rua"
                   name="logradouro"
@@ -157,7 +168,7 @@
               <div class="col s2">
                 <label class="active" for="numero">Número</label>
                 <input
-                  v-model="formulario.enderecos[0].numero"
+                  v-model="formulario.addresses[0].numero"
                   type="text"
                   id="numero"
                   name="numero"
@@ -169,7 +180,7 @@
               <div class="col s2">
                 <label class="active" for="complemento">Complemento</label>
                 <input
-                  v-model="formulario.enderecos[0].complemento"
+                  v-model="formulario.addresses[0].complemento"
                   type="text"
                   id="complemento"
                   name="complemento"
@@ -183,7 +194,7 @@
               <div class="col s5">
                 <label class="active" for="bairro">Bairro</label>
                 <input
-                  v-model="formulario.enderecos[0].bairro"
+                  v-model="formulario.addresses[0].bairro"
                   type="text"
                   id="bairro"
                   name="bairro"
@@ -195,7 +206,7 @@
               <div class="col s5">
                 <label class="active" for="cidade">Cidade</label>
                 <input
-                  v-model="formulario.enderecos[0].cidade"
+                  v-model="formulario.addresses[0].cidade"
                   type="text"
                   id="cidade"
                   name="cidade"
@@ -207,7 +218,7 @@
               <div class="col s2">
                 <label class="active" for="uf">Estado</label>
                 <hi-select
-                  v-model="formulario.enderecos[0].uf"
+                  v-model="formulario.addresses[0].uf"
                   :options="[
                     'AC',
                     'AL',
@@ -247,13 +258,13 @@
 
         <!-- FieldList Telefones-->
         <hi-field-list
-          v-model="formulario.telefones"
+          v-model="formulario.phones"
           title="Telefones"
           :fields="[
             {
               type: 'text',
               name: 'telefone',
-              mask: '(##)#####-####',
+              mask: '\'(##)#####-####\'',
               placeholder: '',
               label: 'Telefone',
             },
@@ -263,15 +274,13 @@
               label: 'Tipo',
               placeholder: 'Tipo',
               label: 'Tipo',
-            options: ['Celular', 'Fixo', 'Trabalho'],
+              options: ['Celular', 'Fixo', 'Trabalho'],
             },
             {
-                type:'text',
-                name:'contato',
-                label:'Contato',
-                
-            }
-
+              type: 'text',
+              name: 'contato',
+              label: 'Contato',
+            },
           ]"
         />
 
@@ -281,7 +290,7 @@
           :fields="[
             {
               type: 'text',
-              name: 'Obs',
+              name: 'obs',
               mask: '',
               placeholder: '',
               label: 'Observações',
@@ -300,24 +309,19 @@
 import webClient from "@/client_axios";
 import { mask } from "vue-the-mask";
 import axios from "axios";
-import HiSelectAjax from "../../components/SelectAjax.vue";
 import HiSelect from "../../components/Select.vue";
 import HiImagePicker from "../../components/ImagePicker.vue";
 import HiFieldList from "../../components/FieldList.vue";
 export default {
   mounted() {
     //get dentistas
-    webClient.get("/dentistas").then((res) => {
-      if (res.data.docs.lenght > 0) this.dentistas = res.data.data;
-      else this.dentistas = [{ nome: "nenhum dentista cadastrado" }];
-    });
     let id = this.$route.params.id;
     if (id) {
       webClient
         .get("/paciente/" + id)
         .then((res) => {
-          console.log(this.formulario);
           this.formulario = { ...this.formulario, ...res.data };
+          this.formulario.professionals = this.formulario.professionals.map(p=>{return {"professional":p}})
         })
         .catch((e) => {
           console.log(e);
@@ -339,17 +343,17 @@ export default {
       });
     },
     getCep() {
-      this.formulario.enderecos[0].cep = this.formulario.enderecos[0].cep.replace(
+      this.formulario.addresses[0].cep = this.formulario.addresses[0].cep.replace(
         /[^0-9]/g,
         ""
       );
-      let cep = this.formulario.enderecos[0].cep.replace(/[^0-9]/g, "");
+      let cep = this.formulario.addresses[0].cep.replace(/[^0-9]/g, "");
       if (cep.length >= 8) {
         axios.get("https://viacep.com.br/ws/" + cep + "/json").then((res) => {
           if (!res.data.error) {
             const { logradouro, bairro, localidade, uf, cep } = res.data;
-            this.formulario.enderecos[0] = {
-              ...this.formulario.enderecos[0],
+            this.formulario.addresses[0] = {
+              ...this.formulario.addresses[0],
               logradouro,
               bairro,
               cidade: localidade,
@@ -364,8 +368,6 @@ export default {
   },
   data() {
     return {
-      dentistas: [],
-      convenios: [],
       formulario: {
         id: 0,
         ficha: null,
@@ -374,11 +376,11 @@ export default {
         email: null,
         imagem: null,
         sexo: "M",
-        convenios: [],
-        dentistaId: null,
-        enderecos: [
+        professionals: [],
+        plans: [],
+        addresses: [
           {
-            cep: "25922456",
+            cep: "",
             logradouro: null,
             numero: null,
             complemento: null,
@@ -387,7 +389,7 @@ export default {
             uf: "RJ",
           },
         ],
-        telefones: [],
+        phones: [],
         obs: [],
       },
     };
@@ -395,7 +397,6 @@ export default {
   name: "PacienteNovo",
   directives: { mask },
   components: {
-    "hi-select-ajax": HiSelectAjax,
     "hi-select": HiSelect,
     "hi-image-picker": HiImagePicker,
     "hi-field-list": HiFieldList,
