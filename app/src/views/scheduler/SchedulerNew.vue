@@ -57,15 +57,12 @@
       </div>
       <div v-if="!formulario.encaixe_id && formulario.professional" class="input-field">
         <label class="active">Data</label>
-        <input
-          v-mask="'##/##/####'"
-          v-model="formulario.data"
-          placeholder="Data"
-          type="text"
-          required="required"
-        />
+        <hi-select @select="onDateSelected" v-model="formulario.data" :options="datas" />
       </div>
-      <div class="input-field" v-if="!formulario.encaixe_id && formulario.professional">
+      <div
+        class="input-field"
+        v-if="!formulario.encaixe_id && formulario.professional && formulario.data"
+      >
         <label class="active">Horario</label>
         <hi-select v-model="formulario.horario" :options="horarios" />
       </div>
@@ -80,6 +77,7 @@
 import webClient from "../../client_axios.js";
 import HiFieldList from "../../components/FieldList.vue";
 import HiSelectAjax from "../../components/SelectAjax.vue";
+import HiSelect from "../../components/Select.vue";
 import { mask } from "vue-the-mask";
 const moment = require("moment");
 export default {
@@ -87,7 +85,8 @@ export default {
     return {
       dataImages: [],
       isNewPaciente: false,
-      horarios: [],
+      horarios: ["00:00"],
+      datas: ["00/00/0000"],
       formulario: {
         id: null,
         encaixe_id: null,
@@ -112,23 +111,63 @@ export default {
       });
     },
     onProfessionalSelected(professional) {
-      console.log(professional);
-      webClient.post("/consultas/horarios/" + professional.id ).then((res) => {
-        if (res.data) {
-            this.horarios = res.data;
-
-            if (this.formulario.horario == null &&this.horarios.length > 0) {
-              this.formulario.horario = this.horarios[0];
-            } else {
-                // check if the selected horario is in the list
-                if (this.horarios.filter(h => h == this.formulario.horario).length == 0) {
-                    this.formulario.horario = this.horarios[0];
-                }
-            }
-        } else {
-          this.horarios = [];
+        this.loadDates(professional);
+    },
+    onDateSelected(date){
+        if (this.formulario.professional) {
+            this.loadTimes(this.formulario.professional,date);
         }
-      });
+
+    },
+    loadTimes(professional,_date) {
+      if (professional && _date) {
+        let date = moment(_date, "DD/MM/YYYY");
+        webClient
+          .post(
+            "/consultas/horarios/" +
+              professional.id +
+              "/" +
+              date.format("DDMMYYYY")
+          )
+          .then((res) => {
+            if (res.data) {
+              this.horarios = res.data;
+              if (this.formulario.horario == null && this.horarios.length > 0) {
+                this.formulario.horario = this.horarios[0];
+              } else {
+                // check if the selected horario is in the list
+                if (
+                  this.horarios.filter((h) => h == this.formulario.horario).length == 0
+                ) {
+                  this.formulario.horario = this.horarios[0];
+                }
+              }
+            } else {
+              this.horarios = [];
+            }
+          });
+      }
+    },
+    loadDates(professional) {
+      if (professional) {
+        webClient
+          .post("/consultas/datas/" + professional.id)
+          .then((res) => {
+            if (res.data) {
+              this.datas = res.data;
+              // check if the selected date is in the list
+              if (this.formulario.data == null && this.datas.length > 0) {
+                this.formulario.data = this.datas[0];
+              } else {
+                if (this.datas.filter((h) => h == this.formulario.data).length == 0) {
+                  this.formulario.data = this.datas[0];
+                }
+              }
+            } else {
+              this.datas = [];
+            }
+          });
+      }
     },
     onPacienteNew(e) {
       if (e.id) {
@@ -144,8 +183,8 @@ export default {
   },
   components: {
     "hi-select-ajax": HiSelectAjax,
-
     "hi-field-list": HiFieldList,
+    "hi-select": HiSelect,
   },
   directives: { mask },
 };

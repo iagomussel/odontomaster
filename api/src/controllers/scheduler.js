@@ -104,17 +104,23 @@ const SchedolerController = {
 
     async availableDates(req, res) {
         const { id } = req.params;
-
         //generate list of dates from today to 20 days except weekends
         let dates = [];
         // get professional available days
         let availableDays = await Professional.findByPk(id, {
             attributes: ['available_days']
         })
-        for (let i = 0; i < 20; i++) {
+
+        for (let i = 0; i < 60; i++) {
             let date = moment().add(i, 'days').format('DD/MM/YYYY');
-            let day = moment().add(i, 'days').format('dddd');
+            let day = moment().add(i, 'days').format('d');
+            console.log(day)
+            if (availableDays.available_days == null || availableDays.available_days[day] != undefined){
+                dates.push(date)
+            }
         }
+
+        return res.json(dates)
     }
 };
 module.exports = SchedolerController;

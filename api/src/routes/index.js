@@ -110,7 +110,9 @@ router.post("/consulta/:id", authenticateToken, SchedulerController.store);
 router.get("/consultas/unschedule/:id", authenticateToken, SchedulerController.unschedule);
 
 //get horarios available for a professional [id = professional_id]
-router.get("/consultas/horarios/:id", authenticateToken, SchedulerController.availableTimes);
+router.get("/consultas/horarios/:id/:date", authenticateToken, SchedulerController.availableTimes);
+//get dates available for a professional [id = professional_id]
+router.get("/consultas/datas/:id", authenticateToken, SchedulerController.availableDates);
 
 
 //uploads
