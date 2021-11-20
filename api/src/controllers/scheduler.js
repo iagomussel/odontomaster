@@ -38,23 +38,23 @@ const SchedolerController = {
     async store(req, res) {
         const {
             id,
-            paciente,
-            dentista,
-            procedimento,
+            patient,
+            professional,
+            procedure,
             data,
             horario,
             encaixe_id,
 
         } = req.body
-        const procedimentoM = await Procedure.findByPk(procedimento)
-        const pacienteM = await Patient.findByPk(paciente)
-        var dentistaM = await Professional.findByPk(dentista)
+
+        let pacienteM = await Patient.findByPk(patient.id)
+        let procedimentoM = await Procedure.findByPk(procedure.id)
+        let dentistaM = await Professional.findByPk(professional.id)
         consulta_generate = {};
         consulta_generate.horario = moment(data + "-" + horario, "DD/MM/YYYY-h:mm").toISOString()
         consulta_generate.horario_termino = moment(data + "-" + horario, "DD/MM/YYYY-h:mm").add(30, "minutes").toISOString()
         consulta_generate.encaixe_id = encaixe_id
 
-        // return res.json(consulta_generate)
 
         const [consulta, consultaCreated] = await Consultation.findOrCreate({
             where: { id },
@@ -71,9 +71,11 @@ const SchedolerController = {
                 consultaEncaixe.save();
             }
         }
-        await consulta.setPatient(pacienteM)
-        await consulta.setProfessional(dentistaM)
-        await consulta.setProcedure(procedimentoM)
+        await Promise.all([
+            consulta.setPatient(pacienteM),
+            consulta.setProfessional(dentistaM),
+            consulta.setProcedure(procedimentoM)
+        ])
 
         res.json(consulta);
     },
@@ -100,6 +102,45 @@ const SchedolerController = {
 
     async availableTimes(req, res) {
         const { id, date } = req.params;
+        let dateObj = moment(date, "DDMMYYYY");
+        let availableTimes = [];
+        //get all consultations for the day
+        let consultas = await Consultation.findAll({
+            where: {
+                professional_id: id,
+                horario: {
+                    [Op.between]: [dateObj.startOf("Day").format(), dateObj.endOf("Day").format()]
+                }
+            }
+        })
+
+        //get professional available Days
+        let days = await Professional.findOne({
+            attributes: ['availableDays'],
+            where: { id },
+        })
+
+        let open = days.availableDays[dateObj.format("d")].open
+        let close = days.availableDays[dateObj.format("d")].close
+
+        // count minutes beetween to times
+        let countMinutes = (time1, time2) => {
+            let time1_moment = moment(time1, "HH:mm");
+            let time2_moment = moment(time2, "HH:mm");
+            return time2_moment.diff(time1_moment, "minutes");
+        }
+
+        for(let i=0; i<countMinutes(open,close); i+=30){
+            let time = moment(open, "HH:mm").add(i, "minutes").format("HH:mm")
+            //if not in consultas
+            if(!consultas.find(consulta => consulta.horario == dateObj.format("DD/MM/YYYY")+"-"+time)){
+                availableTimes.push(time)
+            }
+
+        }
+        return res.json(availableTimes)
+
+
     },
 
     async availableDates(req, res) {
@@ -108,18 +149,15 @@ const SchedolerController = {
         let dates = [];
         // get professional available days
         let availableDays = await Professional.findByPk(id, {
-            attributes: ['available_days']
+            attributes: ['availableDays']
         })
-
         for (let i = 0; i < 60; i++) {
             let date = moment().add(i, 'days').format('DD/MM/YYYY');
             let day = moment().add(i, 'days').format('d');
-            console.log(day)
-            if (availableDays.available_days == null || availableDays.available_days[day] != undefined){
+            if (availableDays.availableDays == null || availableDays.availableDays[day] != undefined){
                 dates.push(date)
             }
         }
-
         return res.json(dates)
     }
 };

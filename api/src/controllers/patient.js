@@ -105,7 +105,7 @@ module.exports = {
                     const professional = await Professional.create({
                         nome: name,
                         image: Constants.IMAGE_DEFAULT,
-
+                        availableDays: Constants.AVAILABLE_DAYS
                     });
                     professional.setUser(user);
                     createdProfessionals.push(professional);
@@ -134,7 +134,7 @@ module.exports = {
                 })
             }
 
-            
+
 
             createdAgreements.push(CreatedConvenio)
             forCreatePlans.push({

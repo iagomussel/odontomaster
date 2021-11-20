@@ -1,4 +1,5 @@
 const { Model, DataTypes } = require("sequelize");
+const Constants = require("../utils/Constants");
 
 
 class Professional extends Model {
@@ -17,29 +18,7 @@ class Professional extends Model {
             set: function(value) {
                 this.setDataValue('availableDays', JSON.stringify(value));
             },
-            /**from monday to friday 08:00 - 18:00 */
-            default: {
-                "1":{
-                    "open":"08:00",
-                    "close":"18:00"
-                },
-                "2":{
-                    "open":"08:00",
-                    "close":"18:00"
-                },
-                "3":{
-                    "open":"08:00",
-                    "close":"18:00"
-                },
-                "4":{
-                    "open":"08:00",
-                    "close":"18:00"
-                },
-                "5":{
-                    "open":"08:00",
-                    "close":"18:00"
-                }
-            }
+            default: Constants.AVAILABLE_DAYS
         }
       },
       { sequelize}

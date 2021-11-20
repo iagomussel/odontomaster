@@ -124,4 +124,6 @@ router.post("/report", GithubController.report);
 
 router.get("/dashboard", authenticateToken, DashboardController.index);
 
+router.get("/test/:id/:date", SchedulerController.availableTimes)
+
 module.exports = router;

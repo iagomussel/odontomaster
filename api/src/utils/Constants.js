@@ -10,6 +10,13 @@ module.exports = {
         user: "iagomussel",
         repo: "odontomaster",
         token: process.env.GITHUB_TOKEN
+    },
+    AVAILABLE_DAYS: {
+        1: { open: "08:00", close: "18:00" },
+        2: { open: "08:00", close: "18:00" },
+        3: { open: "08:00", close: "18:00" },
+        4: { open: "08:00", close: "18:00" },
+        5: { open: "08:00", close: "18:00" },
     }
 
 }

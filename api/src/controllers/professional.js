@@ -5,7 +5,8 @@ const {
 
 const WhereLike = require("../utils/whereLike");
 const passwordHash = require("password-hash");
-const Constants = require("../utils/Constants")
+const Constants = require("../utils/Constants");
+const { availableDates } = require("./scheduler");
 
 module.exports = {
     async index(req, res) {
@@ -26,13 +27,14 @@ module.exports = {
         res.json(dentista);
     },
     async store(req, res) {
-        let { id, nome, imagem } = req.body;
+        let { id, nome, imagem, availableDays } = req.body;
         if (imagem == "" || imagem == null) imagem = Constants.IMAGE_DEFAULT
+        if (availableDays == "" || availableDays == null) availableDays = Constants.AVAILABLE_DAYS
         let user;
         let [dentista, dentistaCreated] = await Professional.findOrCreate(
             {
                 where: { id: (id ? id : null) },
-                defaults: { nome, imagem }
+                defaults: { nome, imagem, availableDays }
             });
 
         if (dentistaCreated) {
@@ -59,6 +61,7 @@ module.exports = {
 
             dentista.nome = nome;
             dentista.imagem = imagem;
+            dentista.availableDays = availableDays
             dentista.save();
         }
         dentista.setUser(user);

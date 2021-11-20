@@ -4,7 +4,7 @@
       <div class="input-field">
         <label class="active">Paciente</label>
         <hi-select-ajax
-          v-model="formulario.paciente"
+          v-model="formulario.patient"
           url="pacientes"
           TextField="nome"
           @change="onPacienteNew"
@@ -91,8 +91,8 @@ export default {
         id: null,
         encaixe_id: null,
         professional: null,
-        procedimento: null,
-        paciente: {},
+        procedure: null,
+        patient: null,
         data: "",
         horario: "",
       },
@@ -114,6 +114,7 @@ export default {
         this.loadDates(professional);
     },
     onDateSelected(date){
+        console.log(date)
         if (this.formulario.professional) {
             this.loadTimes(this.formulario.professional,date);
         }
@@ -123,7 +124,7 @@ export default {
       if (professional && _date) {
         let date = moment(_date, "DD/MM/YYYY");
         webClient
-          .post(
+          .get(
             "/consultas/horarios/" +
               professional.id +
               "/" +
@@ -151,7 +152,7 @@ export default {
     loadDates(professional) {
       if (professional) {
         webClient
-          .post("/consultas/datas/" + professional.id)
+          .get("/consultas/datas/" + professional.id)
           .then((res) => {
             if (res.data) {
               this.datas = res.data;
