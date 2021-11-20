@@ -1,5 +1,6 @@
 
 const moment = require('moment')
+const Constants = require('../utils/Constants')
 const {
     Professional,
     Consultation,
@@ -44,11 +45,28 @@ const SchedolerController = {
             data,
             horario,
             encaixe_id,
+            phones
 
         } = req.body
 
-        let pacienteM = await Patient.findByPk(patient.id)
-        let procedimentoM = await Procedure.findByPk(procedure.id)
+        let pacienteM = null
+        if (patient.id){
+            pacienteM = await Patient.findByPk(patient.id)
+        } else {
+            pacienteM = await Patient.create({
+                nome: patient,
+                 image: Constants.IMAGE_DEFAULT
+                })
+        }
+
+        let procedimentoM = null
+        if(procedure.id){
+            procedimentoM = await Procedure.findByPk(procedure.id)
+        } else {
+            procedimentoM = await Procedure.create({
+                nome: procedure
+            })
+        }
         let dentistaM = await Professional.findByPk(professional.id)
         consulta_generate = {};
         consulta_generate.horario = moment(data + "-" + horario, "DD/MM/YYYY-h:mm").toISOString()
@@ -71,6 +89,17 @@ const SchedolerController = {
                 consultaEncaixe.save();
             }
         }
+        if (phones) {
+            phones.forEach(async phone => {
+                let PhoneObj = await Phone.create({
+                    numero: phone.numero,
+                    tipo: phone.tipo,
+                    contato: phone.contato
+                })
+                await pacienteM.addPhone(PhoneObj)
+            })
+        }
+
         await Promise.all([
             consulta.setPatient(pacienteM),
             consulta.setProfessional(dentistaM),
@@ -95,7 +124,7 @@ const SchedolerController = {
         if (await consulta.destroy()) {
             return res.json({ "status": "ok" })
         }
-        return res.json({ "status": "someting wrong" })
+        return res.json({ "status": "something wrong" })
 
 
     },

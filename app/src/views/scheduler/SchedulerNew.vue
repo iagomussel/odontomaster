@@ -82,11 +82,11 @@ import { mask } from "vue-the-mask";
 const moment = require("moment");
 export default {
   data() {
-    return {
+    let dados = {
       dataImages: [],
       isNewPaciente: false,
-      horarios: ["00:00"],
-      datas: ["00/00/0000"],
+      horarios: [],
+      datas: [],
       formulario: {
         id: null,
         encaixe_id: null,
@@ -95,8 +95,17 @@ export default {
         patient: null,
         data: "",
         horario: "",
-      },
-    };
+      }}
+    let params = this.$route.query
+    if( params.horario ) dados.formulario.horario = params.horario
+    if( params.data ) dados.formulario.data = params.data
+    if( params.dentista ) {
+        webClient.get(`dentista/${params.dentista}`).then(response => {
+            dados.formulario.professional = response.data
+        })
+    }
+    return dados;
+
   },
   methods: {
     onSubmit() {
@@ -163,7 +172,10 @@ export default {
                 if (this.datas.filter((h) => h == this.formulario.data).length == 0) {
                   this.formulario.data = this.datas[0];
                 }
+
               }
+
+              this.loadTimes(professional,this.formulario.data);
             } else {
               this.datas = [];
             }
