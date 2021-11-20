@@ -19,7 +19,7 @@ const SchedolerController = {
                 {
                     model: Consultation,
                     required: false,
-                    as: "consulta",
+                    as: "consultation",
                     nested: true,
                     where: {
                         horario: {
@@ -96,6 +96,25 @@ const SchedolerController = {
         return res.json({ "status": "someting wrong" })
 
 
+    },
+
+    async availableTimes(req, res) {
+        const { id, date } = req.params;
+    },
+
+    async availableDates(req, res) {
+        const { id } = req.params;
+
+        //generate list of dates from today to 20 days except weekends
+        let dates = [];
+        // get professional available days
+        let availableDays = await Professional.findByPk(id, {
+            attributes: ['available_days']
+        })
+        for (let i = 0; i < 20; i++) {
+            let date = moment().add(i, 'days').format('DD/MM/YYYY');
+            let day = moment().add(i, 'days').format('dddd');
+        }
     }
 };
 module.exports = SchedolerController;

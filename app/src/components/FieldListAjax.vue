@@ -114,7 +114,7 @@ export default {
   data() {
     return {
       ShowModalAdd: false,
-      ShowCollapsible: true,
+      ShowCollapsible: false,
       form: {},
     };
   },

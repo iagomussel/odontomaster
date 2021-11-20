@@ -109,6 +109,10 @@ router.post("/consulta/:id", authenticateToken, SchedulerController.store);
 //cancel
 router.get("/consultas/unschedule/:id", authenticateToken, SchedulerController.unschedule);
 
+//get horarios available for a professional [id = professional_id]
+router.get("/consultas/horarios/:id", authenticateToken, SchedulerController.availableTimes);
+
+
 //uploads
 router.post("/upload", authenticateToken, FilesController.upload);
 router.get("/upload/:id", FilesController.find);
