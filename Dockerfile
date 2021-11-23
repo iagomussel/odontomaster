@@ -13,16 +13,18 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y nodejs git yarn
 RUN yarn global add pm2 sequelize-cli
 
 COPY ./start.sh /tmp/start.sh
+RUN chmod +x /tmp/start.sh
+
 COPY app/package.json app/
 COPY api/package.json api/
 
-RUN yarn --cwd app &&\
-    yarn --cwd api &&\
-    yarn --cwd app build
+RUN cd app && yarn
+RUN cd api && yarn
 
 COPY ./app ./app
 COPY ./api ./api
 
-RUN chmod +x /tmp/start.sh
+RUN cd app && yarn build
+
 
 CMD ["/tmp/start.sh"]

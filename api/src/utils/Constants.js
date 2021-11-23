@@ -1,5 +1,5 @@
 const IMAGE_DEFAULT = "/default.jpeg";
-const JWT_KEY = process.env.JWT_KEY;
+const JWT_KEY = process.env.JWT_KEY | "secret";
 const PASSWORD_DEFAULT = process.env.PASSWORD_DEFAULT | "1234";
 
 module.exports = {
