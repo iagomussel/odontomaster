@@ -26,14 +26,24 @@ jobs:
         name: DockerCheckout
         uses: actions/checkout@v2
 
-      -
-        name: create env files for app
-        run: |
-            printf "\nVUE_APP_BUILD=%s\n" ${GITHUB_RUN_ID} >> app/.env-production
-            printf "VUE_APP_BASE_API=/api/\n" >> app/.env-production
-            printf "JWT_KEY=%s\n" "${{ secrets.JWT_SECRET }}" >> api/.env
-            printf "DEFAULT_PASSWORD=123123\n" >> api/.env
-            printf "GITHUB_TOKEN=%s\n" "${{ secrets.TOKEN }}" >> api/.env
+      - name: Create .env.production
+        uses: weyheyhey/create-dotenv-action@v1
+        with:
+          wildecard: "^"
+          filename: "app/.env-production"
+        env:
+          ^VUE_APP_BUILD: ${GITHUB_RUN_ID}
+          ^VUE_APP_BASE_API: /api/
+      - name: Create .env for api
+        uses: weyheyhey/create-dotenv-action@v1
+        with:
+          wildecard: "^"
+          filename: "api/.env"
+        env:
+          ^JWT_KEY: ${{ secrets.JWT_SECRET }}
+          ^DEFAULT_PASSWORD: 123
+          ^GITHUB_TOKEN: ${{ secrets.TOKEN }}
+
 
       -
         name: Build and push
