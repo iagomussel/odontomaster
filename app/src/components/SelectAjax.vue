@@ -10,7 +10,11 @@
       v-model="inputVal"
       :options="GetOption"
       ref="multiselect"
+      addTagOn='tab'
       @tag="tag"
+      @select="select_event"
+      noOptionsText="Nenhum resultado encontrado"
+      noResultText="Nenhum resultado encontrado"
     >
     </multiselect>
   </div>
@@ -29,7 +33,7 @@ export default {
     },
     TextField: {
       type: String,
-      default: "name",
+      default: "nome",
     },
   },
   computed: {
@@ -44,15 +48,27 @@ export default {
   },
   methods: {
     async GetOption(query) {
-      let option = await webClient.get(this.url + (query ? "/1/" + query : ""));
-      let filtred_option = option.data.docs.map((v) => {
-        return { value: v[this.ValueField], label: v[this.TextField] };
+      let options = await webClient.get(this.url + (query ? "/1/" + query : ""));
+      let filtred_option = options.data.docs.map((v) => {
+        return {
+          value: v,
+          label: v[this.TextField],
+        };
+
       });
+
       return filtred_option;
     },
-    tag(e) {
-      console.log("teste " + e);
+    select_event(option) {
+      this.$emit("select", option);
     },
+    select(option){
+        
+        this.$refs.multiselect.refreshOptions(()=>{
+                this.$refs.multiselect.select({value:option, label:option[this.TextField]});
+         })
+
+    }
   },
   components: {
     Multiselect,

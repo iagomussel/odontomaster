@@ -7,6 +7,9 @@ import router from './router'
 import MaskedInput from 'vue-text-mask'
 import "materialize-css/dist/css/materialize.min.css"
 
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
+
 JWT.checkToken()
 
     .then(()=>{
@@ -14,8 +17,9 @@ JWT.checkToken()
         createApp(App)
         .use(router)
         .use(MaskedInput)
+        .component("font-awesome-icon", FontAwesomeIcon)
         .mount('#app');
-         
+
     })
     .catch(()=>{
         createApp(Login)

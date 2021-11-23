@@ -69,7 +69,7 @@
               class="events-container-overlay evento"
               :class="evento.encaixe ? 'hasEncaixe' : evento.encaixe_id ? 'encaixe' : ''"
               v-on:dblclick="ver_agendamento(evento)"
-              v-for="evento in section.consulta"
+              v-for="evento in section.consultation"
               v-bind:key="evento.id"
               v-bind:style="{
                 top: position_horario(evento.horario) + '%',
@@ -80,28 +80,28 @@
                 <div class="d-flex justify-content-between align-items-center pl-2">
                   <small class="paciente_nome">
                     {{
-                      evento.paciente != null && evento.paciente
-                        ? evento.paciente.nome
-                        : evento.paciente
+                      evento.patient != null && evento.patient
+                        ? evento.patient.nome
+                        : evento.patient
                     }}</small
                   >
                   <div class="complete_event_description">
                     {{
-                      evento.paciente != null && evento.paciente
-                        ? "Paciente: " + evento.paciente.nome
-                        : evento.paciente
+                      evento.patient != null && evento.patient
+                        ? "Paciente: " + evento.patient.nome
+                        : evento.patient
                     }}<br />
                     {{
-                      evento.paciente != null &&
-                      evento.paciente.telefones.length > 0 &&
-                      evento.paciente.telefones[0].telefone != null
-                        ? "Telefone: " + evento.paciente.telefones[0].telefone
+                      evento.patient != null &&
+                      evento.patient.phones.length > 0 &&
+                      evento.patient.phones[0].telefone != null
+                        ? "Telefone: " + evento.patient.phones[0].telefone
                         : "Sem telefone cadastrado"
                     }}<br />
                     {{
-                      evento.procedimento != null && evento.procedimento
-                        ? "Procedimento: " + evento.procedimento.nome
-                        : evento.procedimento
+                      evento.procedure != null && evento.procedure
+                        ? "Procedimento: " + evento.procedure.nome
+                        : evento.procedure
                     }}<br />
                     <a
                       href="#"
@@ -298,6 +298,7 @@ export default {
     },
   },
   directives: { mask },
+
 };
 </script>
 

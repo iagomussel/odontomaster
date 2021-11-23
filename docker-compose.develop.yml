@@ -1,14 +1,14 @@
 version: '3'
 services:
-    watchtower:
-      image: containrrr/watchtower
-      volumes:
-        - '/var/run/docker.sock:/var/run/docker.sock'
-      command: --interval 30 --cleanup --debug --trace --include-restarting himmussel/odontomaster
-      restart: always
+    # watchtower:
+    #   image: containrrr/watchtower
+    #   volumes:
+    #     - '/var/run/docker.sock:/var/run/docker.sock'
+    #   command: --interval 30 --cleanup --debug --trace --include-restarting himmussel/odontomaster
+    #   restart: always
     app:
       build: .
-      image: himmussel/odontomaster:latest
+      image: himmussel/odontomaster:development
       container_name: odontomaster
       restart: always
       networks:
@@ -24,6 +24,9 @@ services:
         JWT_SECRET: ${JWT_SECRET}
         DEFAULT_IMAGE: ${DEFAULT_IMAGE}
         GITHUB_TOKEN: ${GITHUB_TOKEN}
+
+
+
       ports:
         - 8100:80
       volumes:

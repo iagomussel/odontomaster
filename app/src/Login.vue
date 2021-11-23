@@ -77,7 +77,7 @@ export default {
               this.mensage.class = "error";
               this.mensage.text = "ocorreu um erro no servidor";
             }
-            console.log(error);
+            console.error(error)
           });
       } catch(err){
         this.mensage.class = "error";

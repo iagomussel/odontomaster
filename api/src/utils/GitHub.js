@@ -3,7 +3,6 @@ const Constants = require("./Constants")
 const { Octokit } = require("@octokit/rest")
 class GitHub {
     constructor() {
-        console.log("called GitHub")
         this.user = Constants.GitHub.user;
         this.repo = Constants.GitHub.repo;
         this.opts = {
@@ -13,7 +12,6 @@ class GitHub {
     }
 
     sendIssue(title, description) {
-        console.log("called sendIssue")
         const octokit = new Octokit({
             auth: this.opts.token,
         })
@@ -26,7 +24,6 @@ class GitHub {
     }
 
     getAllIssues() {
-        console.log("called getAllIssues")
         const octokit = new Octokit({
             auth: this.opts.token,
         })
