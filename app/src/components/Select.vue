@@ -7,6 +7,8 @@
       :createTag="true"
       :clearOnSearch="true"
       @select="select"
+      noOptionsText="Nenhum resultado encontrado"
+      noResultText="Nenhum resultado encontrado"
     >
       >
     </multiselect>

@@ -41,6 +41,8 @@
       <div class="input-field" v-if="!formulario.encaixe_id">
         <label class="active">Dentista</label>
         <hi-select-ajax
+
+            ref="professional"
           @select="onProfessionalSelected"
           v-model="formulario.professional"
           url="dentistas"
@@ -50,6 +52,7 @@
       <div class="input-field">
         <label class="active">Procedimento</label>
         <hi-select-ajax
+            ref="procedimento"
           v-model="formulario.procedure"
           url="procedimentos"
           TextField="nome"
@@ -81,6 +84,17 @@ import HiSelect from "../../components/Select.vue";
 import { mask } from "vue-the-mask";
 const moment = require("moment");
 export default {
+mounted(){
+     let params = this.$route.query
+    if( params.horario ) this.formulario.horario = params.horario
+    if( params.data ) this.formulario.data = params.data
+
+       if( params.dentista ) {
+        webClient.get(`dentista/${params.dentista}`).then(response => {
+            this.$refs.professional.select(response.data)
+        })
+    }
+},
   data() {
     let dados = {
       dataImages: [],
@@ -96,14 +110,7 @@ export default {
         data: "",
         horario: "",
       }}
-    let params = this.$route.query
-    if( params.horario ) dados.formulario.horario = params.horario
-    if( params.data ) dados.formulario.data = params.data
-    if( params.dentista ) {
-        webClient.get(`dentista/${params.dentista}`).then(response => {
-            dados.formulario.professional = response.data
-        })
-    }
+
     return dados;
 
   },

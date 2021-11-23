@@ -49,18 +49,24 @@ const SchedolerController = {
 
         } = req.body
 
+        //check parameters null
+        if (!patient || !professional || !data || !horario) {
+            return res.status(400).json({ error: "Missing parameters" })
+        }
+
         let pacienteM = null
-        if (patient.id){
+
+        if (patient.id) {
             pacienteM = await Patient.findByPk(patient.id)
         } else {
             pacienteM = await Patient.create({
                 nome: patient,
-                 image: Constants.IMAGE_DEFAULT
-                })
+                image: Constants.IMAGE_DEFAULT
+            })
         }
 
         let procedimentoM = null
-        if(procedure.id){
+        if (procedure.id) {
             procedimentoM = await Procedure.findByPk(procedure.id)
         } else {
             procedimentoM = await Procedure.create({
@@ -159,10 +165,10 @@ const SchedolerController = {
             return time2_moment.diff(time1_moment, "minutes");
         }
 
-        for(let i=0; i<countMinutes(open,close); i+=30){
+        for (let i = 0; i < countMinutes(open, close); i += 30) {
             let time = moment(open, "HH:mm").add(i, "minutes").format("HH:mm")
             //if not in consultas
-            if(!consultas.find(consulta => consulta.horario == dateObj.format("DD/MM/YYYY")+"-"+time)){
+            if (!consultas.find(consulta => consulta.horario == dateObj.format("DD/MM/YYYY") + "-" + time)) {
                 availableTimes.push(time)
             }
 
@@ -183,7 +189,7 @@ const SchedolerController = {
         for (let i = 0; i < 60; i++) {
             let date = moment().add(i, 'days').format('DD/MM/YYYY');
             let day = moment().add(i, 'days').format('d');
-            if (availableDays.availableDays == null || availableDays.availableDays[day] != undefined){
+            if (availableDays.availableDays == null || availableDays.availableDays[day] != undefined) {
                 dates.push(date)
             }
         }
