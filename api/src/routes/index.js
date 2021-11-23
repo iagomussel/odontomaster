@@ -26,7 +26,6 @@ router.post("/register", UserController.register);
 router.get("/refreshtoken", authenticateToken, UserController.refreshtoken);
 
 //pacientes
-<<<<<<< HEAD
 router.get("/pacientes/:page/:search", authenticateToken, PatientController.index);
 router.get("/pacientes/:page", authenticateToken, PatientController.index);
 router.get("/pacientes", authenticateToken, PatientController.index);
@@ -35,16 +34,7 @@ router.get("/paciente/:id", authenticateToken, PatientController.find);
 router.post("/pacientes", authenticateToken, PatientController.store);
 router.post("/pacientes/import", authenticateToken, PatientController.import);
 router.post("/paciente/:id", authenticateToken, PatientController.store);
-=======
-router.get("/pacientes/:page/:search", authenticateToken, PacienteController.index);
-router.get("/pacientes/:page", authenticateToken, PacienteController.index);
-router.get("/pacientes", authenticateToken, PacienteController.index);
-router.get("/paciente/ficha", authenticateToken, PacienteController.ficha);
-router.get("/paciente/:id", authenticateToken, PacienteController.find);
-router.post("/pacientes", authenticateToken, PacienteController.store);
 
-router.post("/paciente/:id", authenticateToken, PacienteController.store);
->>>>>>> main
 
 //dentistas
 router.get(
