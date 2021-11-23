@@ -1,0 +1,9 @@
+{
+  "name": "odontomaster",
+  "version": "1.0.0",
+  "description": "a software to manage odonto clinical",
+  "main": "index.js",
+  "repository": "https://github.com/iagomussel/odontomaster.git",
+  "author": "iagomussel <him_mussel@live.com>",
+  "license": "MIT"
+}
