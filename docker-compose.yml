@@ -21,9 +21,7 @@ services:
         DB_HOST: nodedb
         NODE_ENV: production
         DEFAULT_PASSWORD: ${DEFAULT_PASSWORD}
-        JWT_SECRET: ${JWT_SECRET}
         DEFAULT_IMAGE: ${DEFAULT_IMAGE}
-        GITHUB_TOKEN: ${GITHUB_TOKEN}
       ports:
         - 8100:80
       volumes:
