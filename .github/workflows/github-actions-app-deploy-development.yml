@@ -32,7 +32,7 @@ jobs:
           wildecard: "^"
           filename: "app/.env-production"
         env:
-          ^VUE_APP_BUILD: ${{GITHUB_RUN_ID}}
+          ^VUE_APP_BUILD: ${GITHUB_RUN_ID}
           ^VUE_APP_BASE_API: /api/
       - name: Create .env for api
         uses: weyheyhey/create-dotenv-action@v1
