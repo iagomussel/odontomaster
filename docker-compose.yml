@@ -7,7 +7,6 @@ services:
       command: --interval 30 --cleanup --debug --trace --include-restarting himmussel/odontomaster
       restart: always
     app:
-      build: .
       image: himmussel/odontomaster
       container_name: odontomaster
       restart: always
@@ -37,8 +36,6 @@ services:
             SERVICE_NAME: mysql
         networks:
           - backend
-        ports:
-          - 3306:3306
         volumes:
           - mysql:/var/lib/mysql
 networks:
