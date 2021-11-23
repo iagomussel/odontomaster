@@ -18,6 +18,10 @@ class Consultation extends Model {
                 observacao: DataTypes.STRING,
                 paciente_nome: DataTypes.STRING,
                 paciente_telefone: DataTypes.STRING,
+                status: {
+                    default: "active",
+                    type:DataTypes.STRING
+                },
             },
             { sequelize}
         )

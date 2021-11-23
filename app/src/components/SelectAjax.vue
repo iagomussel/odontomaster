@@ -11,6 +11,7 @@
       :options="GetOption"
       ref="multiselect"
       @tag="tag"
+      @select="select"
     >
     </multiselect>
   </div>
@@ -49,6 +50,9 @@ export default {
         return { value: v, label: v[this.TextField] };
       });
       return filtred_option;
+    },
+    select(option) {
+      this.$emit("select", option);
     },
 
   },

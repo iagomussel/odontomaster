@@ -69,7 +69,7 @@
               class="events-container-overlay evento"
               :class="evento.encaixe ? 'hasEncaixe' : evento.encaixe_id ? 'encaixe' : ''"
               v-on:dblclick="ver_agendamento(evento)"
-              v-for="evento in section.consulta"
+              v-for="evento in section.consultation"
               v-bind:key="evento.id"
               v-bind:style="{
                 top: position_horario(evento.horario) + '%',
@@ -298,6 +298,7 @@ export default {
     },
   },
   directives: { mask },
+
 };
 </script>
 

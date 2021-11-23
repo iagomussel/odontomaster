@@ -21,9 +21,7 @@
                   <td v-for="(field, field_ind) in fields" v-bind:key="field_ind">
                     <span>{{ field.TextField == undefined?
                         item[field.name]:
-                        (item[field.name][field.TextField]==undefined?
-                        item[field.name]:
-                        item[field.name][field.TextField]) }}</span>
+                        item[field.name][field.TextField] }}</span>
                   </td>
                   <td>
                     <div
@@ -116,7 +114,7 @@ export default {
   data() {
     return {
       ShowModalAdd: false,
-      ShowCollapsible: true,
+      ShowCollapsible: false,
       form: {},
     };
   },

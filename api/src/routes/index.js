@@ -9,7 +9,8 @@ const {
     GithubController,
     ProcedureController,
     FilesController,
-    AgreementController
+    AgreementController,
+    DashboardController
 
 }= require("../controllers");
 
@@ -108,11 +109,21 @@ router.post("/consulta/:id", authenticateToken, SchedulerController.store);
 //cancel
 router.get("/consultas/unschedule/:id", authenticateToken, SchedulerController.unschedule);
 
+//get horarios available for a professional [id = professional_id]
+router.get("/consultas/horarios/:id/:date", authenticateToken, SchedulerController.availableTimes);
+//get dates available for a professional [id = professional_id]
+router.get("/consultas/datas/:id", authenticateToken, SchedulerController.availableDates);
+
+
 //uploads
 router.post("/upload", authenticateToken, FilesController.upload);
 router.get("/upload/:id", FilesController.find);
 
 //github post issue
 router.post("/report", GithubController.report);
+
+router.get("/dashboard", authenticateToken, DashboardController.index);
+
+router.get("/test/:id/:date", SchedulerController.availableTimes)
 
 module.exports = router;
