@@ -134,7 +134,7 @@
 
         <!-- /.panel -->
 
-        <div class="panel panel-primary">
+        <div class="panel panel-primary" v-for="(address, key) in formulario.addresses" v-bind:key="key">
           <div class="panel-heading">
             <h4 class="panel-title">Endereço</h4>
           </div>
@@ -149,14 +149,14 @@
                   class="form-control cep"
                   placeholder="Cep"
                   v-on:keyup="getCep"
-                  v-model="formulario.addresses[0].cep"
+                  v-model="address.cep"
                 />
               </div>
 
               <div class="col s6">
                 <label class="active" for="rua">Rua</label>
                 <input
-                  v-model="formulario.addresses[0].logradouro"
+                  v-model="address.logradouro"
                   type="text"
                   id="rua"
                   name="logradouro"
@@ -168,7 +168,7 @@
               <div class="col s2">
                 <label class="active" for="numero">Número</label>
                 <input
-                  v-model="formulario.addresses[0].numero"
+                  v-model="address.numero"
                   type="text"
                   id="numero"
                   name="numero"
@@ -180,7 +180,7 @@
               <div class="col s2">
                 <label class="active" for="complemento">Complemento</label>
                 <input
-                  v-model="formulario.addresses[0].complemento"
+                  v-model="address.complemento"
                   type="text"
                   id="complemento"
                   name="complemento"
@@ -194,7 +194,7 @@
               <div class="col s5">
                 <label class="active" for="bairro">Bairro</label>
                 <input
-                  v-model="formulario.addresses[0].bairro"
+                  v-model="address.bairro"
                   type="text"
                   id="bairro"
                   name="bairro"
@@ -206,7 +206,7 @@
               <div class="col s5">
                 <label class="active" for="cidade">Cidade</label>
                 <input
-                  v-model="formulario.addresses[0].cidade"
+                  v-model="address.cidade"
                   type="text"
                   id="cidade"
                   name="cidade"
@@ -218,7 +218,7 @@
               <div class="col s2">
                 <label class="active" for="uf">Estado</label>
                 <hi-select
-                  v-model="formulario.addresses[0].uf"
+                  v-model="address.uf"
                   :options="[
                     'AC',
                     'AL',
@@ -320,8 +320,24 @@ export default {
       webClient
         .get("/paciente/" + id)
         .then((res) => {
+
           this.formulario = { ...this.formulario, ...res.data };
+          if(this.formulario.addresses.length == 0){
+            this.formulario.addresses.push({
+            cep: "",
+            logradouro: null,
+            numero: null,
+            complemento: null,
+            bairro: null,
+            cidade: null,
+            uf: "RJ",
+          });
+
+          }
+          // add key professional to professionals
           this.formulario.professionals = this.formulario.professionals.map(p=>{return {"professional":p}})
+
+          
         })
         .catch((e) => {
           console.log(e);
@@ -343,7 +359,7 @@ export default {
       });
     },
     getCep() {
-      this.formulario.addresses[0].cep = this.formulario.addresses[0].cep.replace(
+      this.formulario.addresses.cep = this.formulario.addresses.cep.replace(
         /[^0-9]/g,
         ""
       );
@@ -379,7 +395,7 @@ export default {
         professionals: [],
         plans: [],
         addresses: [
-          {
+                      {
             cep: "",
             logradouro: null,
             numero: null,
