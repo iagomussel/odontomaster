@@ -7,7 +7,7 @@ services:
       command: --interval 30 --cleanup --debug --trace --include-restarting himmussel/odontomaster
       restart: always
     app:
-      image: himmussel/odontomaster
+      image: himmussel/odontomaster:latest
       container_name: odontomaster
       restart: always
       networks:
@@ -19,7 +19,8 @@ services:
         DB_USERNAME: ${DB_USERNAME}
         DB_HOST: nodedb
         NODE_ENV: production
-
+        DEFAULT_PASSWORD: ${DEFAULT_PASSWORD}
+        DEFAULT_IMAGE: ${DEFAULT_IMAGE}
       ports:
         - 8100:80
       volumes:
