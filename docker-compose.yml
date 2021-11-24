@@ -7,7 +7,6 @@ services:
       command: --interval 30 --cleanup --debug --trace --include-restarting himmussel/odontomaster
       restart: always
     app:
-      build: .
       image: himmussel/odontomaster:latest
       container_name: odontomaster
       restart: always

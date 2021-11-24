@@ -4,10 +4,9 @@ services:
       image: containrrr/watchtower
       volumes:
         - '/var/run/docker.sock:/var/run/docker.sock'
-      command: --interval 30 --cleanup --debug --trace --include-restarting himmussel/odontomaster
+      command: --interval 30 --cleanup --debug --trace --include-restarting himmussel/odontomaster:development
       restart: always
     app:
-      build: .
       image: himmussel/odontomaster:development
       container_name: odontomaster
       restart: always

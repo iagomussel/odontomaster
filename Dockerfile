@@ -24,9 +24,6 @@ RUN cd api && yarn
 COPY ./app ./app
 COPY ./api ./api
 
-RUN cat app/.env-production && cat api/.env
-
 RUN cd app && yarn build
-
 
 CMD ["/tmp/start.sh"]

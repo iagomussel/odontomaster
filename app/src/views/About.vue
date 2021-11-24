@@ -5,7 +5,8 @@
     <div><b>Authon:</b>Iago Mussel</div>
     <div><b>Build:</b>{{build}}</div>
 
-    <a href="#" @click="openReporter"> encontrou um erro?</a>
+    <div class="btn" @click="configurations"> Configurações</div>
+    <div class="btn" @click="openReporter"> encontrou um erro?</div>
 </div>
 </template>
 
