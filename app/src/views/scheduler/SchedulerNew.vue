@@ -94,7 +94,22 @@ mounted(){
             this.$refs.professional.select(response.data)
         })
     }
-},
+    if( params.procedimento ) {
+        webClient.get(`procedimento/${params.procedimento}`).then(response => {
+            this.$refs.procedimento.select(response.data)
+        })
+    }
+    if(params.paciente) {
+        webClient.get(`paciente/${params.paciente}`).then(response => {
+            this.formulario.patient = response.data
+            this.onPacienteNew()
+
+        })
+    }
+    if(params.encaixe_id) this.formulario.encaixe_id = params.encaixe_id
+    },
+
+
   data() {
     let dados = {
       dataImages: [],
