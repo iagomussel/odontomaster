@@ -4,8 +4,8 @@ const passwordHash = require("password-hash");
 const Constants = require("../utils/Constants");
 var jwt = require("jsonwebtoken");
 require('dotenv').config();
-function maketoken(username){
-  return { token: jwt.sign({username:username}, Constants.JWT_KEY, { expiresIn: '1800s' }) }
+function makeToken(username){
+  return { token: jwt.sign({username}, Constants.JWT_KEY, { expiresIn: '1800s' }) }
 }
 
 module.exports = {
@@ -20,7 +20,7 @@ module.exports = {
       },
     });
     if (!user) {
-      //check if existe someone user in the database
+      //check if exists some user in the database
       // count user on database
         let count = await User.count();
         if(count == 0){
@@ -42,7 +42,7 @@ module.exports = {
     if (user && passwordHash.verify(password, user.password)) {
         //return token
 
-      return res.send(maketoken(username));
+      return res.send(makeToken(username));
     }
 
     return res

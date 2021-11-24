@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NavBar title="Larodon" />
+    <NavBar title="OdontoMaster" />
     <div class="progress">
       <div class="determinate" style="width: 0"></div>
     </div>
