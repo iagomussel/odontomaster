@@ -22,10 +22,7 @@ function refresh_token() {
     .then((res) => {
       localStorage.setItem("user", JSON.stringify(res.data));
     })
-    .catch(() => {
-      location.reload();
-    });
-  setTimeout(refresh_token, 15000);
+  setTimeout(refresh_token, 30000);
 }
 let App = {
   name: "App",

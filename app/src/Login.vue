@@ -29,7 +29,6 @@
           v-show="mensage.text.length > 0"
         ></div>
         <button type="submit">Acessar</button>
-
       </div>
 
       <!-- <div class="container" style="background-color: #f1f1f1">
@@ -43,6 +42,19 @@
 import webClient from "./client_axios";
 
 export default {
+  mounted() {
+      webClient.get("imagem/paisagem/"+window.innerWidth+"/"+window.innerHeight).then(response => {
+        if (response.data.image) {
+            const img = new Image();
+            img.src = response.data.image;
+            img.onload = () => {
+                document.querySelector(".container-form").style.backgroundImage = "url("+response.data.image+")";
+            };
+
+        }
+      });
+
+  },
   methods: {
     onSubmit() {
       console.log(this.usuario);
@@ -77,12 +89,12 @@ export default {
               this.mensage.class = "error";
               this.mensage.text = "ocorreu um erro no servidor";
             }
-            console.error(error)
+            console.error(error);
           });
-      } catch(err){
+      } catch (err) {
         this.mensage.class = "error";
-              this.mensage.text = "ocorreu um erro no servidor";
-              console.error(err);
+        this.mensage.text = "ocorreu um erro no servidor";
+        console.error(err);
       }
     },
   },
