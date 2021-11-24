@@ -29,6 +29,9 @@ const SchedolerController = {
                     },
                     include: { all: true, nested: true }
                 }
+            ],
+            order: [
+                ['id', 'DESC'],
             ]
         });
 
@@ -37,7 +40,7 @@ const SchedolerController = {
     },
 
     async store(req, res) {
-        const {
+        let {
             id,
             patient,
             professional,
@@ -50,13 +53,25 @@ const SchedolerController = {
         } = req.body
 
         //check parameters null
-        if (!patient || !professional || !data || !horario) {
-            return res.status(400).json({ error: "Missing parameters" })
+        if (!encaixe_id) {
+            if (!patient || !professional || !data || !horario || !procedure) {
+                return res.status(400).json({ error: "Missing parameters" })
+            }
+        } else {
+            const ConsultationEncaixe = await Consultation.findOne({
+                where: {
+                    id:encaixe_id
+                }
+            })
+            patient = ConsultationEncaixe.patient
+            professional = ConsultationEncaixe.professional
+            data = ConsultationEncaixe.data
+            horario = ConsultationEncaixe.horario
         }
 
         let pacienteM = null
 
-        if (patient.id) {
+        if (patient && patient.id) {
             pacienteM = await Patient.findByPk(patient.id)
         } else {
             pacienteM = await Patient.create({
@@ -66,17 +81,18 @@ const SchedolerController = {
         }
 
         let procedimentoM = null
-        if (procedure.id) {
+        if (procedure && procedure.id) {
             procedimentoM = await Procedure.findByPk(procedure.id)
         } else {
             procedimentoM = await Procedure.create({
                 nome: procedure
             })
         }
+
         let dentistaM = await Professional.findByPk(professional.id)
         consulta_generate = {};
         consulta_generate.horario = moment(data + "-" + horario, "DD/MM/YYYY-h:mm").toISOString()
-        consulta_generate.horario_termino = moment(data + "-" + horario, "DD/MM/YYYY-h:mm").add(30, "minutes").toISOString()
+        consulta_generate.horario_termino = moment(data + "-" + horario, "DD/MM/YYYY-h:mm").add(procedimentoM.duration || 30, "minutes").toISOString()
         consulta_generate.encaixe_id = encaixe_id
 
 
@@ -173,6 +189,28 @@ const SchedolerController = {
             }
 
         }
+        //remove from times witch in consultation
+        availableTimes = availableTimes.filter(time => {
+            let time_start = moment(time, "HH:mm")
+            let time_end = moment(time, "HH:mm").add(30, "minutes")
+            let consulta = consultas.find(consulta => {
+                let consulta_start = moment(consulta.horario, "HH:mm")
+                let consulta_end = moment(consulta.horario_termino, "HH:mm")
+                return (
+                    time_start.isBetween(consulta_start, consulta_end) ||
+                    time_end.isBetween(consulta_start, consulta_end) ||
+                    consulta_start.isBetween(time_start, time_end) ||
+                    consulta_end.isBetween(time_start, time_end) ||
+                    consulta_start.isSame(time_start) ||
+                    consulta_end.isSame(time_end)
+                )
+
+            })
+            if (!consulta) {
+                return time
+            }
+        })
+
         return res.json(availableTimes)
 
 

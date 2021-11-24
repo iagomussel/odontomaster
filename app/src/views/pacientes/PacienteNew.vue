@@ -151,7 +151,7 @@
                   name="cep"
                   class="form-control cep"
                   placeholder="Cep"
-                  v-on:keyup="getCep"
+                  v-on:keyup="getCep(address, key)"
                   v-model="address.cep"
                 />
               </div>
@@ -169,12 +169,12 @@
               </div>
 
               <div class="col s2">
-                <label class="active" for="numero">Número</label>
+                <label class="active" :for="'numero_'+key">Número</label>
                 <input
                   v-model="address.numero"
                   type="text"
-                  id="numero"
-                  name="numero"
+                  :id="'numero_'+key"
+                  :name="'numero_'+key"
                   class="form-control"
                   placeholder="Número"
                 />
@@ -327,19 +327,20 @@ export default {
           this.formulario.professionals = this.formulario.professionals.map((p) => {
             return { professional: p };
           });
-          if(this.formulario.addresses.lenght == 0){
+          if (this.formulario.addresses.length == 0) {
             this.formulario.addresses.push({
-            cep: "",
-            logradouro: null,
-            numero: null,
-            complemento: null,
-            bairro: null,
-            cidade: null,
-            uf: "RJ",
-          });
+              cep: "",
+              logradouro: null,
+              numero: null,
+              complemento: null,
+              bairro: null,
+              cidade: null,
+              uf: "RJ",
+            });
           }
           this.formulario.addresses = this.formulario.addresses.map((a) => {
             a.cep = a.cep.replace(/\D/g, "");
+            return a;
           });
         })
         .catch((e) => {
@@ -361,15 +362,15 @@ export default {
         }
       });
     },
-    getCep() {
-      this.formulario.addresses.map((address) => {
-        address.cep = address.cep.replace(/[^0-9]/g, "");
-        let cep = address.cep.replace(/[^0-9]/g, "");
-        if (cep.length >= 8) {
+    getCep(address, key) {
+      let cep = address.cep.replace(/[^0-9]/g, "");
+      this.formulario.addresses[key].cep = cep;
+
+      if (cep.length >= 8) {
         axios.get("https://viacep.com.br/ws/" + cep + "/json").then((res) => {
           if (!res.data.error) {
             const { logradouro, bairro, localidade, uf, cep } = res.data;
-            address = {
+            let address_ = {
               ...address,
               logradouro,
               bairro,
@@ -377,16 +378,11 @@ export default {
               uf,
               cep,
             };
-            document.querySelector("#numero").focus();
-            return address
+            document.querySelector("#numero_"+key).focus();
+            this.formulario.addresses[key] = address_;
           }
         });
-      } else {
-        return address
       }
-      });
-
-
     },
   },
   data() {
