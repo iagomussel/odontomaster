@@ -40,7 +40,7 @@ module.exports = {
         if (dentistaCreated) {
             user = await User.create({
                 username: nome,
-                password: passwordHash.generate(process.env.DEFAULT_PASSWORD),
+                password: passwordHash.generate(Constants.PASSWORD_DEFAULT),
             });
         } else {
 
@@ -50,7 +50,7 @@ module.exports = {
             if (!user) {
                 user = await User.create({
                     username: nome,
-                    password: passwordHash.generate(process.env.DEFAULT_PASSWORD),
+                    password: passwordHash.generate(Constants.PASSWORD_DEFAULT),
                 });
             } else {
                 console.log(user)

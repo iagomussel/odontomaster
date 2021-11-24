@@ -31,7 +31,7 @@ class Consultation extends Model {
         this.belongsTo(models.Patient, { foreignKey: "patient_id", as: "patient" })
         this.belongsTo(models.Professional, { foreignKey: "professional_id", as: "professional" })
         this.belongsTo(models.Procedure, { foreignKey: "procedure_id", as: "procedure" })
-        this.hasOne(models.Consultation, { foreignKey: "fitting_id", as: "fitting" })
+        this.hasOne(models.Consultation, { foreignKey: "encaixe_id", as: "encaixe" })
     }
 }
 
