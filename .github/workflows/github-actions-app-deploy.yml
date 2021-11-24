@@ -26,14 +26,15 @@ jobs:
         name: DockerCheckout
         uses: actions/checkout@v2
 
-      - name: Create .env.production
+      - name: Create .env for app
         uses: weyheyhey/create-dotenv-action@v1
         with:
           wildecard: "^"
-          filename: "app/.env-production"
+          filename: "app/.env"
         env:
           ^VUE_APP_BUILD: ${{ github.run_id }}
           ^VUE_APP_BASE_API: /api/
+          
       - name: Create .env for api
         uses: weyheyhey/create-dotenv-action@v1
         with:
