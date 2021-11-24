@@ -62,7 +62,7 @@ module.exports = {
     return res.json(user);
   },
   async refreshtoken(req, res) {
-    return res.json(maketoken(req.user.username))
+    return res.json(makeToken(req.user.username))
   },
 
 
