@@ -24,7 +24,7 @@ export default {
             this.$router.push({name: '.Report'})
         },
         configurations(){
-            console.log(this.$router.options.routes)
+           this.$router.push({name: '.Configurations'})
         }
     },
 };

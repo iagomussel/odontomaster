@@ -23,45 +23,54 @@
       />
     </div>
     <div class="form-group">
-    <!-- FieldList Telefones-->
-        <hi-field-list
-          v-model="formulario.phones"
-          title="Telefones"
-          :fields="[
-            {
-              type: 'text',
-              name: 'telefone',
-              mask: '\'(##)#####-####\'',
-              placeholder: '',
-              label: 'Telefone',
-            }
-          ]"
-        />
+      <!-- FieldList Telefones-->
+      <hi-field-list
+        v-model="formulario.phones"
+        title="Telefones"
+        :fields="[
+          {
+            type: 'text',
+            name: 'telefone',
+            mask: '\'(##)#####-####\'',
+            placeholder: '',
+            label: 'Telefone',
+          },
+        ]"
+      />
     </div>
     <div class="row">
-      <div class="col s6">
+      <div class="col s4">
         <div class="form-group">
           <label class="active" for="nome">Abre as:</label>
           <input
             id="nome"
             name="nome"
             v-model="formulario.CONSULTORIO_OPEN"
-            :mask="'00:00'"
+            v-mask="'##:##'"
             placeholder="00:00"
             type="text"
             required="required"
           />
         </div>
       </div>
-      <div class="col s6">
+      <div class="col s4">
         <div class="form-group">
           <label class="active" for="nome">Fecha as:</label>
           <input
-            id="nome"
-            name="nome"
-
-            :mask="'00:00'"
-            v-model="formulario.CONSULTORIO_CLOSE"
+            v-mask="'##:##'"
+            v-model="formulario.CONSULTA_CLOSE"
+            placeholder="00:00"
+            type="text"
+            required="required"
+          />
+        </div>
+      </div>
+      <div class="col s4">
+        <div class="form-group">
+          <label class="active" for="nome">Tempo padrão para consulta:</label>
+          <input
+            v-mask="'##'"
+            v-model="formulario.CONSULTA_DURATION"
             placeholder="00:00"
             type="text"
             required="required"
@@ -80,17 +89,17 @@ import { mask } from "vue-the-mask";
 import HiFieldList from "../components/FieldList.vue";
 export default {
   mounted() {
-      console.log("inited")
+    console.log("inited");
   },
   data() {
     return {
-        formulario: {
-            CONSULTORIO_NAME: "",
-            CONSULTORIO_ADDRESS: "",
-            CONSULTORIO_PHONE: "",
-            CONSULTORIO_OPEN: "",
-            CONSULTORIO_CLOSE: ""
-        },
+      formulario: {
+        CONSULTORIO_NAME: "",
+        CONSULTORIO_ADDRESS: "",
+        CONSULTORIO_PHONE: "",
+        CONSULTORIO_OPEN: "",
+        CONSULTORIO_CLOSE: "",
+      },
     };
   },
   methods: {
@@ -100,9 +109,9 @@ export default {
       });
     },
   },
-    components: {
-        HiFieldList
-    },
-     directives: { mask },
+  components: {
+    HiFieldList,
+  },
+  directives: { mask },
 };
 </script>
