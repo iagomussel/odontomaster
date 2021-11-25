@@ -52,14 +52,16 @@ module.exports = {
         /** get avalable times on the week */
         let scheduledTimes = await Consultation.count({
             where: {
-                status: 'active',
                 horario: {
                     [Op.between]: [moment().startOf('week').format('YYYY-MM-DD'), moment().endOf('week').format('YYYY-MM-DD')]
                 }
             }
         })
 
-        let   totalTimes = moment().endOf('week').diff(moment().startOf('week'), 'days') * 8;
+        /** get professional count */
+        let professionalCount = await Consultation.count({});
+
+        let   totalTimes = professionalCount * moment().endOf('week').diff(moment().startOf('week'), 'days') * 8;
 
         let percentageAvailableTimes = 100 - (scheduledTimes / totalTimes) * 100;
 
