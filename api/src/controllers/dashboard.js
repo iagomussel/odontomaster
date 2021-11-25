@@ -4,7 +4,7 @@ const {
     Consultation
 } = require('../models');
 
-const {Op} = require("sequelize")
+const { Op } = require("sequelize")
 const moment = require("moment");
 
 module.exports = {
@@ -19,13 +19,12 @@ module.exports = {
             title: 'Pacientes',
             icon: 'users',
             value: patientCount,
-            color: 'blue'});
+            color: 'blue'
+        });
 
         /** get Consultation count */
         let consultationCount = await Consultation.count({
-            where: {
-                status: 'active'
-            }
+
         });
 
         cards.push({
@@ -61,7 +60,7 @@ module.exports = {
         /** get professional count */
         let professionalCount = await Consultation.count({});
 
-        let   totalTimes = professionalCount * moment().endOf('week').diff(moment().startOf('week'), 'days') * 8;
+        let totalTimes = professionalCount * moment().endOf('week').diff(moment().startOf('week'), 'days') * 8;
 
         let percentageAvailableTimes = 100 - (scheduledTimes / totalTimes) * 100;
 
