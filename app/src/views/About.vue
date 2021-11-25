@@ -7,6 +7,7 @@
 
     <div class="btn" @click="configurations"> Configurações</div>
     <div class="btn" @click="openReporter"> encontrou um erro?</div>
+
 </div>
 </template>
 
@@ -21,6 +22,9 @@ export default {
     methods: {
         openReporter(){
             this.$router.push({name: '.Report'})
+        },
+        configurations(){
+            console.log(this.$router.options.routes)
         }
     },
 };
