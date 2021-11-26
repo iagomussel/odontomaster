@@ -6,12 +6,7 @@
         <a class="btn" style="margin: 0 auto" v-on:click="verdia(-1)">Anterior</a>
       </div>
       <div class="col s8">
-        <input
-          type="text"
-          v-mask="'##/##/####'"
-          v-model="dia"
-          class="data center-align"
-        />
+        <datepicker v-model="dia" class="data center-align" inputFormat="dd/MM/yyyy" />
       </div>
       <div class="col s1">
         <a class="btn" style="margin: 0 auto" v-on:click="verdia(1)">Próximo</a>
@@ -161,21 +156,29 @@
 import { mask } from "vue-the-mask";
 import webClient from "@/client_axios";
 import moment from "moment";
-
+import Datepicker from "vue3-datepicker";
+import { ref, watchEffect } from "vue";
 export default {
-  created() {
+  mounted() {
+    watchEffect(() => {
+      this.verdia(0);
+    });
+
     this.verdia(0);
     this.get_barra_horario();
   },
+  components: {
+    Datepicker,
+  },
   data() {
-    return {
+    let res = {
       barra_hora: {
         top: 0,
       },
       hora_atual: "",
-      dia: moment().format("DD/MM/yyyy"),
+
       horario_inicio: "8:00",
-      horario_final: "17:00",
+      horario_final: "18:00",
       intervalo: 30,
       dados: {
         agendamentos: [
@@ -185,20 +188,24 @@ export default {
           { nome: "Carregando...", consulta: [] },
         ],
       },
-
-      ...this.$route.query,
     };
+    if (this.$route.query.dia) {
+      res.dia = ref(moment(this.$route.query.dia, "DD_MM_yyyy").toDate());
+    } else {
+      res.dia = ref(moment().toDate());
+    }
+    return res;
   },
   methods: {
     verdia(desloc) {
       let d = moment(this.dia, "DD/MM/yyyy").add(1 * desloc, "Days");
-      this.dia = d.format("DD/MM/yyyy");
+      this.dia = d.toDate();
       this.get_data(d.format("DD_MM_YYYY"));
     },
     agendar(dentista, horario) {
       this.$router.push({
         path: "/agenda/novo",
-        query: { dentista, horario, data: this.dia },
+        query: { dentista, horario, data: moment(this.dia).format("DD/MM/yyyy") },
       });
     },
     desagendar(consulta_id) {
@@ -211,7 +218,12 @@ export default {
     agendar_encaixe(dentista, horario, encaixe_id) {
       this.$router.push({
         path: "/agenda/novo",
-        query: { dentista, horario, data: this.dia, encaixe_id },
+        query: {
+          dentista,
+          horario,
+          data: moment(this.dia).format("dd/MM/yyyy"),
+          encaixe_id,
+        },
       });
     },
     ver_agendamento(consulta) {
@@ -298,7 +310,6 @@ export default {
     },
   },
   directives: { mask },
-
 };
 </script>
 

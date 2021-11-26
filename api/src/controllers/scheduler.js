@@ -6,6 +6,7 @@ const {
     Consultation,
     Procedure,
     Patient,
+    Phones
 
 } = require("../models")
 
@@ -113,7 +114,7 @@ const SchedolerController = {
         }
         if (phones) {
             phones.forEach(async phone => {
-                let PhoneObj = await Phone.create({
+                let PhoneObj = await Phones.create({
                     numero: phone.numero,
                     tipo: phone.tipo,
                     contato: phone.contato
