@@ -106,6 +106,8 @@ router.get("/consultas/:data", authenticateToken, SchedulerController.index);
 router.post("/consulta", authenticateToken, SchedulerController.store);
 //edit
 router.post("/consulta/:id", authenticateToken, SchedulerController.store);
+//edit get
+router.get("/consulta/:id", authenticateToken, SchedulerController.find);
 
 //cancel
 router.get("/consultas/unschedule/:id", authenticateToken, SchedulerController.unschedule);

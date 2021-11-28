@@ -39,7 +39,24 @@ const SchedolerController = {
 
         return res.json(dados);
     },
+    async find(req, res){
+        // find One consultation by id
+        const { id } = req.params;
 
+        let dados = await Consultation.findOne({
+            where: {
+                 id
+            },
+            include: { all: true, nested: true }
+        });
+
+        if(!dados){
+            return res.status(400).json({
+                error: "Consulta não encontrada"
+            });
+        }
+        return res.json(dados);
+    },
     async store(req, res) {
         let {
             id,
@@ -50,38 +67,32 @@ const SchedolerController = {
             horario,
             encaixe_id,
             phones
-
         } = req.body
-
+        let
+            pacienteM,
+            procedimentoM,
+            dentistaM,
+            Encaixe
+         = null
         //check parameters null
         if (!encaixe_id) {
             if (!patient || !professional || !data || !horario || !procedure) {
                 return res.status(400).json({ error: "Missing parameters" })
             }
+            dentistaM = await Professional.findByPk(professional.id)
         } else {
-            const ConsultationEncaixe = await Consultation.findOne({
-                where: {
-                    id:encaixe_id
-                }
+            Encaixe = await Consultation.findOne({
+                where:{id:encaixe_id,
+                },
+                include: { all: true, nested: true }
             })
-            patient = ConsultationEncaixe.patient
-            professional = ConsultationEncaixe.professional
-            data = ConsultationEncaixe.data
-            horario = ConsultationEncaixe.horario
+            if (!Encaixe) {
+                return res.status(400).json({ error: "Encaixe not found" })
+            }
+            dentistaM = Encaixe.professional
+            data = Encaixe.day
+            horario = Encaixe.horario
         }
-
-        let pacienteM = null
-
-        if (patient && patient.id) {
-            pacienteM = await Patient.findByPk(patient.id)
-        } else {
-            pacienteM = await Patient.create({
-                nome: patient,
-                image: Constants.IMAGE_DEFAULT
-            })
-        }
-
-        let procedimentoM = null
         if (procedure && procedure.id) {
             procedimentoM = await Procedure.findByPk(procedure.id)
         } else {
@@ -90,17 +101,17 @@ const SchedolerController = {
             })
         }
 
-        let dentistaM = await Professional.findByPk(professional.id)
         consulta_generate = {};
         consulta_generate.horario = moment(data + "-" + horario, "DD/MM/YYYY-h:mm").toISOString()
         consulta_generate.horario_termino = moment(data + "-" + horario, "DD/MM/YYYY-h:mm").add(procedimentoM.duration || 30, "minutes").toISOString()
-        consulta_generate.encaixe_id = encaixe_id
+
 
 
         const [consulta, consultaCreated] = await Consultation.findOrCreate({
             where: { id },
             defaults: consulta_generate
         })
+        console.log(consulta)
         if (!consultaCreated) {
             consulta.horario = consulta_generate.horario
             consulta.horario_termino = consulta_generate.horario_termino
@@ -112,6 +123,21 @@ const SchedolerController = {
                 consultaEncaixe.save();
             }
         }
+
+
+
+        if (patient && patient.id) {
+            pacienteM = await Patient.findByPk(patient.id)
+        } else {
+            pacienteM = await Patient.create({
+                nome: patient,
+                image: Constants.IMAGE_DEFAULT
+            })
+        }
+
+
+
+
         if (phones) {
             phones.forEach(async phone => {
                 let PhoneObj = await Phones.create({
@@ -128,7 +154,9 @@ const SchedolerController = {
             consulta.setProfessional(dentistaM),
             consulta.setProcedure(procedimentoM)
         ])
-
+        if(Encaixe){
+            await Encaixe.setEncaixe(consulta)
+        }
         res.json(consulta);
     },
     async unschedule(req, res) {
@@ -225,10 +253,11 @@ const SchedolerController = {
         let availableDays = await Professional.findByPk(id, {
             attributes: ['availableDays']
         })
+
         for (let i = 0; i < 60; i++) {
             let date = moment().add(i, 'days').format('DD/MM/YYYY');
             let day = moment().add(i, 'days').format('d');
-            if (availableDays.availableDays == null || availableDays.availableDays[day] != undefined) {
+            if ((availableDays && availableDays.availableDays == null) || (availableDays &&availableDays.availableDays[day] != undefined)) {
                 dates.push(date)
             }
         }

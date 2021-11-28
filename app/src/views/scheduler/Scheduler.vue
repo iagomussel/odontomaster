@@ -221,7 +221,7 @@ export default {
         query: {
           dentista,
           horario,
-          data: moment(this.dia).format("dd/MM/yyyy"),
+          data: moment(this.dia).format("DD/MM/yyyy"),
           encaixe_id,
         },
       });

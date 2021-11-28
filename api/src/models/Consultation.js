@@ -9,10 +9,17 @@ class Consultation extends Model {
                         return moment(this.getDataValue('horario')).format('HH:mm');
                     }
                 },
+
                 horario_termino: {
                     type: DataTypes.DATE,
                     get() {
                         return moment(this.getDataValue('horario_termino')).format('HH:mm');
+                    }
+                },
+                day: {
+                    type: DataTypes.VIRTUAL,
+                    get() {
+                        return moment(this.getDataValue('horario')).format('DD/MM/YYYY');
                     }
                 },
                 observacao: DataTypes.STRING,
