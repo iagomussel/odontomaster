@@ -1,85 +1,70 @@
 import { createWebHistory, createRouter } from "vue-router";
-import Home from "@/views/Home.vue";
-import PacienteList from "@/views/pacientes/PacienteList.vue";
-import PacienteNew from "@/views/pacientes/PacienteNew.vue";
-import DentistaList from "@/views/dentistas/DentistaList.vue";
-import DentistaNew from "@/views/dentistas/DentistaNew.vue";
-import ConveniosList from "@/views/convenios/ConvenioList.vue";
-import ConveniosNew from "@/views/convenios/ConvenioNew.vue";
-import ProcedimentoList from "@/views/procedimentos/ProcedimentoList.vue";
-import ProcedimentoNew from "@/views/procedimentos/ProcedimentoNew.vue";
-
-import Scheduler from "@/views/scheduler/Scheduler.vue";
-import Sobre from "@/views/About.vue";
-
-
-import SchedulerNew from "@/views/scheduler/SchedulerNew.vue";
 
 const routes = [
     {
         path: "/",
         name: "Dashboard",
-        component: Home,
+        component:  () => import("@/views/Dashboard.vue"),
       },  {
         path: "/pacientes",
         name: "Pacientes",
-        component: PacienteList,
+        component: () => import("@/views/pacientes/PacienteList.vue"),
       },{
         path: "/paciente/:id",
         name: ".paciente_edit",
-        component: PacienteNew,
+        component: () => import("@/views/pacientes/PacienteNew.vue"),
       },  {
         path: "/pacientes/novo",
         name: ".paciente",
-        component: PacienteNew,
+        component: () => import("@/views/pacientes/PacienteNew.vue"),
     }, {
         path: "/dentistas",
         name: "Dentistas",
-        component: DentistaList,
+        component: () => import("@/views/dentistas/DentistaList.vue"),
     }, {
         path: "/dentista/:id",
         name: ".dentistas_edit",
-        component: DentistaNew,
+        component: () => import("@/views/dentistas/DentistaNew.vue"),
     },  {
         path: "/dentistas/novo",
         name: ".dentistas",
-        component: DentistaNew,
+        component: () => import("@/views/dentistas/DentistaNew.vue"),
       },{
         path: "/convenios",
         name: "Convenios",
-        component: ConveniosList,
+        component: () => import("@/views/convenios/ConvenioList.vue"),
       },  {
         path: "/convenios/novo",
         name: ".convenios",
-        component: ConveniosNew,
+        component: () => import("@/views/convenios/ConvenioNew.vue"),
     }, {
         path: "/convenio/:id",
         name: ".convenioEdit",
-        component: ConveniosNew,
+        component: () => import("@/views/convenios/ConvenioNew.vue"),
     },{
         path: "/procedimentos",
         name: "Procedimentos",
-        component: ProcedimentoList,
+        component: () => import("@/views/procedimentos/ProcedimentoList.vue"),
     }, {
         path: "/procedimentos/novo",
         name: ".procedimentos",
-        component: ProcedimentoNew,
+        component: () => import("@/views/procedimentos/ProcedimentoNew.vue"),
     }, {
         path: "/procedimento/:id",
         name: ".procedimentosEdit",
-        component: ProcedimentoNew,
+        component: () => import("@/views/procedimentos/ProcedimentoNew.vue"),
     },{
         path: "/agenda",
         name: "Agenda",
-        component: Scheduler,
+        component: () => import("@/views/scheduler/Scheduler.vue"),
       },  {
         path: "/agenda/novo",
         name: ".agendaNovo",
-        component: SchedulerNew,
+        component: () => import("@/views/scheduler/SchedulerNew.vue"),
     },  {
         path: "/sobre",
         name: "Sobre",
-        component: Sobre,
+        component: () => import("@/views/About.vue"),
     },
     {
         path: '/report',
@@ -89,6 +74,10 @@ const routes = [
         path: '/reportTanks',
         name: '.ReportTanks',
         component: () => import('@/views/reportTanks.vue'),
+    },{
+        path: '/configurations',
+        name: '.Configurations',
+        component: () => import('@/views/Configurations.vue'),
     }
 
 ];
