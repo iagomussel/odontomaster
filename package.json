@@ -1,0 +1,12 @@
+{
+    "name": "odontomaster",
+    "version": "1.0.0",
+    "scripts": {
+        "start": "cd api && npm run dev",
+        "start-front": "cd app && npm run serve",
+        "dev": "cd app&& (eval \"yarn run serve\" &) && cd ../api && (eval \"yarn run dev\" &) && cd .."
+    },
+    "repository": "https://github.com/iagomussel/odontomaster.git",
+    "author": "iagomussel <him_mussel@live.com>",
+    "license": "MIT"
+}
