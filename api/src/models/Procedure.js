@@ -6,9 +6,9 @@ class Procedure extends Model {
             {
                 tuss: { type: DataTypes.STRING, allowNull: true },
                 nome: { type: DataTypes.STRING, allowNull: false },
-                valor: { type: DataTypes.INTEGER, allowNull: false },
+                valor: { type: DataTypes.INTEGER, allowNull: true, default:0 },
                 duração: { type: DataTypes.INTEGER, allowNull: true, default: 30 },
-                periodicidade: { type: DataTypes.INTEGER, allowNull: false },
+                periodicidade: { type: DataTypes.INTEGER, allowNull: true, default:0 },
             },
             { sequelize }
         );

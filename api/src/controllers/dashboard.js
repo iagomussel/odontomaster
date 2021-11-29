@@ -1,7 +1,8 @@
 
 const {
     Patient,
-    Consultation
+    Consultation,
+    Professional
 } = require('../models');
 
 const { Op } = require("sequelize")
@@ -58,10 +59,10 @@ module.exports = {
         })
 
         /** get professional count */
-        let professionalCount = await Consultation.count({});
+        let professionalCount = await Professional.count({});
 
-        let totalTimes = professionalCount * moment().endOf('week').diff(moment().startOf('week'), 'days') * 8;
-
+        let totalTimes = professionalCount * 5/** days on week */ * 8/** hours on day to work */;
+        //return res.json(totalTimes);
         let percentageAvailableTimes = 100 - (scheduledTimes / totalTimes) * 100;
 
         cards.push({

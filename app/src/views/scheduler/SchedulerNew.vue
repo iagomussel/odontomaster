@@ -6,10 +6,9 @@
         <hi-select-ajax
           v-model="formulario.patient"
           url="pacientes"
-
-            ref="paciente"
+          ref="paciente"
           TextField="nome"
-          @change="onPacienteNew"
+          @select="onPacienteNew"
         />
       </div>
       <!-- FieldList Telefones-->
@@ -226,15 +225,15 @@ mounted(){
       }
     },
     onPacienteNew(e) {
+      console.log(e)
       if (e.id) {
         this.isNewPaciente = false;
-        this.formulario.paciente = e;
+        this.formulario.patient = e;
         this.formulario.phones = e.phones;
       } else {
         this.isNewPaciente = true;
         this.formulario.phones = [];
       }
-      console.log(this.formulario.paciente);
     },
   },
   components: {

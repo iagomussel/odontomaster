@@ -80,7 +80,7 @@ module.exports = {
             ficha += 1;
         }
         //if ficha is not number
-        if(isNaN(ficha*1)){
+        if (isNaN(ficha * 1)) {
             ficha = null
         }
         if (professionals.length > 0) {
@@ -93,26 +93,28 @@ module.exports = {
                         return res.status(400).json({ error: "Professional not found" });
                     }
                 } else {
-                    let name = p.professional
-                    let [user] = await User.findOrCreate({
-                        where: { username: name },
-                        defaults: {
+                    if (p.professional != "") {
+                        let name = p.professional
+                        let [user] = await User.findOrCreate({
+                            where: { username: name },
+                            defaults: {
 
-                            username: nome,
-                            password: passwordHash.generate(Constants.PASSWORD_DEFAULT),
-                        }
-                    });
+                                username: nome,
+                                password: passwordHash.generate(Constants.PASSWORD_DEFAULT),
+                            }
+                        });
 
-                    const [professional] = await Professional.findOrCreate({
-                        where: { nome: name },
-                        defaults:{
-                        nome: name,
-                        image: Constants.IMAGE_DEFAULT,
-                        availableDays: Constants.AVAILABLE_DAYS
+                        const [professional] = await Professional.findOrCreate({
+                            where: { nome: name },
+                            defaults: {
+                                nome: name,
+                                image: Constants.IMAGE_DEFAULT,
+                                availableDays: Constants.AVAILABLE_DAYS
+                            }
+                        });
+                        professional.setUser(user);
+                        createdProfessionals.push(professional);
                     }
-                    });
-                    professional.setUser(user);
-                    createdProfessionals.push(professional);
                 }
 
             }
@@ -131,10 +133,12 @@ module.exports = {
             let CreatedConvenio = null;
             if (u_plan.agreement.id == undefined) {
                 let _nome = u_plan.agreement;
-                [CreatedConvenio] = await Agreement.findOrCreate({
-                    where: { nome: _nome },
-                    defaults: { nome: _nome }
-                });
+                if (_nome != "") {
+                    [CreatedConvenio] = await Agreement.findOrCreate({
+                        where: { nome: _nome },
+                        defaults: { nome: _nome }
+                    });
+                }
             } else {
                 CreatedConvenio = await Agreement.findOne({
                     where: Number.isInteger(u_plan.agreement.id) ? { id: u_plan.agreement.id } : { nome: u_plan.agreement.id }
@@ -142,13 +146,15 @@ module.exports = {
             }
 
 
-
-            createdAgreements.push(CreatedConvenio)
-            forCreatePlans.push({
-                agreement: CreatedConvenio,
-                numero: (u_plan.numero == undefined ? "" : u_plan.numero),
-                ativo: u_plan.ativo == undefined ? "Sim" : u_plan.ativo
-            })
+            if (CreatedConvenio) {
+                createdAgreements.push(CreatedConvenio)
+                forCreatePlans.push({
+                    agreement: CreatedConvenio,
+                    numero: (u_plan.numero == undefined ? "" : u_plan.numero),
+                    ativo: u_plan.ativo == undefined ? "Sim" : u_plan.ativo
+                }
+                )
+            }
         }
         //create plans
         for (ind in forCreatePlans) {

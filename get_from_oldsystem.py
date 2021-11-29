@@ -7,6 +7,8 @@ import mysql.connector
 import requests
 import json
 import re
+import unicodedata
+
 old_system = {
     "db": {
         "host": "localhost",
@@ -33,7 +35,10 @@ query = """SELECT p.*, d.nomedentista, c.*, e.*, a.descricao as obs, cp.codigoAs
 
 json_data = '{{ "id":0,"ficha":"{codigoLegado}","nome":"{nome}","data_nasc":null,"email":"{email}","imagem":"{imagem}","sexo":"{sexo}","professionals":[{{ "professional":"{nomedentista}" }}],"plans":[{{ "agreement":"{convenio}","numero":"{plano}","ativo":"Sim" }}],"addresses":[ {{ "cep":"{cep}","logradouro":"{logradouro}","numero":"{numero}","complemento":"{complemento}" ,"bairro":"{bairro}","cidade":"{cidade}","uf":"{uf}" }}],"phones":[],"obs":[{{"obs":"{obs}" }}] }}'
 
-
+def remove_accents(input_str):
+    nfkd_form = unicodedata.normalize('NFKD', input_str)
+    only_ascii = nfkd_form.encode('ASCII', 'ignore')
+    return only_ascii.decode('ASCII')
 
 def get_jwt():
     url = "http://{}/api/login".format(new_system["url"])
@@ -46,15 +51,18 @@ def get_jwt():
 
 def verify(st):
     if st == "" or st == 'None' or st == None:
-        return None
+        return ""
     if st:
         if isinstance(st, str):
-            s = st.upper()
+            s = remove_accents(st)
+            s = s.upper()
             s = re.sub(r'[^A-Z0-9 ]+', '', s)
             print(s)
             return s
+        else:
+            return st
     else:
-        return None
+        return ""
 
 def main():
     print("get JWT")
