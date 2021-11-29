@@ -4,7 +4,7 @@ class Obs extends Model {
   static init(sequelize){
     super.init(
       {
-        obs: {type: DataTypes.STRING}
+        obs: {type: DataTypes.TEXT}
       },
       { sequelize}
     )

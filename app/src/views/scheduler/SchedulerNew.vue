@@ -6,8 +6,9 @@
         <hi-select-ajax
           v-model="formulario.patient"
           url="pacientes"
+          ref="paciente"
           TextField="nome"
-          @change="onPacienteNew"
+          @select="onPacienteNew"
         />
       </div>
       <!-- FieldList Telefones-->
@@ -85,7 +86,13 @@ import { mask } from "vue-the-mask";
 const moment = require("moment");
 export default {
 mounted(){
-     let params = this.$route.query
+
+    let params = this.$route.query
+    //if id is present, load data
+    if(params.id){
+      this.loadData(params.id)
+    }
+
     if( params.horario ) this.formulario.horario = params.horario
     if( params.data ) this.formulario.data = params.data
 
@@ -130,6 +137,19 @@ mounted(){
 
   },
   methods: {
+    loadData(id){
+        webClient.get(`consulta/${id}`).then(response => {
+            this.formulario = response.data
+            this.$refs.paciente.select(response.data.patient)
+            this.$refs.professional.select(response.data.professional)
+            this.$refs.procedimento.select(response.data.procedure)
+
+            this.loadDates(this.formulario.professional)
+            this.formulario.data = moment(this.formulario.day).format("YYYY-MM-DD")
+            this.availableHours(this.formulario.professional, this.formulario.data)
+
+            })
+    },
     onSubmit() {
       webClient.post("/consulta", this.formulario).then((res) => {
         if (res.data) {
@@ -205,15 +225,15 @@ mounted(){
       }
     },
     onPacienteNew(e) {
+      console.log(e)
       if (e.id) {
         this.isNewPaciente = false;
-        this.formulario.paciente = e;
+        this.formulario.patient = e;
         this.formulario.phones = e.phones;
       } else {
         this.isNewPaciente = true;
         this.formulario.phones = [];
       }
-      console.log(this.formulario.paciente);
     },
   },
   components: {

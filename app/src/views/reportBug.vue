@@ -1,6 +1,6 @@
 <template>
   <div>
-      <h2>Odontomaste Report a bug</h2>
+      <h2>OdontoMaster Report a bug</h2>
     <p>
       Envie-nos uma mensagem sobre eventuais problemas com o software, estamos trabalhando
       para entregar um produto com cada vez mais qualidade
