@@ -29,7 +29,6 @@ module.exports = {
             paginate: 10,
             where: whereLike(Patient, search),
             include: ['addresses', 'phones', "professionals", 'agreements', 'obs', 'plans']
-
         });
         return res.json(patients);
     },
@@ -62,7 +61,7 @@ module.exports = {
         } = req.body;
         if (imagem == "" || imagem == null) imagem = Constants.IMAGE_DEFAULT
 
-
+        console.log(req.body)
         const createdPhones = []
         const createdAddresses = [];
         const createdPlans = [];
@@ -80,10 +79,13 @@ module.exports = {
             ficha = await Patient.max("ficha");
             ficha += 1;
         }
-        console.log(professionals)
+        //if ficha is not number
+        if(isNaN(ficha*1)){
+            ficha = null
+        }
         if (professionals.length > 0) {
             for (let p of professionals) {
-                if (Number.isInteger(p.professional.id)) {
+                if (p.professional.id && Number.isInteger(p.professional.id)) {
                     const professional = await Professional.findByPk(p.professional.id);
                     if (professional) {
                         createdProfessionals.push(professional);
@@ -92,20 +94,22 @@ module.exports = {
                     }
                 } else {
                     let name = p.professional
-                    console.log(Constants.PASSWORD_DEFAULT)
                     let [user] = await User.findOrCreate({
                         where: { username: name },
                         defaults: {
 
                             username: nome,
-                            password: passwordHash.generate(process.env.DEFAULT_PASSWORD),
+                            password: passwordHash.generate(Constants.PASSWORD_DEFAULT),
                         }
                     });
 
-                    const professional = await Professional.create({
+                    const [professional] = await Professional.findOrCreate({
+                        where: { nome: name },
+                        defaults:{
                         nome: name,
                         image: Constants.IMAGE_DEFAULT,
                         availableDays: Constants.AVAILABLE_DAYS
+                    }
                     });
                     professional.setUser(user);
                     createdProfessionals.push(professional);
@@ -127,7 +131,10 @@ module.exports = {
             let CreatedConvenio = null;
             if (u_plan.agreement.id == undefined) {
                 let _nome = u_plan.agreement;
-                CreatedConvenio = await Agreement.create({ nome: _nome });
+                [CreatedConvenio] = await Agreement.findOrCreate({
+                    where: { nome: _nome },
+                    defaults: { nome: _nome }
+                });
             } else {
                 CreatedConvenio = await Agreement.findOne({
                     where: Number.isInteger(u_plan.agreement.id) ? { id: u_plan.agreement.id } : { nome: u_plan.agreement.id }
