@@ -28,7 +28,8 @@ class FilesController {
             const oldPath = files.file.path;
             const fileName = files.file.name + moment().format("ddmmDDMMYYY");
             const newPath = path.join(upload_dir, fileName);
-            await fs.renameSync(oldPath, newPath);
+            await fs.copyFileSync(oldPath, newPath);
+            await fs.unlinkSync(oldPath);
 
             let f = await Files.create({ name: fileName, contentType: files.file.type })
 

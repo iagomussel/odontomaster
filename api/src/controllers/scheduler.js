@@ -11,7 +11,7 @@ const {
 } = require("../models")
 
 const { Op } = require("sequelize")
-const SchedolerController = {
+const SchedulerController = {
     async index(req, res) {
         const { data } = req.params;
         let dateObj = moment(data, "DD_MM_YYYY");
@@ -264,4 +264,4 @@ const SchedolerController = {
         return res.json(dates)
     }
 };
-module.exports = SchedolerController;
+module.exports = SchedulerController;

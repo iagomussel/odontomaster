@@ -6,6 +6,7 @@ module.exports = {
         password: process.env.DB_PASSWORD || '1198ae76a51f1306a4419e6af99337e67ed2fc39e31b4d2b8131c8f2de1d6cc6',
         database: process.env.DB_DATABASE || 'database',
         host: process.env.DB_HOST || 'localhost',
+        logging: false,
         define: {
             timestamp: true,
             underscored: true,
@@ -18,6 +19,7 @@ module.exports = {
         password: process.env.DB_PASSWORD,
         database: process.env.DB_DATABASE,
         host: process.env.DB_HOST,
+        logging: false,
         define: {
             timestamp: true,
             underscored: true,
