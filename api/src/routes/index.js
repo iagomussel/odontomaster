@@ -130,5 +130,3 @@ router.get("/dashboard", authenticateToken, DashboardController.index);
 router.get("/test/:id/:date", SchedulerController.availableTimes)
 
 module.exports = router;
-
-router.get("/imagem/:term/:w/:h", FilesController.image);

@@ -42,19 +42,7 @@
 import webClient from "./client_axios";
 
 export default {
-  mounted() {
-      webClient.get("imagem/paisagem/"+window.innerWidth+"/"+window.innerHeight).then(response => {
-        if (response.data.image) {
-            const img = new Image();
-            img.src = response.data.image;
-            img.onload = () => {
-                document.querySelector(".container-form").style.backgroundImage = "url("+response.data.image+")";
-            };
 
-        }
-      });
-
-  },
   methods: {
     onSubmit() {
       console.log(this.usuario);

@@ -6,7 +6,6 @@ const {
 const WhereLike = require("../utils/whereLike");
 const passwordHash = require("password-hash");
 const Constants = require("../utils/Constants");
-const { availableDates } = require("./scheduler");
 
 module.exports = {
     async index(req, res) {
