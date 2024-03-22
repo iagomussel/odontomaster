@@ -28,6 +28,6 @@
     "sequelize": "^6.29.0",
     "sequelize-import-export": "^1.0.1",
     "sequelize-paginate": "^1.1.6",
-    "tar": "^6.1.11"
+    "tar": "^6.2.1"
   }
 }
