@@ -1,7 +1,7 @@
 # OdontoMaster - Plano de Produto Abrangente
 
 ## Visao Geral
-OdontoMaster e um sistema completo de gerenciamento para clinicas odontologicas, construido com Vue 3 (frontend) e Express/Sequelize/MySQL (backend). O sistema abrange desde o cadastro de pacientes ate o controle financeiro.
+OdontoMaster e um sistema completo de gerenciamento para clinicas odontologicas, construido com Vue 3 (frontend) e Express/Sequelize/MySQL (backend). O sistema abrange desde o cadastro de pacientes ate o controle financeiro e prontuario eletronico.
 
 ---
 
@@ -9,8 +9,8 @@ OdontoMaster e um sistema completo de gerenciamento para clinicas odontologicas,
 
 ### Stack Tecnologico
 - **Frontend:** Vue 3 + Vue Router + Materialize CSS + Axios
-- **Backend:** Express.js + Sequelize ORM + MySQL
-- **Autenticacao:** JWT (JSON Web Tokens)
+- **Backend:** Express.js 4.21 + Sequelize 6.37 ORM + MySQL
+- **Autenticacao:** JWT 9.x (JSON Web Tokens)
 - **Containerizacao:** Docker + Docker Compose
 
 ### Padroes de Design
@@ -18,6 +18,14 @@ OdontoMaster e um sistema completo de gerenciamento para clinicas odontologicas,
 - **Auto-discovery:** Models e Controllers sao carregados automaticamente via filesystem scan
 - **Component-based:** Frontend usa componentes reutilizaveis (hi-table, hi-field-list, hi-select, etc.)
 - **RESTful API:** Endpoints seguem convencoes REST
+- **SRP (Single Responsibility):** Cada controller/model trata uma unica entidade
+- **DRY:** Componentes reutilizaveis no frontend e utilitarios compartilhados no backend
+
+### Estrutura do Banco de Dados
+- 15 entidades Sequelize com associacoes relacionais
+- Soft deletes (paranoid mode) em todas as tabelas
+- Timestamps automaticos (created_at, updated_at, deleted_at)
+- Nomenclatura underscored (snake_case)
 
 ---
 
@@ -26,6 +34,7 @@ OdontoMaster e um sistema completo de gerenciamento para clinicas odontologicas,
 ### 1. Dashboard
 - Cards com metricas: total de pacientes, consultas, consultas canceladas, horarios disponiveis
 - Card de receita mensal (financeiro)
+- Card de consultas do dia
 - Status: **Completo**
 
 ### 2. Gestao de Pacientes
@@ -83,17 +92,27 @@ OdontoMaster e um sistema completo de gerenciamento para clinicas odontologicas,
 - Rotas REST: GET /financeiro, GET /financeiro/resumo, GET /lancamento/:id, POST /financeiro, POST /lancamento/:id
 - Status: **Completo (v1.2)**
 
-### 9. Autenticacao
+### 9. Prontuario Eletronico - Historico de Consultas
+- Historico completo de consultas do paciente na ficha
+- Visualizacao de data, horario, dentista, procedimento e status
+- Sistema de evolucoes clinicas por consulta (CRUD)
+- Registro de notas clinicas com data e profissional responsavel
+- Model Evolution com descricao, tipo e data de registro
+- Componente ConsultationHistory integrado na ficha do paciente
+- Rotas REST: GET /consultas/paciente/:patient_id, POST /evolucao/:consultation_id, DELETE /evolucao/:id
+- Status: **Completo (v1.3)**
+
+### 10. Autenticacao
 - Login/Registro com JWT
 - Middleware de autenticacao em todas as rotas protegidas
 - Status: **Completo**
 
-### 10. Upload de Arquivos
+### 11. Upload de Arquivos
 - Upload generico de imagens
 - Busca de imagens externas por termo
 - Status: **Completo**
 
-### 11. Configuracoes
+### 12. Configuracoes
 - Pagina de configuracoes (base)
 - Status: **Parcial**
 
@@ -102,10 +121,11 @@ OdontoMaster e um sistema completo de gerenciamento para clinicas odontologicas,
 ## Roadmap - Proximas Funcionalidades
 
 ### Fase 3 - Prontuario e Odontograma (Prioridade Alta)
+- [x] **Historico de consultas na ficha do paciente** - Listagem completa com evolucoes
+- [x] **Evolucoes clinicas** - Registro de notas por consulta com profissional responsavel
+- [x] **Card de consultas do dia no Dashboard** - Visao rapida das consultas agendadas
 - [ ] **Odontograma interativo** - Mapa dental visual com status de cada dente
-- [ ] **Prontuario eletronico** - Registro completo de evolucao do paciente
 - [ ] **Receituario** - Geracao de receitas medicas vinculadas ao paciente
-- [ ] **Listar consultas no cadastro de pacientes** - Historico de consultas na ficha
 
 ### Fase 4 - Comunicacao (Prioridade Media)
 - [ ] **Lembretes por e-mail** - Lembretes automaticos de consultas
@@ -168,7 +188,33 @@ OdontoMaster e um sistema completo de gerenciamento para clinicas odontologicas,
 
 ---
 
+## Metricas do Projeto
+
+| Categoria | Quantidade |
+|-----------|-----------|
+| Models (Sequelize) | 15 |
+| Controllers | 12 |
+| Endpoints REST | 55+ |
+| Views (Vue) | 21 |
+| Componentes reutilizaveis | 14 |
+| Rotas frontend | 24 |
+| Modulos completos | 11 |
+| Modulos parciais | 1 |
+| Funcionalidades no roadmap | 35+ |
+
+---
+
 ## Historico de Versoes
+
+### v1.3.0 - Prontuario Eletronico (2026-03-23)
+- Adicionado Historico de Consultas integrado na ficha do paciente
+- Model Evolution para evolucoes clinicas (descricao, tipo, data, profissional)
+- Associacao Consultation hasMany Evolution
+- Controller ConsultationHistory com listagem por paciente + CRUD de evolucoes
+- Rotas REST: GET /consultas/paciente/:patient_id, POST /evolucao/:consultation_id, DELETE /evolucao/:id
+- Componente Vue ConsultationHistory com tabela expansivel e formulario de evolucao inline
+- Dashboard atualizado com card de consultas do dia
+- Dependencias atualizadas: Express 4.21, Sequelize 6.37, JWT 9.x, Bcrypt 5.1, Formidable 2.x
 
 ### v1.2.0 - Financeiro (2026-03-23)
 - Adicionado modulo completo Financeiro (lancamentos de receitas e despesas)

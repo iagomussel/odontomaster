@@ -73,6 +73,22 @@ module.exports = {
             color: 'yellow'
         });
 
+        /** get today's consultations */
+        let todayConsultations = await Consultation.count({
+            where: {
+                horario: {
+                    [Op.between]: [moment().startOf('day').format('YYYY-MM-DD HH:mm:ss'), moment().endOf('day').format('YYYY-MM-DD HH:mm:ss')]
+                }
+            }
+        });
+
+        cards.push({
+            title: 'Consultas hoje',
+            icon: 'today',
+            value: todayConsultations,
+            color: 'teal'
+        });
+
         /** get monthly revenue */
         let monthlyRevenue = await Financial.sum('valor', {
             where: {

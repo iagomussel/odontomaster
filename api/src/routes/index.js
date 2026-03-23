@@ -12,7 +12,8 @@ const {
     AgreementController,
     DashboardController,
     AnamneseController,
-    FinancialController
+    FinancialController,
+    ConsultationHistoryController
 
 }= require("../controllers");
 
@@ -125,6 +126,11 @@ router.get("/anamneses/:patient_id", authenticateToken, AnamneseController.index
 router.get("/anamnese/:id", authenticateToken, AnamneseController.find);
 router.post("/anamnese/:patient_id", authenticateToken, AnamneseController.store);
 router.delete("/anamnese/:id", authenticateToken, AnamneseController.destroy);
+
+//historico de consultas (prontuario)
+router.get("/consultas/paciente/:patient_id", authenticateToken, ConsultationHistoryController.index);
+router.post("/evolucao/:consultation_id", authenticateToken, ConsultationHistoryController.storeEvolution);
+router.delete("/evolucao/:id", authenticateToken, ConsultationHistoryController.destroyEvolution);
 
 //uploads
 router.post("/upload", authenticateToken, FilesController.upload);

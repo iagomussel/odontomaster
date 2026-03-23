@@ -33,12 +33,12 @@
         "vue3-datepicker": "^0.2.4"
     },
     "devDependencies": {
-        "@vue/cli-plugin-babel": "~4.5.0",
-        "@vue/cli-plugin-eslint": "~4.5.0",
+        "@vue/cli-plugin-babel": "~5.0.0",
+        "@vue/cli-plugin-eslint": "~5.0.0",
         "@vue/compiler-sfc": "^3.0.0",
         "babel-eslint": "^10.1.0",
-        "eslint": "^6.7.2",
-        "eslint-plugin-vue": "^7.0.0"
+        "eslint": "^7.32.0",
+        "eslint-plugin-vue": "^8.7.1"
     },
     "eslintConfig": {
         "root": true,
@@ -52,7 +52,9 @@
         "parserOptions": {
             "parser": "babel-eslint"
         },
-        "rules": {}
+        "rules": {
+            "vue/multi-word-component-names": "off"
+        }
     },
     "proxy": "http://localhots:3000",
     "browserslist": [
