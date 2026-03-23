@@ -2,7 +2,8 @@
 const {
     Patient,
     Consultation,
-    Professional
+    Professional,
+    Financial
 } = require('../models');
 
 const { Op } = require("sequelize")
@@ -71,6 +72,24 @@ module.exports = {
             value: percentageAvailableTimes.toFixed(2) + '%',
             color: 'yellow'
         });
+
+        /** get monthly revenue */
+        let monthlyRevenue = await Financial.sum('valor', {
+            where: {
+                tipo: 'receita',
+                data: {
+                    [Op.between]: [moment().startOf('month').format('YYYY-MM-DD'), moment().endOf('month').format('YYYY-MM-DD')]
+                }
+            }
+        });
+
+        cards.push({
+            title: 'Receita do mês',
+            icon: 'attach_money',
+            value: 'R$ ' + (monthlyRevenue || 0).toFixed(2),
+            color: 'green'
+        });
+
         res.json(cards);
     }
 

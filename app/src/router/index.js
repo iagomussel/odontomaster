@@ -54,6 +54,18 @@ const routes = [
         name: ".procedimentosEdit",
         component: () => import("@/views/procedimentos/ProcedimentoNew.vue"),
     },{
+        path: "/financeiro",
+        name: "Financeiro",
+        component: () => import("@/views/financeiro/FinanceiroList.vue"),
+    },{
+        path: "/financeiro/novo",
+        name: ".financeiroNovo",
+        component: () => import("@/views/financeiro/FinanceiroNew.vue"),
+    },{
+        path: "/lancamento/:id",
+        name: ".lancamentoEdit",
+        component: () => import("@/views/financeiro/FinanceiroNew.vue"),
+    },{
         path: "/agenda",
         name: "Agenda",
         component: () => import("@/views/scheduler/Scheduler.vue"),
