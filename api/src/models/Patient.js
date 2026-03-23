@@ -44,6 +44,7 @@ class Patient extends Model {
         });
         this.hasMany(models.Obs, { foreignKey: "patient_id", as: "obs" })
         this.hasMany(models.Plan, { foreignKey: "patient_id", as: "plans" })
+        this.hasMany(models.Anamnese, { foreignKey: "patient_id", as: "anamneses" })
 
 
     }
