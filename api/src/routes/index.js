@@ -11,6 +11,7 @@ const {
     FilesController,
     AgreementController,
     DashboardController,
+    AnamneseController,
     FinancialController
 
 }= require("../controllers");
@@ -118,6 +119,12 @@ router.get("/consultas/horarios/:id/:date", authenticateToken, SchedulerControll
 //get dates available for a professional [id = professional_id]
 router.get("/consultas/datas/:id", authenticateToken, SchedulerController.availableDates);
 
+
+//anamnese
+router.get("/anamneses/:patient_id", authenticateToken, AnamneseController.index);
+router.get("/anamnese/:id", authenticateToken, AnamneseController.find);
+router.post("/anamnese/:patient_id", authenticateToken, AnamneseController.store);
+router.delete("/anamnese/:id", authenticateToken, AnamneseController.destroy);
 
 //uploads
 router.post("/upload", authenticateToken, FilesController.upload);

@@ -1,129 +1,198 @@
-# OdontoMaster - Product Plan
+# OdontoMaster - Plano de Produto Abrangente
 
-## Visão Geral
-OdontoMaster é um sistema de gestão para clínicas odontológicas, projetado para gerenciar pacientes, profissionais, agendamentos, procedimentos, convênios e finanças.
-
-## Stack Tecnológica
-- **Backend:** Node.js + Express + Sequelize ORM (PostgreSQL/MySQL)
-- **Frontend:** Vue.js 3 + Materialize CSS
-- **Autenticação:** JWT (JSON Web Tokens)
-- **Infraestrutura:** Docker + Docker Compose
+## Visao Geral
+OdontoMaster e um sistema completo de gerenciamento para clinicas odontologicas, construido com Vue 3 (frontend) e Express/Sequelize/MySQL (backend). O sistema abrange desde o cadastro de pacientes ate o controle financeiro.
 
 ---
 
-## Módulos
+## Arquitetura
 
-### 1. Autenticação e Usuários ✅
-- [x] Login com JWT
-- [x] Registro de usuários
-- [x] Refresh token automático
-- [ ] Recuperação de senha
-- [ ] Controle de permissões por perfil (admin, dentista, recepcionista)
+### Stack Tecnologico
+- **Frontend:** Vue 3 + Vue Router + Materialize CSS + Axios
+- **Backend:** Express.js + Sequelize ORM + MySQL
+- **Autenticacao:** JWT (JSON Web Tokens)
+- **Containerizacao:** Docker + Docker Compose
 
-### 2. Pacientes ✅
-- [x] Cadastro completo (dados pessoais, endereço, telefones)
-- [x] Listagem paginada com busca
-- [x] Vinculação com profissionais
-- [x] Vinculação com convênios/planos
-- [x] Observações do paciente
-- [x] Upload de imagem
-- [ ] Histórico clínico completo
-- [ ] Anamnese (ficha médica)
-- [ ] Odontograma interativo
-
-### 3. Profissionais/Dentistas ✅
-- [x] Cadastro com CRM e especialidade
-- [x] Configuração de dias/horários disponíveis
-- [x] Vinculação com usuário do sistema
-- [ ] Dashboard individual do profissional
-- [ ] Relatório de produtividade
-
-### 4. Procedimentos ✅
-- [x] Cadastro com valor, duração e periodicidade
-- [x] Código TUSS
-- [x] Listagem paginada com busca
-- [ ] Categorização de procedimentos
-- [ ] Tabela de preços por convênio
-
-### 5. Convênios ✅
-- [x] Cadastro de convênios
-- [x] Vinculação com pacientes via planos
-- [x] Convênio padrão
-- [ ] Tabela de cobertura por procedimento
-- [ ] Gestão de guias/autorizações
-
-### 6. Agendamento/Consultas ✅
-- [x] Agendamento com data/horário
-- [x] Verificação de horários disponíveis
-- [x] Encaixes
-- [x] Cancelamento de consultas
-- [x] Visualização por profissional
-- [ ] Confirmação via notificação
-- [ ] Reagendamento facilitado
-- [ ] Status de consulta (aguardando, em atendimento, finalizada)
-
-### 7. Financeiro 🔄 (Em desenvolvimento)
-- [x] Modelo de lançamentos financeiros (receitas e despesas)
-- [x] Vinculação com consulta, paciente e profissional
-- [x] Listagem paginada com busca e filtros por período
-- [x] Formulário de lançamento manual
-- [x] Edição de lançamentos existentes
-- [x] Dashboard financeiro (totais de receita, despesa, saldo)
-- [ ] Geração de recibos/notas
-- [ ] Relatórios financeiros por período
-- [ ] Integração com convênios (faturamento)
-- [ ] Controle de inadimplência
-- [ ] Fluxo de caixa
-
-### 8. Dashboard ✅
-- [x] Cards com métricas (pacientes, consultas, horários disponíveis)
-- [x] Card financeiro (receita do mês)
-- [ ] Gráficos de tendência
-- [ ] Próximas consultas do dia
-- [ ] Alertas e notificações
-
-### 9. Relatórios (Planejado)
-- [ ] Relatório de atendimentos por período
-- [ ] Relatório financeiro
-- [ ] Relatório de procedimentos realizados
-- [ ] Relatório de pacientes por convênio
-- [ ] Exportação para PDF/Excel
-
-### 10. Configurações ✅
-- [x] Página de configurações
-- [ ] Configuração de horário da clínica
-- [ ] Personalização de campos
-- [ ] Backup e restauração
+### Padroes de Design
+- **MVC:** Controllers separam logica de negocio das rotas
+- **Auto-discovery:** Models e Controllers sao carregados automaticamente via filesystem scan
+- **Component-based:** Frontend usa componentes reutilizaveis (hi-table, hi-field-list, hi-select, etc.)
+- **RESTful API:** Endpoints seguem convencoes REST
 
 ---
 
-## Roadmap
+## Modulos Implementados
 
-### Fase 1 - MVP ✅
-- Cadastro de pacientes, profissionais, procedimentos e convênios
-- Agendamento de consultas
-- Dashboard básico
-- Autenticação
+### 1. Dashboard
+- Cards com metricas: total de pacientes, consultas, consultas canceladas, horarios disponiveis
+- Card de receita mensal (financeiro)
+- Status: **Completo**
 
-### Fase 2 - Financeiro 🔄
-- Módulo financeiro completo
-- Dashboard com dados financeiros
-- Lançamentos vinculados a consultas
+### 2. Gestao de Pacientes
+- CRUD completo com paginacao
+- Dados basicos (nome, ficha, data nascimento, sexo, email)
+- Enderecos com busca automatica via CEP (ViaCEP API)
+- Telefones multiplos com tipo (celular, fixo, trabalho)
+- Vinculo com dentistas e convenios
+- Observacoes
+- Upload de imagem
+- Status: **Completo**
 
-### Fase 3 - Clínico (Próximo)
-- Anamnese/ficha médica
-- Odontograma
-- Histórico clínico do paciente
-- Prontuário digital
+### 3. Anamnese (Ficha Medica)
+- Formulario completo de historico medico do paciente
+- Saude geral: tratamento medico, medicamentos, alergias
+- Condicoes medicas: diabetes, hipertensao, problemas cardiacos, respiratorios, renais, hepaticos, gastrointestinais, articulares, disturbios sanguineos, epilepsia, HIV, hepatite
+- Habitos: tabagismo, consumo de alcool, bruxismo
+- Saude bucal: sangramento gengival, sensibilidade dental, dor na ATM
+- Campos especificos para mulheres: gestante, lactante
+- Informacoes complementares: cirurgias anteriores, observacoes
+- Integrado na ficha do paciente com historico de anamneses
+- Status: **Completo (v1.1)**
 
-### Fase 4 - Relatórios e Integrações
-- Relatórios gerenciais
-- Exportação PDF/Excel
-- Integração com convênios (faturamento TISS)
-- Notificações (SMS/WhatsApp/Email)
+### 4. Gestao de Dentistas
+- CRUD completo com paginacao
+- Dados profissionais (nome, CRM, especialidade, imagem)
+- Configuracao de dias e horarios disponiveis
+- Vinculo com usuario do sistema
+- Status: **Completo**
 
-### Fase 5 - Avançado
-- Controle de estoque
-- Multi-clínica
-- App mobile
-- Assinatura digital de documentos
+### 5. Convenios
+- CRUD completo com paginacao
+- Status: **Completo**
+
+### 6. Procedimentos
+- CRUD completo com paginacao
+- Dados: nome, valor, duracao, periodicidade, codigo TUSS
+- Status: **Completo**
+
+### 7. Agendamento de Consultas
+- Calendario visual por dia
+- Horarios disponiveis por profissional
+- Encaixe de consultas
+- Cancelamento
+- Status: **Completo (base)**
+
+### 8. Financeiro
+- Lancamentos financeiros (receitas e despesas)
+- Vinculacao com paciente, profissional, consulta e procedimento
+- Listagem paginada com busca e filtros por periodo/tipo
+- Formulario de lancamento com forma de pagamento e status
+- Edicao de lancamentos existentes
+- Resumo financeiro (totais de receita, despesa, saldo do mes)
+- Card de receita mensal no Dashboard
+- Rotas REST: GET /financeiro, GET /financeiro/resumo, GET /lancamento/:id, POST /financeiro, POST /lancamento/:id
+- Status: **Completo (v1.2)**
+
+### 9. Autenticacao
+- Login/Registro com JWT
+- Middleware de autenticacao em todas as rotas protegidas
+- Status: **Completo**
+
+### 10. Upload de Arquivos
+- Upload generico de imagens
+- Busca de imagens externas por termo
+- Status: **Completo**
+
+### 11. Configuracoes
+- Pagina de configuracoes (base)
+- Status: **Parcial**
+
+---
+
+## Roadmap - Proximas Funcionalidades
+
+### Fase 3 - Prontuario e Odontograma (Prioridade Alta)
+- [ ] **Odontograma interativo** - Mapa dental visual com status de cada dente
+- [ ] **Prontuario eletronico** - Registro completo de evolucao do paciente
+- [ ] **Receituario** - Geracao de receitas medicas vinculadas ao paciente
+- [ ] **Listar consultas no cadastro de pacientes** - Historico de consultas na ficha
+
+### Fase 4 - Comunicacao (Prioridade Media)
+- [ ] **Lembretes por e-mail** - Lembretes automaticos de consultas
+- [ ] **Lembretes por SMS** - Integracao com gateway SMS
+- [ ] **Lembretes por WhatsApp** - Integracao com WhatsApp Business API
+- [ ] **Templates de mensagens** - Templates customizaveis para e-mail/SMS/WhatsApp
+- [ ] **Integracao Google Calendar** - Sincronizacao com Google Calendar
+
+### Fase 5 - Medicamentos e Exames (Prioridade Media)
+- [ ] **Cadastro de medicamentos** - Base de medicamentos com posologia
+- [ ] **Geracao de receitas** - Receitas com medicamentos cadastrados
+- [ ] **Cadastro de exames** - Tipos de exames e resultados
+- [ ] **Sugestao de locais para compra** - Farmacias com preco total
+
+### Fase 6 - Financeiro Avancado (Prioridade Media-Alta)
+- [ ] **Geracao de recibos/notas** - PDF de recibos
+- [ ] **Relatorios financeiros por periodo** - Graficos e exportacao
+- [ ] **Integracao com convenios** - Faturamento TISS
+- [ ] **Controle de inadimplencia** - Alertas de pagamentos pendentes
+- [ ] **Fluxo de caixa** - Visualizacao de entradas e saidas
+- [ ] **Emissao de boletos** - Integracao com gateway de pagamento (IUGU)
+
+### Fase 7 - Relatorios (Prioridade Media)
+- [ ] **Relatorio de pacientes** - Exportacao e filtros
+- [ ] **Relatorio de consultas** - Por periodo, dentista, procedimento
+- [ ] **Relatorio de procedimentos** - Mais realizados, receita por procedimento
+- [ ] **Relatorio de exames** - Pendentes, realizados
+- [ ] **Relatorio de medicamentos** - Mais prescritos
+- [ ] **Relatorio de receitas** - Por paciente, periodo
+
+### Fase 8 - Administracao (Prioridade Baixa)
+- [ ] **Configuracoes de e-mail** - SMTP settings
+- [ ] **Configuracoes de WhatsApp** - API credentials
+- [ ] **Configuracoes de SMS** - Gateway settings
+- [ ] **Configuracoes gerais** - Dados da clinica, logo
+- [ ] **Credenciais para APIs externas** - SMS, IUGU, Google
+- [ ] **Cadastro de especializacoes** - Filtro em procedimentos por especialidade
+- [ ] **Listar pacientes vinculados ao dentista** - Na ficha do dentista
+
+### Fase 9 - Seguranca e Backup (Prioridade Baixa)
+- [ ] **Backup de dados** - Exportacao completa do banco
+- [ ] **Backup de imagens** - Exportacao de arquivos
+- [ ] **Backup de arquivos** - Exportacao geral
+- [ ] **Logs de erros** - Registro e visualizacao de erros
+- [ ] **Logs de acesso** - Auditoria de acessos
+- [ ] **Notificacoes de erros** - Alertas de erros criticos
+- [ ] **Notificacoes de acesso** - Alertas de acessos suspeitos
+
+### Fase 10 - Lembretes Automatizados (Prioridade Baixa)
+- [ ] **Lembretes de consultas** - Antes da consulta
+- [ ] **Lembretes de exames** - Exames pendentes
+- [ ] **Lembretes de medicamentos** - Renovacao de receitas
+- [ ] **Lembretes de aniversarios** - Felicitacoes automaticas
+
+### Fase 11 - Avancado
+- [ ] **Controle de estoque** - Materiais odontologicos
+- [ ] **Multi-clinica** - Suporte a varias unidades
+- [ ] **App mobile** - Versao mobile responsiva
+- [ ] **Assinatura digital** - Assinatura digital de documentos
+
+---
+
+## Historico de Versoes
+
+### v1.2.0 - Financeiro (2026-03-23)
+- Adicionado modulo completo Financeiro (lancamentos de receitas e despesas)
+- Model Financial com tipo, valor, data, forma de pagamento, status, observacao
+- Associacoes com Patient, Professional, Consultation, Procedure
+- Controller com CRUD + endpoint de resumo financeiro
+- Rotas REST: GET /financeiro, GET /financeiro/resumo, POST /financeiro, etc.
+- Vista FinanceiroList com cards de resumo (receitas, despesas, saldo)
+- Vista FinanceiroNew com formulario completo e select ajax de paciente/profissional
+- Dashboard atualizado com card de receita mensal
+
+### v1.1.0 - Anamnese (2026-03-23)
+- Adicionado modulo completo de Anamnese (ficha medica)
+- Model Sequelize com 25+ campos de historico medico
+- Controller com CRUD completo
+- Rotas REST: GET /anamneses/:patient_id, GET /anamnese/:id, POST /anamnese/:patient_id, DELETE /anamnese/:id
+- Componente Vue AnamneseForm com secoes: saude geral, condicoes medicas, habitos, saude bucal, informacoes adicionais
+- Componente AnamneseList integrado na ficha do paciente
+- Campos condicionais (gestante/lactante para pacientes femininas)
+- Campos com revelacao condicional (descricao de alergias, medicamentos, tratamento)
+
+### v1.0.0 - Base
+- Dashboard com metricas
+- CRUD de pacientes, dentistas, convenios, procedimentos
+- Agendamento de consultas com calendario
+- Autenticacao JWT
+- Upload de arquivos
