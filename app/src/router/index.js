@@ -74,6 +74,10 @@ const routes = [
         name: ".agendaNovo",
         component: () => import("@/views/scheduler/SchedulerNew.vue"),
     },  {
+        path: "/paciente/:patient_id/odontograma",
+        name: ".odontograma",
+        component: () => import("@/views/odontograma/OdontogramaPage.vue"),
+    },  {
         path: "/paciente/:patient_id/anamnese/nova",
         name: ".anamneseNova",
         component: () => import("@/views/anamnese/AnamneseForm.vue"),

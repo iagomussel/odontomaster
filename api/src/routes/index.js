@@ -13,7 +13,8 @@ const {
     DashboardController,
     AnamneseController,
     FinancialController,
-    ConsultationHistoryController
+    ConsultationHistoryController,
+    OdontogramaController
 
 }= require("../controllers");
 
@@ -151,5 +152,14 @@ router.post("/financeiro", authenticateToken, FinancialController.store);
 router.post("/lancamento/:id", authenticateToken, FinancialController.store);
 
 router.get("/test/:id/:date", SchedulerController.availableTimes)
+
+//odontograma
+router.get("/odontograma/:patient_id", authenticateToken, OdontogramaController.index);
+router.get("/odontograma/:patient_id/atual", authenticateToken, OdontogramaController.current);
+router.get("/odontograma/:patient_id/dente/:dente", authenticateToken, OdontogramaController.history);
+router.get("/odontograma/registro/:id", authenticateToken, OdontogramaController.find);
+router.post("/odontograma/:patient_id", authenticateToken, OdontogramaController.store);
+router.post("/odontograma/:patient_id/lote", authenticateToken, OdontogramaController.storeBatch);
+router.delete("/odontograma/registro/:id", authenticateToken, OdontogramaController.destroy);
 
 module.exports = router;

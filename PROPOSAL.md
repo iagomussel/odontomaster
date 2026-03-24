@@ -1,28 +1,29 @@
 # OdontoMaster - Plano de Produto Abrangente
 
 ## Visao Geral
-OdontoMaster e um sistema completo de gerenciamento para clinicas odontologicas, construido com Vue 3 (frontend) e Express/Sequelize/MySQL (backend). O sistema abrange desde o cadastro de pacientes ate o controle financeiro e prontuario eletronico.
+OdontoMaster e um sistema completo de gerenciamento para clinicas odontologicas, construido com Vue 3 (frontend) e Express/Sequelize/MySQL (backend). O sistema abrange desde o cadastro de pacientes ate o controle financeiro, prontuario eletronico e odontograma interativo.
 
 ---
 
 ## Arquitetura
 
 ### Stack Tecnologico
-- **Frontend:** Vue 3 + Vue Router + Materialize CSS + Axios
-- **Backend:** Express.js 4.21 + Sequelize 6.37 ORM + MySQL
-- **Autenticacao:** JWT 9.x (JSON Web Tokens)
+- **Frontend:** Vue 3.5 + Vue Router 4 + Materialize CSS + Bootstrap 5 + Axios
+- **Backend:** Express.js 4.22 + Sequelize 6.37 ORM + MySQL
+- **Autenticacao:** JWT 9.x (JSON Web Tokens) + Bcrypt 5.1
 - **Containerizacao:** Docker + Docker Compose
 
 ### Padroes de Design
 - **MVC:** Controllers separam logica de negocio das rotas
 - **Auto-discovery:** Models e Controllers sao carregados automaticamente via filesystem scan
-- **Component-based:** Frontend usa componentes reutilizaveis (hi-table, hi-field-list, hi-select, etc.)
+- **Component-based:** Frontend usa componentes reutilizaveis (hi-table, hi-field-list, hi-select, hi-select-ajax, etc.)
 - **RESTful API:** Endpoints seguem convencoes REST
 - **SRP (Single Responsibility):** Cada controller/model trata uma unica entidade
 - **DRY:** Componentes reutilizaveis no frontend e utilitarios compartilhados no backend
+- **Lazy Loading:** Todas as rotas frontend usam dynamic import para code splitting
 
 ### Estrutura do Banco de Dados
-- 15 entidades Sequelize com associacoes relacionais
+- 16 entidades Sequelize com associacoes relacionais
 - Soft deletes (paranoid mode) em todas as tabelas
 - Timestamps automaticos (created_at, updated_at, deleted_at)
 - Nomenclatura underscored (snake_case)
@@ -102,17 +103,36 @@ OdontoMaster e um sistema completo de gerenciamento para clinicas odontologicas,
 - Rotas REST: GET /consultas/paciente/:patient_id, POST /evolucao/:consultation_id, DELETE /evolucao/:id
 - Status: **Completo (v1.3)**
 
-### 10. Autenticacao
+### 10. Odontograma Interativo
+- Mapa dental visual com 32 dentes (notacao FDI internacional)
+- Arcadas superior e inferior com quadrantes direito/esquerdo
+- SVG interativo com representacao das 5 faces dentais (V, L, M, D, O)
+- 10 condicoes dentais: higido, cariado, restaurado, ausente, fraturado, implante, endodontia, protese, selante, em tratamento
+- Codigo de cores por condicao com legenda visual
+- Registro por face individual do dente ou condicao geral
+- Historico completo de alteracoes por dente com data, profissional e observacao
+- Vinculacao com procedimento realizado
+- Estado atual do odontograma (ultima condicao por dente/face)
+- Cadastro em lote de multiplos dentes
+- Integrado na ficha do paciente (acima do historico de consultas)
+- Pagina dedicada acessivel via /paciente/:id/odontograma
+- Model Odontograma com dente, face, condicao, observacao, data_registro
+- Associacoes com Patient, Professional, Procedure
+- Controller com CRUD + current state + batch + tooth history
+- Rotas REST: GET /odontograma/:patient_id, GET /odontograma/:patient_id/atual, GET /odontograma/:patient_id/dente/:dente, POST /odontograma/:patient_id, POST /odontograma/:patient_id/lote, DELETE /odontograma/registro/:id
+- Status: **Completo (v1.4)**
+
+### 11. Autenticacao
 - Login/Registro com JWT
 - Middleware de autenticacao em todas as rotas protegidas
 - Status: **Completo**
 
-### 11. Upload de Arquivos
+### 12. Upload de Arquivos
 - Upload generico de imagens
 - Busca de imagens externas por termo
 - Status: **Completo**
 
-### 12. Configuracoes
+### 13. Configuracoes
 - Pagina de configuracoes (base)
 - Status: **Parcial**
 
@@ -120,11 +140,11 @@ OdontoMaster e um sistema completo de gerenciamento para clinicas odontologicas,
 
 ## Roadmap - Proximas Funcionalidades
 
-### Fase 3 - Prontuario e Odontograma (Prioridade Alta)
+### Fase 3 - Prontuario e Odontograma (Prioridade Alta) - CONCLUIDA
 - [x] **Historico de consultas na ficha do paciente** - Listagem completa com evolucoes
 - [x] **Evolucoes clinicas** - Registro de notas por consulta com profissional responsavel
 - [x] **Card de consultas do dia no Dashboard** - Visao rapida das consultas agendadas
-- [ ] **Odontograma interativo** - Mapa dental visual com status de cada dente
+- [x] **Odontograma interativo** - Mapa dental visual SVG com status por dente e face, historico e vinculacao com procedimentos
 - [ ] **Receituario** - Geracao de receitas medicas vinculadas ao paciente
 
 ### Fase 4 - Comunicacao (Prioridade Media)
@@ -185,6 +205,7 @@ OdontoMaster e um sistema completo de gerenciamento para clinicas odontologicas,
 - [ ] **Multi-clinica** - Suporte a varias unidades
 - [ ] **App mobile** - Versao mobile responsiva
 - [ ] **Assinatura digital** - Assinatura digital de documentos
+- [ ] **RBAC** - Controle de acesso por perfil (admin, dentista, recepcionista)
 
 ---
 
@@ -192,19 +213,33 @@ OdontoMaster e um sistema completo de gerenciamento para clinicas odontologicas,
 
 | Categoria | Quantidade |
 |-----------|-----------|
-| Models (Sequelize) | 15 |
-| Controllers | 12 |
-| Endpoints REST | 55+ |
-| Views (Vue) | 21 |
+| Models (Sequelize) | 16 |
+| Controllers | 13 |
+| Endpoints REST | 62+ |
+| Views (Vue) | 23 |
 | Componentes reutilizaveis | 14 |
-| Rotas frontend | 24 |
-| Modulos completos | 11 |
+| Rotas frontend | 25 |
+| Modulos completos | 12 |
 | Modulos parciais | 1 |
 | Funcionalidades no roadmap | 35+ |
 
 ---
 
 ## Historico de Versoes
+
+### v1.4.0 - Odontograma Interativo (2026-03-24)
+- Adicionado Odontograma interativo com mapa dental SVG de 32 dentes (notacao FDI)
+- Model Odontograma com dente, face, condicao, observacao, data_registro
+- Associacoes com Patient, Professional, Procedure
+- Controller com CRUD + estado atual (current) + historico por dente + cadastro em lote (batch)
+- 10 condicoes dentais com codigo de cores: higido, cariado, restaurado, ausente, fraturado, implante, endodontia, protese, selante, em tratamento
+- Representacao visual das 5 faces dentais (V, L, M, D, O) por dente
+- Rotas REST: GET /odontograma/:patient_id, GET /odontograma/:patient_id/atual, GET /odontograma/:patient_id/dente/:dente, POST /odontograma/:patient_id, POST /odontograma/:patient_id/lote, DELETE /odontograma/registro/:id
+- Componente Vue OdontogramaChart com SVG interativo, legenda, painel de edicao e historico
+- Pagina dedicada OdontogramaPage acessivel via /paciente/:patient_id/odontograma
+- Integrado na ficha do paciente (PacienteNew) acima do historico de consultas
+- Rota frontend adicionada no router
+- Dependencias atualizadas: Express 4.22, Axios 1.13, Vue 3.5
 
 ### v1.3.0 - Prontuario Eletronico (2026-03-23)
 - Adicionado Historico de Consultas integrado na ficha do paciente
