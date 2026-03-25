@@ -86,6 +86,10 @@ const routes = [
         name: ".anamneseEdit",
         component: () => import("@/views/anamnese/AnamneseForm.vue"),
     },  {
+        path: "/relatorios",
+        name: "Relatórios",
+        component: () => import("@/views/relatorios/RelatoriosPage.vue"),
+    },  {
         path: "/sobre",
         name: "Sobre",
         component: () => import("@/views/About.vue"),

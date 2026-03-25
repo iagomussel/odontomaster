@@ -14,7 +14,8 @@ const {
     AnamneseController,
     FinancialController,
     ConsultationHistoryController,
-    OdontogramaController
+    OdontogramaController,
+    ReportsController
 
 }= require("../controllers");
 
@@ -161,5 +162,12 @@ router.get("/odontograma/registro/:id", authenticateToken, OdontogramaController
 router.post("/odontograma/:patient_id", authenticateToken, OdontogramaController.store);
 router.post("/odontograma/:patient_id/lote", authenticateToken, OdontogramaController.storeBatch);
 router.delete("/odontograma/registro/:id", authenticateToken, OdontogramaController.destroy);
+
+//relatorios
+router.get("/relatorios/resumo", authenticateToken, ReportsController.overview);
+router.get("/relatorios/pacientes", authenticateToken, ReportsController.patients);
+router.get("/relatorios/consultas", authenticateToken, ReportsController.consultations);
+router.get("/relatorios/financeiro", authenticateToken, ReportsController.financial);
+router.get("/relatorios/procedimentos", authenticateToken, ReportsController.procedures);
 
 module.exports = router;

@@ -122,17 +122,28 @@ OdontoMaster e um sistema completo de gerenciamento para clinicas odontologicas,
 - Rotas REST: GET /odontograma/:patient_id, GET /odontograma/:patient_id/atual, GET /odontograma/:patient_id/dente/:dente, POST /odontograma/:patient_id, POST /odontograma/:patient_id/lote, DELETE /odontograma/registro/:id
 - Status: **Completo (v1.4)**
 
-### 11. Autenticacao
+### 11. Relatorios
+- Pagina dedicada com filtros por periodo e tipo de relatorio
+- Relatorio geral (resumo): pacientes, consultas, cancelamentos, receitas, despesas, saldo
+- Relatorio de pacientes: total, distribuicao por genero, listagem completa
+- Relatorio de consultas: total, por status, por profissional, detalhamento
+- Relatorio financeiro: receitas vs despesas, por forma de pagamento, por status, detalhamento
+- Relatorio de procedimentos: ranking dos mais realizados com valor total
+- Funcao de impressao integrada
+- Rotas REST: GET /relatorios/resumo, GET /relatorios/pacientes, GET /relatorios/consultas, GET /relatorios/financeiro, GET /relatorios/procedimentos
+- Status: **Completo (v1.5)**
+
+### 12. Autenticacao
 - Login/Registro com JWT
 - Middleware de autenticacao em todas as rotas protegidas
 - Status: **Completo**
 
-### 12. Upload de Arquivos
+### 13. Upload de Arquivos
 - Upload generico de imagens
 - Busca de imagens externas por termo
 - Status: **Completo**
 
-### 13. Configuracoes
+### 14. Configuracoes
 - Pagina de configuracoes (base)
 - Status: **Parcial**
 
@@ -168,13 +179,15 @@ OdontoMaster e um sistema completo de gerenciamento para clinicas odontologicas,
 - [ ] **Fluxo de caixa** - Visualizacao de entradas e saidas
 - [ ] **Emissao de boletos** - Integracao com gateway de pagamento (IUGU)
 
-### Fase 7 - Relatorios (Prioridade Media)
-- [ ] **Relatorio de pacientes** - Exportacao e filtros
-- [ ] **Relatorio de consultas** - Por periodo, dentista, procedimento
-- [ ] **Relatorio de procedimentos** - Mais realizados, receita por procedimento
-- [ ] **Relatorio de exames** - Pendentes, realizados
-- [ ] **Relatorio de medicamentos** - Mais prescritos
-- [ ] **Relatorio de receitas** - Por paciente, periodo
+### Fase 7 - Relatorios (Prioridade Media) - CONCLUIDA
+- [x] **Relatorio de pacientes** - Exportacao e filtros
+- [x] **Relatorio de consultas** - Por periodo, dentista, procedimento
+- [x] **Relatorio de procedimentos** - Mais realizados, receita por procedimento
+- [x] **Relatorio financeiro** - Receitas, despesas, saldo, por forma de pagamento
+- [x] **Relatorio geral (resumo)** - Visao consolidada de todos os indicadores
+- [ ] **Relatorio de exames** - Pendentes, realizados (depende de Fase 5)
+- [ ] **Relatorio de medicamentos** - Mais prescritos (depende de Fase 5)
+- [ ] **Relatorio de receitas** - Por paciente, periodo (depende de Fase 5)
 
 ### Fase 8 - Administracao (Prioridade Baixa)
 - [ ] **Configuracoes de e-mail** - SMTP settings
@@ -214,18 +227,31 @@ OdontoMaster e um sistema completo de gerenciamento para clinicas odontologicas,
 | Categoria | Quantidade |
 |-----------|-----------|
 | Models (Sequelize) | 16 |
-| Controllers | 13 |
-| Endpoints REST | 62+ |
+| Controllers | 14 |
+| Endpoints REST | 67+ |
 | Views (Vue) | 23 |
 | Componentes reutilizaveis | 14 |
 | Rotas frontend | 25 |
-| Modulos completos | 12 |
+| Modulos completos | 13 |
 | Modulos parciais | 1 |
 | Funcionalidades no roadmap | 35+ |
 
 ---
 
 ## Historico de Versoes
+
+### v1.5.0 - Relatorios (2026-03-25)
+- Adicionado modulo completo de Relatorios com 5 tipos de relatorio
+- Controller Reports com endpoints: resumo, pacientes, consultas, financeiro, procedimentos
+- Pagina Vue RelatoriosPage com filtros por periodo e tipo
+- Relatorio geral: pacientes cadastrados, consultas, cancelamentos, receitas, despesas, saldo
+- Relatorio de pacientes: total, genero, listagem completa
+- Relatorio de consultas: total, por status, por profissional, detalhamento
+- Relatorio financeiro: receitas vs despesas, por forma de pagamento, por status
+- Relatorio de procedimentos: ranking dos mais realizados com valor total
+- Funcao de impressao integrada
+- Rota frontend /relatorios com link na navegacao
+- Dependencias atualizadas: mysql2 v3.14 (fix critico de seguranca), morgan v1.10, tar v7.5
 
 ### v1.4.0 - Odontograma Interativo (2026-03-24)
 - Adicionado Odontograma interativo com mapa dental SVG de 32 dentes (notacao FDI)
