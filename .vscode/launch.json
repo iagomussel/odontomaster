@@ -1,16 +1,19 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
         {
-            "type": "pwa-chrome",
+            "type": "node-terminal",
+            "name": "Run Script: start API",
             "request": "launch",
-            "name": "Launch Chrome against localhost",
-            "url": "http://localhost",
-            "webRoot": "${workspaceFolder}"
+            "command": "cd api ; npm run dev",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "node-terminal",
+            "name": "Run Script: start APP",
+            "request": "launch",
+            "command": "cd app; npm run serve",
+            "cwd": "${workspaceFolder}"
         }
     ]
 }

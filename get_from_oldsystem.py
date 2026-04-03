@@ -18,7 +18,7 @@ old_system = {
         "charset": "utf8mb4"}
 }
 new_system = {
-    "url": "localhost:3000",
+    "url": "localhost:8100",
     "user": "admin",
     "password": "admin",
 }
@@ -69,7 +69,8 @@ def main():
     jwt = get_jwt()
     print("connecting to old database")
     conn = mysql.connector.connect(**old_system["db"])
-    print("connected")
+    print("connected") 
+    
     cursor = conn.cursor(dictionary=True)
     print("executing query")
     cursor.execute(query)
@@ -101,11 +102,8 @@ def main():
         data = json.loads(json_row)
         if row["dtNascimento"]:
             data["data_nasc"] = row["dtNascimento"].strftime("%d/%m/%Y")
-
-        print(data)
         response = requests.post(url, json=data, headers={"Authorization": "Bearer {}".format(jwt)})
         print(response)
-
 
 if __name__ == "__main__":
     main()

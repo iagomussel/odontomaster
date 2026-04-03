@@ -44,8 +44,7 @@ jobs:
           ^JWT_KEY: ${{ secrets.JWT_SECRET }}
           ^DEFAULT_PASSWORD: 123
           ^GITHUB_TOKEN: ${{ secrets.TOKEN }}
-
-
+          ^UNSPLASH_KEY: ${{ secrets.UNSPLASH_KEY }}
       -
         name: Build and push
         id: docker_build

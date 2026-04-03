@@ -10,7 +10,12 @@ const {
     ProcedureController,
     FilesController,
     AgreementController,
-    DashboardController
+    DashboardController,
+    AnamneseController,
+    FinancialController,
+    ConsultationHistoryController,
+    OdontogramaController,
+    ReportsController
 
 }= require("../controllers");
 
@@ -118,6 +123,17 @@ router.get("/consultas/horarios/:id/:date", authenticateToken, SchedulerControll
 router.get("/consultas/datas/:id", authenticateToken, SchedulerController.availableDates);
 
 
+//anamnese
+router.get("/anamneses/:patient_id", authenticateToken, AnamneseController.index);
+router.get("/anamnese/:id", authenticateToken, AnamneseController.find);
+router.post("/anamnese/:patient_id", authenticateToken, AnamneseController.store);
+router.delete("/anamnese/:id", authenticateToken, AnamneseController.destroy);
+
+//historico de consultas (prontuario)
+router.get("/consultas/paciente/:patient_id", authenticateToken, ConsultationHistoryController.index);
+router.post("/evolucao/:consultation_id", authenticateToken, ConsultationHistoryController.storeEvolution);
+router.delete("/evolucao/:id", authenticateToken, ConsultationHistoryController.destroyEvolution);
+
 //uploads
 router.post("/upload", authenticateToken, FilesController.upload);
 router.get("/upload/:id", FilesController.find);
@@ -127,8 +143,31 @@ router.post("/report", GithubController.report);
 
 router.get("/dashboard", authenticateToken, DashboardController.index);
 
+//financeiro
+router.get("/financeiro/resumo", authenticateToken, FinancialController.summary);
+router.get("/financeiro/:page/:search", authenticateToken, FinancialController.index);
+router.get("/financeiro/:page", authenticateToken, FinancialController.index);
+router.get("/financeiro", authenticateToken, FinancialController.index);
+router.get("/lancamento/:id", authenticateToken, FinancialController.find);
+router.post("/financeiro", authenticateToken, FinancialController.store);
+router.post("/lancamento/:id", authenticateToken, FinancialController.store);
+
 router.get("/test/:id/:date", SchedulerController.availableTimes)
 
-module.exports = router;
+//odontograma
+router.get("/odontograma/:patient_id", authenticateToken, OdontogramaController.index);
+router.get("/odontograma/:patient_id/atual", authenticateToken, OdontogramaController.current);
+router.get("/odontograma/:patient_id/dente/:dente", authenticateToken, OdontogramaController.history);
+router.get("/odontograma/registro/:id", authenticateToken, OdontogramaController.find);
+router.post("/odontograma/:patient_id", authenticateToken, OdontogramaController.store);
+router.post("/odontograma/:patient_id/lote", authenticateToken, OdontogramaController.storeBatch);
+router.delete("/odontograma/registro/:id", authenticateToken, OdontogramaController.destroy);
 
-router.get("/imagem/:term/:w/:h", FilesController.image);
+//relatorios
+router.get("/relatorios/resumo", authenticateToken, ReportsController.overview);
+router.get("/relatorios/pacientes", authenticateToken, ReportsController.patients);
+router.get("/relatorios/consultas", authenticateToken, ReportsController.consultations);
+router.get("/relatorios/financeiro", authenticateToken, ReportsController.financial);
+router.get("/relatorios/procedimentos", authenticateToken, ReportsController.procedures);
+
+module.exports = router;

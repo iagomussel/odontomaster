@@ -305,6 +305,21 @@
         <button type="reset" class="btn btn-default">Limpar</button>
       </div>
     </form>
+
+    <odontograma-chart
+      v-if="formulario.id && formulario.id > 0"
+      :patientId="formulario.id"
+    />
+
+    <consultation-history
+      v-if="formulario.id && formulario.id > 0"
+      :patientId="formulario.id"
+    />
+
+    <anamnese-list
+      v-if="formulario.id && formulario.id > 0"
+      :patientId="formulario.id"
+    />
   </div>
 </template>
 
@@ -315,6 +330,9 @@ import axios from "axios";
 import HiSelect from "../../components/Select.vue";
 import HiImagePicker from "../../components/ImagePicker.vue";
 import HiFieldList from "../../components/FieldList.vue";
+import AnamneseList from "../anamnese/AnamneseList.vue";
+import ConsultationHistory from "../prontuario/ConsultationHistory.vue";
+import OdontogramaChart from "../odontograma/OdontogramaChart.vue";
 export default {
   mounted() {
     //get dentistas
@@ -419,6 +437,9 @@ export default {
     "hi-select": HiSelect,
     "hi-image-picker": HiImagePicker,
     "hi-field-list": HiFieldList,
+    "anamnese-list": AnamneseList,
+    "consultation-history": ConsultationHistory,
+    "odontograma-chart": OdontogramaChart,
   },
 };
 </script>

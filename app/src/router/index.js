@@ -54,6 +54,18 @@ const routes = [
         name: ".procedimentosEdit",
         component: () => import("@/views/procedimentos/ProcedimentoNew.vue"),
     },{
+        path: "/financeiro",
+        name: "Financeiro",
+        component: () => import("@/views/financeiro/FinanceiroList.vue"),
+    },{
+        path: "/financeiro/novo",
+        name: ".financeiroNovo",
+        component: () => import("@/views/financeiro/FinanceiroNew.vue"),
+    },{
+        path: "/lancamento/:id",
+        name: ".lancamentoEdit",
+        component: () => import("@/views/financeiro/FinanceiroNew.vue"),
+    },{
         path: "/agenda",
         name: "Agenda",
         component: () => import("@/views/scheduler/Scheduler.vue"),
@@ -61,6 +73,22 @@ const routes = [
         path: "/agenda/novo",
         name: ".agendaNovo",
         component: () => import("@/views/scheduler/SchedulerNew.vue"),
+    },  {
+        path: "/paciente/:patient_id/odontograma",
+        name: ".odontograma",
+        component: () => import("@/views/odontograma/OdontogramaPage.vue"),
+    },  {
+        path: "/paciente/:patient_id/anamnese/nova",
+        name: ".anamneseNova",
+        component: () => import("@/views/anamnese/AnamneseForm.vue"),
+    },  {
+        path: "/paciente/:patient_id/anamnese/:anamnese_id",
+        name: ".anamneseEdit",
+        component: () => import("@/views/anamnese/AnamneseForm.vue"),
+    },  {
+        path: "/relatorios",
+        name: "Relatórios",
+        component: () => import("@/views/relatorios/RelatoriosPage.vue"),
     },  {
         path: "/sobre",
         name: "Sobre",

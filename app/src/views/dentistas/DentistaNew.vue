@@ -2,7 +2,9 @@
   <form method="POST" @submit.prevent="onSubmit" role="form">
     <div class="row">Cadastro de Dentistas</div>
     <div class="row">
-      <div class="input-field col s9">
+      <div class=" col s9">
+      <div class="row"><div class="col s4">
+        <div class="input-field">
         <label  class="active" for="nome">Nome</label>
         <input
           id="nome"
@@ -12,12 +14,50 @@
           type="text"
           required="required"
         />
+        </div>
+        </div>
+        <div class="col s4">
+        <div class="input-field">
+        <label  class="active" for="CRM">CRM</label>
+        <input
+          id="CRM"
+          name="CRM"
+          v-model="formulario.CRM"
+          placeholder="CRM"
+          type="text"
+          required="required"
+        />
+        </div>
+        </div>
+                <div class="col s4">
+        <div class="input-field">
+        <label  class="active" for="contato">contato</label>
+        <input
+          id="contato"
+          name="contato"
+          v-model="formulario.contato"
+          placeholder="contato"
+          type="text"
+          required="required"
+        />
+        </div>
+        </div>
+        </div>
+        <div class="flex-box" >
+
+        <div v-for="(header, col, key) in formulario.availableDays" v-bind:key="key">
+          <hi-check-open-close-time
+           v-model="formulario.availableDays[key]"
+          />
+        </div>
+
+    </div>
       </div>
       <div class="col s3">
         <hi-image-picker v-model="formulario.imagem" />
       </div>
     </div>
-
+    
     <div class="form-group">
       <button name="submit" type="submit" class="btn btn-primary">Gravar</button>
     </div>
@@ -27,7 +67,7 @@
 import webClient from "@/client_axios";
 
 import HiImagePicker from "../../components/ImagePicker.vue";
-
+import checkOpenCloseTime from "../../components/utils/checkOpenCloseTime.vue";
 export default {
   mounted() {
     let id = this.$route.params.id;
@@ -49,6 +89,7 @@ export default {
       formulario: {
         nome: "",
         imagem: "",
+        availableDays:[{enabled: true, open:"08:00", close:"17:00"},{enabled: true, open:"08:00", close:"17:00"},{enabled: true, open:"08:00", close:"17:00"},{enabled: true, open:"08:00", close:"17:00"},{enabled: true, open:"08:00", close:"17:00"},{enabled: true, open:"08:00", close:"17:00"},{enabled: true, open:"08:00", close:"17:00"}]
       },
     };
   },
@@ -63,6 +104,17 @@ export default {
       });
     },
   },
-  components: { "hi-image-picker": HiImagePicker },
+  components: { "hi-image-picker": HiImagePicker, "hi-check-open-close-time":checkOpenCloseTime },
 };
 </script>
+<style>
+.flex-box{
+  display: flex;
+  flex-direction:row;
+  flex-wrap: wrap;
+
+}
+.flex-box > * {
+        flex: 1 1 0;
+      }
+</style>

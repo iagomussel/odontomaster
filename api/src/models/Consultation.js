@@ -39,6 +39,7 @@ class Consultation extends Model {
         this.belongsTo(models.Professional, { foreignKey: "professional_id", as: "professional" })
         this.belongsTo(models.Procedure, { foreignKey: "procedure_id", as: "procedure" })
         this.hasOne(models.Consultation, { foreignKey: "encaixe_id", as: "encaixe" })
+        this.hasMany(models.Evolution, { foreignKey: "consultation_id", as: "evolutions" })
     }
 }
 

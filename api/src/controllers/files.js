@@ -28,23 +28,13 @@ class FilesController {
             const oldPath = files.file.path;
             const fileName = files.file.name + moment().format("ddmmDDMMYYY");
             const newPath = path.join(upload_dir, fileName);
-            await fs.renameSync(oldPath, newPath);
+            await fs.copyFileSync(oldPath, newPath);
+            await fs.unlinkSync(oldPath);
 
             let f = await Files.create({ name: fileName, contentType: files.file.type })
 
             return res.json(req.protocol + '://' + req.get('host') + req.originalUrl + "/" + f.id);
         });
-    }
-    async image(req, res) {
-        let { term, w, h } = req.params;
-        let url = `https://api.unsplash.com/search/photos?page=1&query=${term}&client_id=${process.env.UNSPLASH_KEY}`;
-        let response = await axios.get(url);
-        if(response.data.results.length == 0 ) return res.json({ message: "Not found" });
-        let ind = Math.floor(Math.random() * response.data.results.length) % response.data.results.length; ;
-
-        console.log(response.data.results)
-        let image = response.data.results[ind].urls.full;
-        return res.json({ image });
     }
 };
 
